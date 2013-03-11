@@ -1,0 +1,13 @@
+#!/bin/sh
+#
+# Copyright Canadian Light Source, Inc.  All rights reserved.
+#    - see licence.txt and licence_CAEN.txt for limitations on use.
+#
+
+#EDMEXEC=${HOME}/bin/edm
+EDMEXEC=${HOME}/bin/runEdm
+
+#cd /home/control/opi/Interface/Common/HighVoltage
+
+${EDMEXEC} -eolc -x -m "PSNAME=PS1014001" -m "SCC0=000,SCC1=001,SCC2=002,SCC3=003,SCC4=004,SCC5=005,SCC6=006,SCC7=007,SCC8=008,SCC9=009,SCC10=010,SCC11=011" HVCAENx527.edl
+#${EDMEXEC} -eolc -x -m "PSNAME=PS1014001" -m "SCC0=000,SCC1=001,SCC2=002,SCC3=003,SCC4=004,SCC5=005,SCC6=006,SCC7=007,SCC8=008,SCC9=009,SCC10=010,SCC11=011" HVCAENx527simple.edl

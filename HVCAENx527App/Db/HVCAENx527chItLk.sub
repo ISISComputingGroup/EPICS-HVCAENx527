@@ -1,0 +1,6 @@
+file HVCAENx527chItLk.tpl
+{
+# COND: ">"(0), "="(1), "<"(2), "!="(3)
+	pattern {PSNAME,CHANNUM,INPPV,COND,THRESH,OUTVAL}
+	{PS1014001,011,PS1014001:011:vmon,0,10,0}
+}

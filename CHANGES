@@ -1,0 +1,15 @@
+Changes in version 0.2
+----------------------
+In the IOC App:
+- moved scan routine from sub record to driver
+- added blocking for crate-bound commands, basically serializing
+   communications with the crate.  This should reduce hang-ups
+   and crashes, and also reduce frequency of screwball readings.
+- changed SCAN type of many of the input db records from Periodic to Event.
+   - Assigned Event# 11 to fast scan, Event# 12 to medium scan,
+      Event# 13 to slow scan, and Event# 10 for manual update.  Manual
+      update have not been implemented yet.
+   - the driver then posts these events as respective timers dictate.
+   - input records initiallize with the above Event# in their init()
+      routines, if the value is > 0.
+- scan period has been assigned for each Param for future use

@@ -1,0 +1,65 @@
+CAEN SOFTWARE LICENSE AGREEMENT
+
+1. GRANT OF LICENSE. In consideration for evaluating the CAEN software
+product you wish to download which includes software programs and related
+written documentation ( here in after referred to as the "PRODUCT"), CAEN
+grants to you a non-exclusive, non-transferable license and right to use
+and display a copy of the PRODUCT in accordance with this AGREEMENT during
+the term specified.
+
+2. RESTRICTIONS ON USE. You are authorized to use the PRODUCT only for the
+purposes of controlling CAEN's Power Supplies you acquired. The PRODUCT may
+not be used or copied for any other purpose other than for evaluation of the
+PRODUCT. You agree that you will not use or permit the PRODUCT to be used
+in any manner, whether directly or indirectly, that would enable any third
+party or entity to copy the PRODUCT. Under no circumstances shall you be
+permitted to commercially exploit the PRODUCT. You may not modify, adapt,
+translate, reverse engineer, decompile, disassemble, or create derivative
+works based on the PRODUCT without the prior written consent of CAEN.
+
+3. OWNERSHIP OF PRODUCT. CAEN, or its licensors, retains title and ownership
+of the PRODUCT and all subsequent copies of the PRODUCT, made under the terms
+of this AGREEMENT, regardless of the form or media on which the original
+and other copies may exist. This AGREEMENT is not a sale of the original
+PRODUCT or any copy.
+
+4. COPY RESTRICTIONS. The PRODUCT and the accompanying written materials
+are copyrighted. Unauthorized copying of the PRODUCT, or of the written
+materials, is expressly forbidden. You may be held legally responsible for
+any copyright infringement that is caused or encouraged by its failure to
+abide by the terms of this AGREEMENT.
+
+Subject to these restrictions, and if the PRODUCT is not copy-protected,
+you may make no more than 1 (one) copy of the PRODUCT for purposes of backup
+only. You agree to reproduce and include the copyright notice and any other
+proprietary markings on any copies made. Copies may not be made for any
+other purpose and ALL copies made must be destroyed after the completion of
+the use or expiration of the term of this AGREEMENT as described below.
+
+5. TRANSFER RESTICTIONS. This PRODUCT and the accompanying written materials
+are licensed only to you and may not be transferred to any other party under
+any circumstances without the prior written consent of CAEN. In no event
+may you transfer, assign, rent, lease, sell, or otherwise dispose of the
+PRODUCT or the accompanying written materials on a temporary or permanent
+basis exept as expressly provided herein.
+
+6. MARKINGS. You agree to not remove or destroy any copyright or other
+proprietary notices placed upon or contained within the PRODUCT, written
+materials, or any related materials or documentation.
+
+7. LIABILITY. In no event shall CAEN or its agents, employees and distributors
+be liable for any damages or for any claims by other parties, exept those
+damages or claims are caused by intent or gross negligience.
+
+8. SURVIVABILITY. Not with standing any termination of this AGREEMENT, or
+expiration of rights of use or copying granted by this AGREEMENT, you may
+be held legally and financially liable for any violation of the AGREEMENT
+by you that occurs while this AGREEMENT was in effect.
+
+9. MISCELLANEOUS. Place of jurisdiction is Lucca, Italy. Italian law shall
+apply.	Please address questions regarding this Agreement to:
+
+CAEN S.p.A. - Viareggio, Via Vetraia, 11 - 55049 Viareggio (LUCCA) ITALY
+
+Tel No: +39.0584.388398 , Fax No.: +39.0584.388959, E-mail:
+support.computing@caen.it

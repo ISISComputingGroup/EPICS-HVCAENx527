@@ -1,0 +1,42 @@
+#!/bin/sh
+#
+# Linux rc script for CLS devices (high level description)
+#
+# chkconfig: 345 90 10
+# description: CLS devices.
+#
+# Copyright Canadian Light Source, Inc.  All rights reserved.
+#    - see licence.txt and licence_CAEN.txt for limitations on use.
+#
+
+. /etc/rc.d/init.d/functions
+
+INSTALL_BIN=/iocApps/11ID_SGMPGM_BL/IOC1611-427
+#TOP=/home/epics/src/R3.14.6/
+#T_A=linux-x86
+OLDIPCRM=1
+IPCSEMKEY=0x3009895a;
+
+DAEMON=bin/linux-x86/HVCAENx527
+test -x ${INSTALL_BIN}/${DAEMON} || exit 0
+
+case "$1" in
+	start)
+		echo -n "Starting ${DAEMON}"
+		if [ ${OLDIPCRM:=0} == "0" ] ; then
+			ipcrm -S ${IPCSEMKEY};
+		else
+			SEMID=`ipcs | egrep ${IPCSEMKEY} | awk '{print $2}'`;
+			ipcrm sem $SEMID;
+		fi
+		#su sgm -c "cd $INSTALL_BIN ; ./${DAEMON} -d st.cmd-BL1611-11ID-1 >&/dev/null < /dev/null &"
+		su sgm -c "cd ${INSTALL_BIN} ; export LD_LIBRARY_PATH=/usr/local/lib ; source /home/epics/Startup/startup.R3.14.6.sh ; ./${DAEMON} st.cmd-HV -d -c PS1611401@ps1611-401 -D 0 >&/dev/null < /dev/null &"
+		echo
+		;;
+	status)
+		status ${DAEMON}
+		;;
+        stop)
+		killproc ${DAEMON}
+        	;;
+esac

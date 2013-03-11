@@ -1,0 +1,26 @@
+ORIGINDIR = /home/igarasr/src/CAENHV/EPICS/HVCAENx527App/src
+
+SRCFILES = $(shell ls *.c *.h *.dbd *.cpp *.stt *.st);
+
+all: $(SRCFILES)
+
+%.c: $(ORIGINDIR)/%.c
+	cp $< $@
+
+%.h: $(ORIGINDIR)/%.h
+	cp $< $@ ;
+
+%.cpp: $(ORIGINDIR)/%.cpp
+	cp $< $@ ;
+
+%.db: $(ORIGINDIR)/%.db
+	cp $< $@ ;
+
+%.dbd: $(ORIGINDIR)/%.dbd
+	cp $< $@ ;
+
+%.st: $(ORIGINDIR)/%.st
+	cp $< $@ ;
+
+%.stt: $(ORIGINDIR)/%.stt
+	cp $< $@ ;

@@ -1,0 +1,15 @@
+ORIGINDIR = /home/igarasr/src/CAENHV/EPICS/HVCAENx527App/Db
+
+SRCFILES = $(shell ls *.db *.tpl *.sub);
+
+all: $(SRCFILES)
+
+%.db: $(ORIGINDIR)/%.db
+	cp $< $@
+
+%.tpl: $(ORIGINDIR)/%.tpl
+	cp $< $@
+
+%.sub: $(ORIGINDIR)/%.sub
+	cp $< $@
+
