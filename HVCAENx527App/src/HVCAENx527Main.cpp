@@ -16,12 +16,18 @@
 #include "epicsThread.h"
 #include "iocsh.h"
 
-extern "C" epicsShareFunc int ConnectCrate( char *name, char *linkaddr);
-extern "C" epicsShareFunc void ParseCrateAddr( char (*straddr)[255], short naddr);
-extern "C" epicsShareFunc void Shutdown();
-extern "C" epicsShareFunc void SetSigShutdownHandler();
+#ifdef _WIN32
+#define snprintf _snprintf
+#endif
 
-extern "C" epicsShareExtern short DEBUG;
+extern "C" {
+    epicsShareFunc int ConnectCrate( char *name, char *linkaddr);
+    epicsShareFunc void ParseCrateAddr( char (*straddr)[255], short naddr);
+    epicsShareFunc void Shutdown();
+    epicsShareFunc void SetSigShutdownHandler();
+
+    epicsShareExtern short DEBUG;
+}
 
 int main(int argc,char *argv[])
 {
@@ -42,7 +48,7 @@ int main(int argc,char *argv[])
 
 	daemon = 0;
 	if(argc>=2) {    
-		_snprintf( stcmd, 255, "%s", argv[1]);
+		snprintf( stcmd, 255, "%s", argv[1]);
 #if 0
 		strncpy( stcmd, argv[1], 255);
 		/* parse command line args for crate and IP */
@@ -82,7 +88,7 @@ int main(int argc,char *argv[])
 			if( strcmp( argv[i], "-c") == 0)
 			{
 				i++;
-				_snprintf( straddr[j], 255, "%s", argv[i]);
+				snprintf( straddr[j], 255, "%s", argv[i]);
 				j++;
 			}
 			else if( strcmp( argv[i], "-D") == 0)

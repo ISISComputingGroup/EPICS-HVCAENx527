@@ -23,10 +23,10 @@
 #include <devSup.h>
 #include <menuScan.h>
 #include <errlog.h>
+#include <sys/timeb.h>
 #ifdef _WIN32
 #include <winsock2.h>
 #include <time.h>
-#include <sys/timeb.h>
 #define snprintf _snprintf
 #else
 #include <sys/time.h>
