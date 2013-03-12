@@ -7,10 +7,13 @@
  * HVCAENx527chBio.c:
  * Binary input record and binary output record device support routines.
  */
-#include "HVCAENx527.h"
 
 #include <biRecord.h>
 #include <boRecord.h>
+#include <errlog.h>
+
+#include <epicsExport.h>
+#include "HVCAENx527.h"
 
 /*
  * devCAENx527chBi
@@ -164,7 +167,6 @@ struct
                 NULL,
                 write_bo
         };
-#include <epicsExport.h>
 epicsExportAddress(dset,devCAENx527chBi);
 epicsExportAddress(dset,devCAENx527chBo);
 

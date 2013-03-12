@@ -7,11 +7,12 @@
  * HVCAENx527chMBBio.c:
  * MultiBit Binary input record and output record device support routines.
  */
-#include "HVCAENx527.h"
 
 #include <mbbiRecord.h>
 #include <mbboRecord.h>
 
+#include <epicsExport.h>
+#include "HVCAENx527.h"
 /*
  * devCAENx527chMBBi
  */
@@ -164,7 +165,6 @@ struct
                 NULL,
                 write_mbbo
         };
-#include <epicsExport.h>
 epicsExportAddress(dset,devCAENx527chMBBi);
 epicsExportAddress(dset,devCAENx527chMBBo);
 

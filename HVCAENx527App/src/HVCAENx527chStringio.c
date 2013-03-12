@@ -8,10 +8,16 @@
  * String input record and output record device support routines.
  */
 
-#include "HVCAENx527.h"
 
 #include <stringinRecord.h>
 #include <stringoutRecord.h>
+
+#include <epicsExport.h>
+#include "HVCAENx527.h"
+
+#ifdef _WIN32
+#define snprintf _snprintf
+#endif
 
 /*
  * devCAENx527chStringin
@@ -168,7 +174,6 @@ struct
 		write_stringout,
 		NULL
 	};
-#include <epicsExport.h>
 epicsExportAddress(dset,devCAENx527chStringin);
 epicsExportAddress(dset,devCAENx527chStringout);
 

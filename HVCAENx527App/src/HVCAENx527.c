@@ -22,15 +22,28 @@
 #include <recGbl.h>
 #include <devSup.h>
 #include <menuScan.h>
-#include <callback.h>
+#include <errlog.h>
+#ifdef _WIN32
+#include <winsock2.h>
+#include <time.h>
+#include <sys/timeb.h>
+#define snprintf _snprintf
+#else
 #include <sys/time.h>
 #include <netdb.h>
+#endif
+
 
 #include <CAENHVWrapper.h>
 
+#include <callback.h> /* needed later to replace definition of CALLBACK */
+
+#include <epicsExport.h>
+
 #include "HVCAENx527.h"
 
-short DEBUG;
+epicsShareExtern short DEBUG = 0;
+
 short Busy[MAX_CRATES];
 epicsThreadId scanThread;
 
@@ -50,7 +63,7 @@ static char *ParUnitStr[] = {
 	"counts"
 };
 
-static struct timeval Timer1, Timer2, Timer3, TimerLong;
+static struct timeb Timer1, Timer2, Timer3, TimerLong;
 float Period1, Period2, Period3, PeriodLong;
 
 /* Device args in the db records have format:
@@ -320,20 +333,20 @@ PDEBUG(4) printf( "DEBUG: paramname %s\n", parnamelist[l]);
 					}
 					k++;
 				}
-				free( parnamelist);
+/*				free( parnamelist); */
 			}
 			str += strlen( str) + 1;
 		}
 	}
-	free( nch);
-	free( model);
+/*	free( nch);
+	free( model); 
 	free( desc);
 	free( sn);
 	free( fmwrmin);
-	free( fmwrmax);
+	free( fmwrmax); */
 }
 
-int
+epicsShareFunc int
 ConnectCrate( char *name, char *linkaddr)
 {
 	int i;
@@ -369,7 +382,7 @@ ConnectCrate( char *name, char *linkaddr)
 	return( -1);
 }
 
-void
+epicsShareFunc void
 ParseCrateAddr( char (*straddr)[255], short naddr)
 {
 	int i, j;
@@ -926,7 +939,7 @@ PDEBUG(4) printf( "DEBUG: EGU scale %d -> %s\n", pp->Exp, exp);
 	return( fieldval);
 }
 
-void
+epicsShareFunc void
 Shutdown()
 {
 	int i, j;
@@ -964,18 +977,20 @@ Shutdown()
 void
 SigShutdownHandler( int signal)
 {
+#ifndef _WIN32
 	if( signal < sizeof( sys_siglist))
 		printf( "DEBUG: Caught a termination signal (%s).\n", sys_siglist[signal]);
 	else
 		return;
-
+#endif
 	Shutdown();
 	exit(0);
 }
 
-void
+epicsShareFunc void
 SetSigShutdownHandler(void)
 {
+#ifndef _WIN32
 	struct sigaction action;
 
 	action.sa_handler = SigShutdownHandler;
@@ -984,6 +999,7 @@ SetSigShutdownHandler(void)
 	(void)sigaction( SIGINT, &action, NULL);
 	(void)sigaction( SIGQUIT, &action, NULL);
 	(void)sigaction( SIGTERM, &action, NULL);
+#endif
 }
 
 #if 0
@@ -1067,7 +1083,7 @@ ScanChannels()
 {
 	int i;
 	CRATESCANLIST *csl;
-	struct timeval tnow;
+	struct timeb tnow;
 	float telapsed;
 	short lapsed1, lapsed2, lapsed3, lapsedLong;
 	char HvPwSM[64];
@@ -1077,38 +1093,38 @@ ScanChannels()
 	lapsed2 = 0;
 	lapsed3 = 0;
 	lapsedLong = 0;
-	gettimeofday( &tnow, NULL);
-	telapsed = ( tnow.tv_sec - Timer1.tv_sec) + ( tnow.tv_usec - Timer1.tv_usec) / 1.0e6;
+    ftime(&tnow);
+	telapsed = ( tnow.time - Timer1.time) + ( tnow.millitm - Timer1.millitm) / 1.0e3f;
 	if( telapsed > Period1)
 	{
 PDEBUG(4) printf( "DEBUG: lapsed 1 %f\n", telapsed);
 		lapsed1 = 1;
-		Timer1.tv_sec = tnow.tv_sec;
-		Timer1.tv_usec = tnow.tv_usec;
+		Timer1.time = tnow.time;
+		Timer1.millitm = tnow.millitm;
 	}
-	telapsed = ( tnow.tv_sec - Timer2.tv_sec) + ( tnow.tv_usec - Timer2.tv_usec) / 1.0e6;
+	telapsed = ( tnow.time - Timer2.time) + ( tnow.millitm - Timer2.millitm) / 1.0e3f;
 	if( telapsed > Period2)
 	{
 PDEBUG(4) printf( "DEBUG: lapsed 2 %f\n", telapsed);
 		lapsed2 = 1;
-		Timer2.tv_sec = tnow.tv_sec;
-		Timer2.tv_usec = tnow.tv_usec;
+		Timer2.time = tnow.time;
+		Timer2.millitm = tnow.millitm;
 	}
-	telapsed = ( tnow.tv_sec - Timer3.tv_sec) + ( tnow.tv_usec - Timer3.tv_usec) / 1.0e6;
+	telapsed = ( tnow.time - Timer3.time) + ( tnow.millitm - Timer3.millitm) / 1.0e3f;
 	if( telapsed > Period3)
 	{
 PDEBUG(4) printf( "DEBUG: lapsed 3 %f\n", telapsed);
 		lapsed3 = 1;
-		Timer3.tv_sec = tnow.tv_sec;
-		Timer3.tv_usec = tnow.tv_usec;
+		Timer3.time = tnow.time;
+		Timer3.millitm = tnow.millitm;
 	}
-	telapsed = ( tnow.tv_sec - TimerLong.tv_sec) + ( tnow.tv_usec - TimerLong.tv_usec) / 1.0e6;
+	telapsed = ( tnow.time - TimerLong.time) + ( tnow.millitm - TimerLong.millitm) / 1.0e3f;
 	if( telapsed > PeriodLong)
 	{
 PDEBUG(4) printf( "DEBUG: lapsed Long %f\n", telapsed);
 		lapsedLong = 1;
-		TimerLong.tv_sec = tnow.tv_sec;
-		TimerLong.tv_usec = tnow.tv_usec;
+		TimerLong.time = tnow.time;
+		TimerLong.millitm = tnow.millitm;
 	}
 
 	for( i = 0; i < MAX_CRATES && Crate[i].hvchan != NULL; i++)
@@ -1311,13 +1327,13 @@ PDEBUG( 7) printf( "DEBUG: %s: event #: %d\n", csl->pname, hvch[m].pplist[k].evn
 	Period2 = 5.0;
 	Period3 = 10.0;
 	PeriodLong = 30.0;
-	gettimeofday( &Timer1, NULL);
-	Timer2.tv_sec = Timer1.tv_sec;
-	Timer2.tv_usec = Timer1.tv_usec;
-	Timer3.tv_sec = Timer1.tv_sec;
-	Timer3.tv_usec = Timer1.tv_usec;
-	TimerLong.tv_sec = Timer1.tv_sec;
-	TimerLong.tv_usec = Timer1.tv_usec;
+	ftime( &Timer1);
+	Timer2.time = Timer1.time;
+	Timer2.millitm = Timer1.millitm;
+	Timer3.time = Timer1.time;
+	Timer3.millitm = Timer1.millitm;
+	TimerLong.time = Timer1.time;
+	TimerLong.millitm = Timer1.millitm;
 }
 
 #if 1
@@ -1337,7 +1353,7 @@ init()
 {
 	errlogPrintf("Starting CAEN x527 driver\n");
 
-	ScanChannelsPeriod = 0.2;
+	ScanChannelsPeriod = 0.2f;
 	InitScanChannels();
 	scanThread = epicsThreadCreate( "HVCAENx527Thread", epicsThreadPriorityMedium + 5, epicsThreadGetStackSize(epicsThreadStackBig), ScanChannels_Thread, NULL);
 

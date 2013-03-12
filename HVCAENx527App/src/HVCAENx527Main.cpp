@@ -16,15 +16,16 @@
 #include "epicsThread.h"
 #include "iocsh.h"
 
-extern "C" int ConnectCrate( char *name, char *linkaddr);
-extern "C" void ParseCrateAddr( char (*straddr)[255], short naddr);
-extern "C" void Shutdown();
-extern "C" void SetSigShutdownHandler();
+extern "C" epicsShareFunc int ConnectCrate( char *name, char *linkaddr);
+extern "C" epicsShareFunc void ParseCrateAddr( char (*straddr)[255], short naddr);
+extern "C" epicsShareFunc void Shutdown();
+extern "C" epicsShareFunc void SetSigShutdownHandler();
+
+extern "C" epicsShareExtern short DEBUG;
 
 int main(int argc,char *argv[])
 {
 	int i, j;
-	extern short DEBUG;
 	short daemon;
 	char stcmd[256];
 #if 0
@@ -41,7 +42,7 @@ int main(int argc,char *argv[])
 
 	daemon = 0;
 	if(argc>=2) {    
-		snprintf( stcmd, 255, "%s", argv[1]);
+		_snprintf( stcmd, 255, "%s", argv[1]);
 #if 0
 		strncpy( stcmd, argv[1], 255);
 		/* parse command line args for crate and IP */
@@ -81,7 +82,7 @@ int main(int argc,char *argv[])
 			if( strcmp( argv[i], "-c") == 0)
 			{
 				i++;
-				snprintf( straddr[j], 255, "%s", argv[i]);
+				_snprintf( straddr[j], 255, "%s", argv[i]);
 				j++;
 			}
 			else if( strcmp( argv[i], "-D") == 0)

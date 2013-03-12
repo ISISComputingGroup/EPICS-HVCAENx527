@@ -8,27 +8,42 @@ include $(TOP)/configure/CONFIG
 #=============================
 # build an ioc application
 
+FILE_TYPE += pdb
+INSTALL_pdb = $(INSTALL_BIN)
+USR_CXXFLAGS += /Zi
+USR_CFLAGS += /Zi
+USR_LDFLAGS += /DEBUG
+
+pdb += HVCAENx527Support.pdb HVCAENx527.pdb
+
+LIBRARY_IOC = HVCAENx527Support
+
 PROD_IOC = HVCAENx527
 # <name>.dbd will be created from <name>Include.dbd
 DBD += HVCAENx527.dbd
 
+CAENHVWRAPPER=../CAENHVWrapper
+
+USR_INCLUDES += -I$(CAENHVWRAPPER)/include
+
+caenhvwrapper_DIR = $(CAENHVWRAPPER)/lib/win32
+hscaenetlib_DIR = $(CAENHVWRAPPER)/lib/win32
 
 # <name>_registerRecordDeviceDriver.cpp will be created from <name>.dbd
-HVCAENx527_SRCS += HVCAENx527_registerRecordDeviceDriver.cpp
-HVCAENx527_SRCS_DEFAULT += HVCAENx527Main.cpp
+HVCAENx527_SRCS_DEFAULT += HVCAENx527Main.cpp HVCAENx527_registerRecordDeviceDriver.cpp
 HVCAENx527_SRCS_vxWorks += -nil-
-HVCAENx527_SRCS += HVCAENx527.c
-HVCAENx527_SRCS += HVCAENx527chAio.c HVCAENx527chBio.c HVCAENx527chLongio.c HVCAENx527chMBBio.c 
-HVCAENx527_SRCS += HVCAENx527chStringio.c
+HVCAENx527Support_SRCS += HVCAENx527.c
+HVCAENx527Support_SRCS += HVCAENx527chAio.c HVCAENx527chBio.c HVCAENx527chLongio.c HVCAENx527chMBBio.c 
+HVCAENx527Support_SRCS += HVCAENx527chStringio.c
 
 #The following adds support from base/src/vxWorks
 HVCAENx527_OBJS_vxWorks += $(EPICS_BASE_BIN)/vxComLibrary
 
 #add a definition for each support application used by this application
 #HVCAENx527_LIBS += xxx
-HVCAENx527_LDFLAGS_Linux += -L$(EPICS_LOCAL)/lib/linux-x86 -lhscaenet -lcaenhvwrapper
+#HVCAENx527_LDFLAGS_Linux += -L$(EPICS_LOCAL)/lib/linux-x86 -lhscaenet -lcaenhvwrapper
 
-INCLUDES += -g -I$(EPICS_LOCAL)/include/CAENHVwrapper
+#INCLUDES += -g -I$(EPICS_LOCAL)/include/CAENHVwrapper
 # the following line does not work
 #HVCAENx527_INCLUDES_linux-x86 += -I$(EPICS_LOCAL)/include/CAENHVwrapper
 # nor
@@ -43,8 +58,10 @@ INCLUDES += -g -I$(EPICS_LOCAL)/include/CAENHVwrapper
 #HVCAENx527_SRCS += sncExample.stt
 #HVCAENx527_LIBS += seq pv
 
-HVCAENx527_LIBS += $(EPICS_BASE_IOC_LIBS)
+HVCAENx527Support_LIBS += hscaenetlib caenhvwrapper $(EPICS_BASE_IOC_LIBS)
+HVCAENx527Support_SYS_LIBS_WIN32 += ws2_32
 
+HVCAENx527_LIBS += HVCAENx527Support $(EPICS_BASE_IOC_LIBS)
 #The following builds sncExample as a standalone application
 #PROD_HOST += sncExample
 #sncExample_SNCFLAGS += +m

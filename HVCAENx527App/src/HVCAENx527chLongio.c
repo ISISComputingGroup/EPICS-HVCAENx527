@@ -7,11 +7,12 @@
  * HVCAENx527chLongio.c:
  * Long input record and long output record device support routines.
  */
-#include "HVCAENx527.h"
 
 #include <longinRecord.h>
 #include <longoutRecord.h>
 
+#include <epicsExport.h>
+#include "HVCAENx527.h"
 /*
  * devCAENx527chLongin
  */
@@ -163,7 +164,6 @@ struct
                 NULL,
                 write_longout
         };
-#include <epicsExport.h>
 epicsExportAddress(dset,devCAENx527chLongin);
 epicsExportAddress(dset,devCAENx527chLongout);
 

@@ -6,12 +6,13 @@
  * HVCAENx527chAio.c:
  * Analog input record and analog output record device support routines.
  */
-#include "HVCAENx527.h"
 
 #include <dbScan.h>
 #include <aiRecord.h>
 #include <aoRecord.h>
 
+#include <epicsExport.h>
+#include "HVCAENx527.h"
 /*
  * devCAENx527chAi
  */
@@ -187,6 +188,5 @@ struct
 		write_ao,
 		NULL
 	};
-#include <epicsExport.h>
 epicsExportAddress(dset,devCAENx527chAi);
 epicsExportAddress(dset,devCAENx527chAo);

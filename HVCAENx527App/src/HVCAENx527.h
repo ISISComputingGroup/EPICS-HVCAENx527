@@ -6,8 +6,13 @@
 #include <dbAccess.h>
 #include <recSup.h>
 #include <devSup.h>
-#include <callback.h>
+#include <errlog.h>
+#ifdef _WIN32
+#include <time.h>
+#else
 #include <sys/time.h>
+#endif
+#include <callback.h>
 
 #define EVNTNO_UPDATE	10
 #define EVNTNO_T1	11
@@ -97,7 +102,7 @@ typedef struct HVCrate
 	short connected;
 } HVCRATE;
 
-extern short DEBUG;
+epicsShareExtern short DEBUG;
 #define PDEBUG(LEVEL)	if( DEBUG >= LEVEL)
 /*
 	DEBUG level guideline
@@ -116,9 +121,10 @@ extern short DEBUG;
 
 float ScanChannelsPeriod;
 
-int ConnectCrate( char *name, char *linkaddr);
-void ParseCrateAddr( char (*straddr)[], short naddr);
-void Shutdown();
+epicsShareFunc int ConnectCrate( char *name, char *linkaddr);
+epicsShareFunc void ParseCrateAddr( char (*straddr)[255], short naddr);
+epicsShareFunc void Shutdown();
+epicsShareFunc void SetSigShutdownHandler();
 #if 0
 void iCallback( CALLBACK *pcallback);
 void oCallback( CALLBACK *pcallback);
