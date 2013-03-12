@@ -1,0 +1,147 @@
+/*****************************************************************************/
+/*                                                                           */
+/*                  --- CAEN SpA - Computing Division ---                    */
+/*                                                                           */
+/*   CAEN HV Wrapper Library Release Notes                                   */
+/*                                                                           */
+/*   Rel. 3.10 - July      2010   					    					 */
+/*   Rel. 2.11 - July      2003   					    					 */
+/*   Rel. 2.8  - December  2002   					     					 */
+/*   Rel. 2.4  - May       2002          			             			 */
+/*   Rel. 2.0  - March     2002 					     					 */
+/*   Rel. 1.2  - November  2000 					     					 */
+/*                                                                           */
+/*****************************************************************************/
+ 
+
+  Description
+  -----------
+
+  This document is updated for every official release of the CAEN HV Wrapper
+  Library and it contains various information specific to this software which 
+  can not be found in the User's Manual, available together with the software 
+  or on the CAEN web site: www.caen.it.
+
+
+  System Requirements
+  -------------------
+ 
+ - Network Interface Card + TCP/IP protocol (to control SY 1527/ SY 2527)
+ - A1303 H.S. CAENET Controller Card (to control N 470, N 570 and N568)
+ - Microsoft Visual C++ 6.0
+
+ What's New in Rel. 3.10
+  --------------------------
+
+   New Features and Important Notes
+   --------------------------------
+
+   - add support for Sy1527/Sy2527 Event mode features (only Windows platform)
+   - add support for VME Power Supply modules (V65xx Family)
+
+  What's New in Rel. 2.11
+  --------------------------
+
+   New Features and Important Notes
+   --------------------------------
+
+   - Shortened the CAENET systems login timeout from 5.0s to 200ms.
+   - Made the library "thread safe".                            
+
+
+   Bug Fixes  
+   ---------
+
+   - Eliminated spurious CAENET errors during login attempts.
+
+
+  What's New in Rel. 2.8
+  --------------------------
+
+   New Features and Important Notes
+   --------------------------------
+
+   - Included control of N568/B 16 Channels Programmable Spectroscopy 
+     Amplifier   
+   - Added the "count" Engineering Unit                                      
+   - Added support for the CAENHVSetBdParam API function with Sy1527
+     (needs Rel. 1.14.00 or more recent in the SY1527/2527)
+
+
+   Bug Fixes  
+   ---------
+
+   - Corrected some minor bugs                                             
+
+
+  What's New in Rel. 2.4
+  --------------------------
+
+   New Features and Important Notes
+   --------------------------------
+
+   - Added support for the new A1303 H. S. CAENET Controller; it is now    
+     possible to have multiple boards (i.e. independent CAENET chains in a 
+     single PC)                                                            
+   - Included control of Sy403 High Voltage System via CAENET (through     
+     Mod. A303A or A1303)                                                  
+   - Added support for CAENET BUSY handling, i.e. by retrying to execute   
+     the CAENET command                                                    
+   - Included control of N470 and N570 Programmable Power Supplies via      
+     CAENET (through Mod. A303A or A1303)                                  
+   
+
+   Bug Fixes  
+   ---------
+
+   - Corrected some minor bugs                                             
+
+
+  What's New in Rel. 2.0
+  --------------------------
+
+   New Features and Important Notes
+   --------------------------------
+
+   - Included control of Sy127 and Sy527 via CAENET (through Mod. A303A,  
+     High Speed CAENET Controller for PC)                                  
+   - Added the "rpm" Engineering Unit                                      
+   - Handled signed parameters, like i.e. negative temperature             
+
+  
+   Bug Fixes  
+   ---------
+
+   - Corrected some minor bugs                                             
+ 
+        
+  What's New in Rel. 1.2
+  --------------------------
+
+   New Features and Important Notes
+   --------------------------------
+
+   - Support for communication with SY1527/SY2527 via TCP/IP              
+
+ 
+  Determining Your Software Release
+  ---------------------------------
+
+  To determine the complete software release of the CAEN HV Wrapper Library
+  installed in your machine, you can use the relevant menu choice of the demo 
+  program.
+  You will see something like: 
+                               3.10-1.7 
+  where: 3.10 is the Release of the CAENHVWrapper.dll described in this document
+  and 1.7 is the Release of the HSCAENETlib.dll library used by the Wrapper 
+  library for the communication with the CAENET Power Supplies (you will find 
+  detailed info for that software in the HSCAENETReleaseNotes.txt document).
+
+
+  How to get support
+  ------------------
+
+  Our Software Support Group is available for questions, support and any other 
+  software related issue concerning CAEN Power Supplies; for software support
+  visit the page www.caen.it/computing/support.php.
+
