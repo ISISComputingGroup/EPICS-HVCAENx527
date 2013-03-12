@@ -19,6 +19,9 @@ else
 USR_LDFLAGS += -L$(CAENHVWRAPPER)/lib/$(EPICS_HOST_ARCH) -lhscaenetlib -lcaenhvwrapper
 endif
 
+BIN_INSTALLS_Linux += $(wildcard $(CAENHVWRAPPER)/lib/$(EPICS_HOST_ARCH)/*.so.*)
+BIN_INSTALLS_WIN32 += $(wildcard $(CAENHVWRAPPER)/dll/win32/*.dll)
+
 LIBRARY_IOC = HVCAENx527Support
 
 PROD_IOC = HVCAENx527
