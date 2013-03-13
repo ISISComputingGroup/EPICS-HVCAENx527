@@ -139,7 +139,7 @@ write_mbbo( mbboRecord *pior)
 	if( pp == NULL || pp->hvchan->epicsenabled == 0)
 		return(3);
 	pp->pvalset.l = (long)(pior->val);
-PDEBUG(10) printf( "DEBUG: put %s = %lf\n", pp->pname, pior->val);
+PDEBUG(10) printf( "DEBUG: put %s = 0x%x\n", pp->pname, pior->val);
 	if( CAENx527SetChParVal( pp) != 0)
 		return( 3);
 

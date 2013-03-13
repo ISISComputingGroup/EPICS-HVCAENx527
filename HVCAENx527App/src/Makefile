@@ -40,7 +40,7 @@ HVCAENx527_SRCS_DEFAULT += HVCAENx527Main.cpp HVCAENx527_registerRecordDeviceDri
 HVCAENx527_SRCS_vxWorks += -nil-
 HVCAENx527Support_SRCS += HVCAENx527.c
 HVCAENx527Support_SRCS += HVCAENx527chAio.c HVCAENx527chBio.c HVCAENx527chLongio.c HVCAENx527chMBBio.c 
-HVCAENx527Support_SRCS += HVCAENx527chStringio.c
+HVCAENx527Support_SRCS += HVCAENx527chStringio.c HVCAENx527Stringio.c HVCAENx527MBBi.c
 
 #The following adds support from base/src/vxWorks
 HVCAENx527_OBJS_vxWorks += $(EPICS_BASE_BIN)/vxComLibrary

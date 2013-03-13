@@ -17,30 +17,43 @@
 #include <epicsThread.h>
 #include <dbDefs.h>
 #include <dbAccess.h>
+#include <dbLoadTemplate.h>
 #include <dbScan.h>
 #include <recSup.h>
 #include <recGbl.h>
 #include <devSup.h>
 #include <menuScan.h>
 #include <errlog.h>
+#include <iocsh.h>
 #include <sys/timeb.h>
 #ifdef _WIN32
 #include <winsock2.h>
+#include <ws2tcpip.h>
 #include <time.h>
 #define snprintf _snprintf
 #else
 #include <sys/time.h>
-#include <netdb.h>
+/*#include<stdio.h> //printf*/
+#include<string.h> /*memset*/
+/*#include<stdlib.h> //for exit(0);*/
+#include<sys/socket.h>
+#include<errno.h> /*For errno - the error number*/
+#include<netdb.h> /*hostent*/
+#include<arpa/inet.h>
 #endif
 
-
 #include <CAENHVWrapper.h>
+
+#include <registryFunction.h>
+#include <subRecord.h>
+#include <drvSup.h>
 
 #include <callback.h> /* needed later to replace definition of CALLBACK */
 
 #include <epicsExport.h>
 
 #include "HVCAENx527.h"
+/*#include "/misc/halld/Online/controls/epics/R3-14-11/base-3-14-11/include/dbAccess.h"*/
 
 epicsShareExtern short DEBUG = 0;
 
@@ -152,13 +165,15 @@ ReadChParProp( char *name, unsigned short slot, unsigned short chan, char *pname
 	retval = CAENHVGetChParamProp(name, slot, chan, pname, "Type", &(pp->Type));
 	if( retval != CAENHV_OK)
 	{
-		printf( "CAENHVGetCHParamProp(): %s (%d)\n", CAENHVGetError( name), retval);
+		printf( "CAENHVGetCHParamProp(): Slot = %2d Channel = %2d ParName = %s Error = %s (%d)\n",
+				slot, chan, pname, CAENHVGetError( name), retval);
 	}
 
 	retval = CAENHVGetChParamProp(name, slot, chan, pname, "Mode", &(pp->Mode));
 	if( retval != CAENHV_OK)
 	{
-		printf( "CAENHVGetCHParamProp(): %s (%d)\n", CAENHVGetError( name), retval);
+		printf( "CAENHVGetCHParamProp(): Slot = %2d Channel = %2d ParName = %s Error = %s (%d)\n",
+				slot, chan, pname, CAENHVGetError( name), retval);
 	}
 
 	if( pp->Type == PARAM_TYPE_NUMERIC)
@@ -166,25 +181,29 @@ ReadChParProp( char *name, unsigned short slot, unsigned short chan, char *pname
 		retval = CAENHVGetChParamProp(name, slot, chan, pname, "Minval", &(pp->Minval));
 		if( retval != CAENHV_OK)
 		{
-			printf( "CAENHVGetCHParamProp(): %s (%d)\n", CAENHVGetError( name), retval);
+			printf( "CAENHVGetCHParamProp(): Slot = %2d Channel = %2d ParName = %s Error = %s (%d)\n",
+					slot, chan, pname, CAENHVGetError( name), retval);
 		}
 
 		retval = CAENHVGetChParamProp(name, slot, chan, pname, "Maxval", &(pp->Maxval));
 		if( retval != CAENHV_OK)
 		{
-			printf( "CAENHVGetCHParamProp(): %s (%d)\n", CAENHVGetError( name), retval);
+			printf( "CAENHVGetCHParamProp(): Slot = %2d Channel = %2d ParName = %s Error = %s (%d)\n",
+					slot, chan, pname, CAENHVGetError( name), retval);
 		}
 
 		retval = CAENHVGetChParamProp(name, slot, chan, pname, "Unit", &(pp->Unit));
 		if( retval != CAENHV_OK)
 		{
-			printf( "CAENHVGetCHParamProp(): %s (%d)\n", CAENHVGetError( name), retval);
+			printf( "CAENHVGetCHParamProp(): Slot = %2d Channel = %2d ParName = %s Error = %s (%d)\n",
+					slot, chan, pname, CAENHVGetError( name), retval);
 		}
 
 		retval = CAENHVGetChParamProp(name, slot, chan, pname, "Exp", &(pp->Exp));
 		if( retval != CAENHV_OK)
 		{
-			printf( "CAENHVGetCHParamProp(): %s (%d)\n", CAENHVGetError( name), retval);
+			printf( "CAENHVGetCHParamProp(): Slot = %2d Channel = %2d ParName = %s Error = %s (%d)\n",
+					slot, chan, pname, CAENHVGetError( name), retval);
 		}
 
 	}
@@ -193,13 +212,15 @@ ReadChParProp( char *name, unsigned short slot, unsigned short chan, char *pname
 		retval = CAENHVGetChParamProp(name, slot, chan, pname, "Onstate", pp->Onstate);
 		if( retval != CAENHV_OK)
 		{
-			printf( "CAENHVGetCHParamProp(): %s (%d)\n", CAENHVGetError( name), retval);
+			printf( "CAENHVGetCHParamProp(): Slot = %2d Channel = %2d ParName = %s Error = %s (%d)\n",
+					slot, chan, pname, CAENHVGetError( name), retval);
 		}
 
 		retval = CAENHVGetChParamProp(name, slot, chan, pname, "Offstate", pp->Onstate);
 		if( retval != CAENHV_OK)
 		{
-			printf( "CAENHVGetCHParamProp(): %s (%d)\n", CAENHVGetError( name), retval);
+			printf( "CAENHVGetCHParamProp(): Slot = %2d Channel = %2d ParName = %s Error = %s (%d)\n",
+					slot, chan, pname, CAENHVGetError( name), retval);
 		}
 	}
 	else if( pp->Type == PARAM_TYPE_CHSTATUS)
@@ -347,90 +368,188 @@ PDEBUG(4) printf( "DEBUG: paramname %s\n", parnamelist[l]);
 }
 
 epicsShareFunc int
-ConnectCrate( char *name, char *linkaddr)
+ConnectCrate( char *name)
 {
 	int i;
 	CAENHVRESULT retval;
-
-	if( name[0] == '\0' || linkaddr[0] == '\0')
-	{
-		printf( "ConnectCrate(): lacking crate name or address\n");
+	/* Find the create by name */
+	i=0;
+	while( i < MAX_CRATES  &&  strcmp(Crate[i].name, name) != 0) i++;
+	if (i >= MAX_CRATES) {
+		errlogPrintf("%s:%d: Could not find the crate named '%s'\n",__FUNCTION__,__LINE__,name);
 		return -1;
 	}
 
 	/* TCP/IP connection to crates */
-	retval = CAENHVInitSystem( name, LINKTYPE_TCPIP, (void *)linkaddr, "admin", "admin");
-	printf( "Connected to crate %s@%s\n", name, linkaddr);
-	if( retval == CAENHV_OK)
-	{
-		i = 0;
-		while( i < MAX_CRATES && Crate[i].hvchan != NULL) i++;
-		if( i < MAX_CRATES)
-		{
-			Crate[i].crate = i;
-			snprintf( Crate[i].name, 63, "%s", name);
-			snprintf( Crate[i].IPaddr, 63, "%s", linkaddr);
-			/* get list of boards */
-			InitCrate( &(Crate[i]));
-			return( 0);
-		}
-	}
-	else
-	{
+	retval = CAENHVInitSystem(
+				Crate[i].name,
+				LINKTYPE_TCPIP,
+				(void *)Crate[i].IPaddr,
+				Crate[i].username,
+				Crate[i].password);
+	printf( "Connecting to crate %s@%s\n", name, Crate[i].IPaddr);
+	if( retval == CAENHV_OK) {
+		/* get list of boards */
+		InitCrate( &(Crate[i]));
+		return(0);
+	} else {
 		printf( "CAENHVInitSystem(): %s (%d)\n", CAENHVGetError( name), retval);
 	}
-	return( -1);
+	return(-1);
 }
 
-epicsShareFunc void
-ParseCrateAddr( char (*straddr)[255], short naddr)
-{
-	int i, j;
-	int crnlen;
-	char *str;
-	char crname[32], craddr[32], crip[32];
-	struct hostent *hostip;
 
-	if( straddr)
-	{
-		for( i = 0; i < naddr; i++)
-		{
-			str = straddr[i];
-			crnlen = strlen( str);
-			for( j = 0; j < crnlen && str[j] != '@'; j++);
-			snprintf( crname, ++j, "%s", str);
-			if( j < crnlen)
-			{
-				str += j;
-				crnlen -= j;
-				for( j = 0; j < crnlen && straddr[i][j] != ':'; j++);
-				snprintf( craddr, ++j, "%s", str);
-				hostip = gethostbyname( craddr);
-				if( hostip->h_addrtype == AF_INET)
-				{
-			/* RU! There has to be a more elegant way of
-			converting the IP to string... inet_*()? */
-					snprintf( crip, 32, "%hd.%hd.%hd.%hd", (unsigned char)(hostip->h_addr[0]), (unsigned char)(hostip->h_addr[1]), (unsigned char)(hostip->h_addr[2]), (unsigned char)(hostip->h_addr[3]));
+ /*                                                                                                                          
+  *       Get ip from domain name
+  */                                                                                                                         
+int hostname_to_ip(char *hostname , char *ip) {
+  struct addrinfo hints, *servinfo, *p;
+  struct sockaddr_in *h;
+  int rv;
+  
+  memset(&hints, 0, sizeof hints);
+  hints.ai_family = AF_UNSPEC; // use AF_INET6 to force IPv6
+  hints.ai_socktype = SOCK_STREAM;
+
+  if ( (rv = getaddrinfo( hostname , "http" , &hints , &servinfo)) != 0)
+         {
+                 fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(rv));
+                 return 1;
+         }
+
+         // loop through all the results and connect to the first we can
+         for(p = servinfo; p != NULL; p = p->ai_next)
+         {
+                 h = (struct sockaddr_in *) p->ai_addr;
+                 strcpy(ip , inet_ntoa( h->sin_addr ) );
+         }
+
+         freeaddrinfo(servinfo); // all done with this structure
+         return 0;
+ }
+
+
+void CAENx527ConfigureCreate(char *name, char *addr, char *username, char* password){
+  char ip[32];
+  int i;
+
+  /* Check the name */
+  if (strlen(name) == 0) {
+    fprintf(stderr,"ERROR in %s:%d: name = NULL\n",__FUNCTION__,__LINE__);
+    return;
+  }
+  /* Check the address */
+  if (strlen(addr) == 0) {
+    fprintf(stderr,"ERROR in %s:%d: addr = NULL\n",__FUNCTION__,__LINE__);
+    return;
+  }
+  /* Check if address is belonging to the IPv4 address space */
+  hostname_to_ip(addr, ip);
+  printf("For address = %s\nThe IP is = %s\n",addr, ip);
+  /* Check user name and password */
+  if (username == NULL) {
+    username = "admin";
+    if (password == NULL) password = "admin";
+  }
+  /* Configure the crate */
+  i = 0;
+  while( i < MAX_CRATES && Crate[i].hvchan != NULL) i++;
+  if (i < MAX_CRATES) {
+	  Crate[i].crate = i;
+	  strncpy(Crate[i].name,     name,     sizeof(Crate[i].name)-1);
+	  strncpy(Crate[i].IPaddr,   ip,       sizeof(Crate[i].IPaddr)-1);
+	  strncpy(Crate[i].username, username, sizeof(Crate[i].username)-1);
+	  strncpy(Crate[i].password, password, sizeof(Crate[i].password)-1);
+
+/*	Replaced by Nerses
+	  snprintf( Crate[i].name, 63, "%s", name);
+	  snprintf( Crate[i].IPaddr, 63, "%s", ip);
+	  snprintf( Crate[i].username, 63, "%s", username);
+	  snprintf( Crate[i].password, 63, "%s", password);*/
+  }
+  /* Connect to the crate */
+  if( ConnectCrate(name) == 0){
+    printf( "Successfully connected to %s @ %s\n", name, ip);
+  }
+  return;
+}
+
+/* Information needed by iocsh */
+static const iocshArg     CAENx527ConfigureCreateArg0 = {"Name",     iocshArgString};
+static const iocshArg     CAENx527ConfigureCreateArg1 = {"Address",  iocshArgString};
+static const iocshArg     CAENx527ConfigureCreateArg2 = {"Username", iocshArgString};
+static const iocshArg     CAENx527ConfigureCreateArg3 = {"Password", iocshArgString};
+static const iocshArg    *CAENx527ConfigureCreateArgs[] = {
+  &CAENx527ConfigureCreateArg0, 
+  &CAENx527ConfigureCreateArg1, 
+  &CAENx527ConfigureCreateArg2,
+  &CAENx527ConfigureCreateArg3};
+static const iocshFuncDef CAENx527ConfigureCreateFuncDef = {"CAENx527ConfigureCreate", 4, CAENx527ConfigureCreateArgs};
+
+/* Wrapper called by iocsh, selects the argument types that function needs */
+static void CAENx527ConfigureCreateCallFunc(const iocshArgBuf *args) {
+  CAENx527ConfigureCreate(args[0].sval, args[1].sval, args[2].sval, args[3].sval);
+}
+
+/* Registration routine, runs at startup */
+static void CAENx527ConfigureCreateRegister(void) {
+    iocshRegister(&CAENx527ConfigureCreateFuncDef, CAENx527ConfigureCreateCallFunc);
+}
+
+/* Will dynamically load DBes according to the boards discovered on the create */
+void CAENx527DbLoadRecords(){
+	int i,j,k;
+	char* boardname;
+	unsigned int boardnumber;
+	char args[256];
+
+	dbLoadRecords("db/HVCAENx527.db", NULL);
+	for(i=0; i<MAX_CRATES; i++) {
+		if (Crate[i].connected == 1) {
+			snprintf(args,256,"PSNAME=%s,CHADDR=0.00.000",Crate[i].name);
+			PDEBUG(1) errlogPrintf("%s:%d: Load the db 'db/HVCAENx527.db' with args = %s\n",__FUNCTION__,__LINE__,args);
+			dbLoadRecords("db/HVCAENx527cr.db", args);	/* The mainframe related PVs definitions */
+			for(j=0; j<Crate[i].nsl; j++) {
+				boardname = Crate[i].hvchmap[j].slname;
+				sscanf((boardname+1), "%4d", &boardnumber);
+				if (strlen(boardname)>0) {
+					PDEBUG(1) errlogPrintf("%s:%d: Crate = %2d Slot = %2d Board name = %d\n",__FUNCTION__,__LINE__,i,j,boardnumber);
+					switch (boardnumber) {
+						case 1535:
+							for (k = 0; k < Crate[i].hvchmap[j].nchan; k++) {
+								snprintf(args,256,"PSNAME=%s,SLOT=%d,CHANNUM=%d,CHADDR=%01d.%02d.%03d",Crate[i].name,j,k,i,j,k);
+								PDEBUG(1) errlogPrintf("%s:%d: Load the db 'db/HVCAENx527ch.db' with args = %s\n",__FUNCTION__,__LINE__,args);
+								dbLoadRecords("db/HVCAENx527ch.db", args);		/* The channel related PVs definitions */
+								dbLoadRecords("db/HVCAENx527chItLk.db", args);	/* The software inter locks for channels */
+							}
+
+							break;
+						default:
+							break;
+					}
 				}
-				else
-				{
-					printf( "IPv6 addresses are not supported");
-					exit( -1);
-				}
-PDEBUG(1) printf( "DEBUG: resolve %s -> %s (%s,%d,%d)\n", craddr, crip, hostip->h_name, (int)(hostip->h_addr), hostip->h_length);
-			}
-			if( j < crnlen)
-			{
-				str += j;
-				crnlen -= j;
-					printf( "slot option currently not supported: %s\n", str);
-			}
-			if( ConnectCrate( crname, crip) == 0)
-			{
-				printf( "Successfully connected to %s @ %s\n", crname, craddr);
 			}
 		}
 	}
+	/* dbLoadRecords return 0 if success failure otherwise, usually -1 */
+	/*dbLoadRecords("db/PS1014001.db","");
+	dbLoadRecords("db/PS1014001ch.db","");
+	dbLoadTemplate("db/userHost.substitutions");
+	dbLoadRecords("db/dbSubExample.db", "user=nersesHost");*/
+
+	return;
+}
+
+static const iocshFuncDef CAENx527DbLoadRecordsFuncDef = {"CAENx527DbLoadRecords", 0, NULL};
+
+/* Wrapper called by iocsh, selects the argument types that function needs */
+static void CAENx527DbLoadRecordsCallFunc(const iocshArgBuf *args) {
+  CAENx527DbLoadRecords();
+}
+
+/* Registration routine, runs at startup */
+static void CAENx527DbLoadRecordsRegister(void) {
+    iocshRegister(&CAENx527DbLoadRecordsFuncDef, CAENx527DbLoadRecordsCallFunc);
 }
 
 short
@@ -535,7 +654,7 @@ CAENx527GetAllChParVal( HVCRATE *cr, char *pname)
 	int i, j;
 	int nset;
 	int pnum;
-	short *chlist;
+	unsigned short *chlist;
 	union pval
 	{
 		float f;
@@ -558,7 +677,7 @@ CAENx527GetAllChParVal( HVCRATE *cr, char *pname)
 		Busy[cr->crate] = 1;
 /* Note: allocating and building these lists repeatedly is not efficient.
    This should really be done once at init_record. */
-		chlist = (short *)calloc( sizeof(short), cr->nchan);
+		chlist = (ushort *)calloc( sizeof(ushort), cr->nchan);
 		if( chlist == NULL)
 		{
 			printf( "GetAllChParVal: Failed to calloc channel list.\n");
@@ -669,7 +788,7 @@ CAENx527SetAllChParVal( HVCRATE *cr, char *pname, void *val)
 {
 	int i, j, k;
 	int nset;
-	short *chlist;
+	unsigned short *chlist;
 	union pval
 	{
 		float f;
@@ -692,7 +811,7 @@ CAENx527SetAllChParVal( HVCRATE *cr, char *pname, void *val)
 
 /* Note: allocating and building these lists repeatedly is not efficient.
    This should really be done once at init_record. */
-		chlist = (short *)calloc( sizeof(short), cr->nchan);
+		chlist = (ushort *)calloc( sizeof(ushort), cr->nchan);
 		if( chlist == NULL)
 		{
 			printf( "SetAllChParVal: Failed to calloc channel list.\n");
@@ -746,7 +865,7 @@ CAENx527GetAllChName( HVCRATE *cr)
 {
 	int i, j;
 	int nset;
-	short *chlist;
+	ushort *chlist;
 	char (*chname)[MAX_CH_NAME];
 	HVCHAN *hvch;
 	CAENHVRESULT retval;
@@ -764,7 +883,7 @@ CAENx527GetAllChName( HVCRATE *cr)
 
 /* Note: allocating and building these lists repeatedly is not efficient.
    This should really be done once at init_record. */
-		chlist = (short *)calloc( sizeof(short), cr->nchan);
+		chlist = (ushort *)calloc( sizeof(ushort), cr->nchan);
 		if( chlist == NULL)
 		{
 			printf( "GetAllChName: Failed to calloc channel list.\n");
@@ -1030,10 +1149,6 @@ oCallback( CALLBACK *pcallback)
 }
 #endif
 
-#include <registryFunction.h>
-#include <epicsExport.h>
-#include <subRecord.h>
-#include <drvSup.h>
 
 /* RU!  I think the code below will be or already is deprecated */
 #if 0
@@ -1160,7 +1275,7 @@ PDEBUG(4) printf( "DEBUG: scanning crate %d\n", i);
 				/* If we lose the connection, we have to log
 				   back in. */
 #if 1
-				retval = CAENHVInitSystem( Crate[i].name, LINKTYPE_TCPIP, (void *)(Crate[i].IPaddr), "admin", "admin");
+				retval = CAENHVInitSystem( Crate[i].name, LINKTYPE_TCPIP, (void *)(Crate[i].IPaddr), Crate[i].username, Crate[i].password);
 				if( retval == CAENHV_OK)
 				{
 					Crate[i].connected = 1;
@@ -1384,6 +1499,10 @@ epicsExportAddress( drvet, drvCAENx527);
 epicsRegisterFunction( InitScanChannels);
 epicsRegisterFunction( ScanChannels);
 #endif
+
+epicsExportRegistrar(CAENx527ConfigureCreateRegister);
+epicsExportRegistrar(CAENx527DbLoadRecordsRegister);
+
 
 /*
  * $Log: HVCAENx527/HVCAENx527App/src/HVCAENx527.c  $

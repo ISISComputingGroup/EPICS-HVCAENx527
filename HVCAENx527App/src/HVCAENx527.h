@@ -12,6 +12,8 @@
 #else
 #include <sys/time.h>
 #endif
+
+#include <CAENHVWrapper.h>
 #include <callback.h>
 
 #define EVNTNO_UPDATE	10
@@ -93,6 +95,8 @@ typedef struct HVCrate
 {
 	char name[64];
 	char IPaddr[64];
+	char username[9];
+	char password[33];
 	unsigned short crate;	/* crate number */
 	short nsl;	/* max number of slots in crate */
 	short nchan;	/* total number of channels (#slot * #nchperslot) */
@@ -101,13 +105,13 @@ typedef struct HVCrate
 	CRATESCANLIST *csl;
 	short connected;
 } HVCRATE;
-
+extern HVCRATE Crate[MAX_CRATES];
 epicsShareExtern short DEBUG;
 #define PDEBUG(LEVEL)	if( DEBUG >= LEVEL)
 /*
 	DEBUG level guideline
 	 0 - none
-	 1 - unrepeated initialization and shutdown messages, 
+	 1 - not repeated initialization and shutdown messages,
 	     messages about the crate and slots that appear only once 
 	     during run-time
 	 2 - messages about the crate that appear once per crate scan
@@ -121,10 +125,10 @@ epicsShareExtern short DEBUG;
 
 float ScanChannelsPeriod;
 
-epicsShareFunc int ConnectCrate( char *name, char *linkaddr);
-epicsShareFunc void ParseCrateAddr( char (*straddr)[255], short naddr);
+epicsShareFunc int ConnectCrate( char *name);
+epicsShareFunc void CAENx527ConfigureCreate(char *name, char *addr, char *username, char* password);
+
 epicsShareFunc void Shutdown();
-epicsShareFunc void SetSigShutdownHandler();
 #if 0
 void iCallback( CALLBACK *pcallback);
 void oCallback( CALLBACK *pcallback);

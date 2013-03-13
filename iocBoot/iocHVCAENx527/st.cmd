@@ -1,23 +1,40 @@
 #!../../bin/linux-x86/HVCAENx527
-#
-# Copyright Canadian Light Source, Inc.  All rights reserved.
-#    - see licence.txt and licence_CAEN.txt for limitations on use.
-#
+
+## You may have to change HVCAENx527 to something else
+## everywhere it appears in this file
 
 < envPaths
+
+# Error Log To Console 0 or 1
+eltc 1
 
 cd ${TOP}
 
 ## Register all support components
-dbLoadDatabase("dbd/HVCAENx527.dbd",0,0)
-HVCAENx527_registerRecordDeviceDriver(pdbbase)
+dbLoadDatabase "dbd/HVCAENx527.dbd"
+HVCAENx527_registerRecordDeviceDriver pdbbase
+
+## arguments to CAENx527ConfigureCreate are: name, ip_address, username, password
+## username, password are optional and the crate factory default is used if these are not specified
+CAENx527ConfigureCreate "hv0", "halltesthv"
+CAENx527ConfigureCreate "hv1", "halldcaenhv1"
+
 
 ## Load record instances
-dbLoadRecords("db/PS1014001.db")
-dbLoadRecords("db/PS1014001ch.db")
+#dbLoadTemplate "db/userHost.substitutions"
+#dbLoadRecords "db/dbSubExample.db", "user=nersesHost"
+
+CAENx527DbLoadRecords
+
+
+## Set this to see messages from mySub
+#var mySubDebug 1
+
+## Run this to trace the stages of iocInit
+#traceIocInit
 
 cd ${TOP}/iocBoot/${IOC}
-iocInit()
+iocInit
 
 ## Start any sequence programs
-#seq sncxxx,"PSNAME=PS1014001"
+#seq sncExample, "user=nersesHost"
