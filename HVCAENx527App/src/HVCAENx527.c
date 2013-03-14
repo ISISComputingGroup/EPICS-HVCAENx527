@@ -62,6 +62,17 @@ epicsThreadId scanThread;
 
 HVCRATE Crate[MAX_CRATES];
 
+/* 
+ * always allocate at least 16 slots - some of our crates have less slots than this, but the 
+ * CSS display shows 16 so we need to allocate the extra (unused but zeroed by calloc) memory so
+ * zero length strings are present and converted into N/A on the display 
+ */
+#define MIN_SLOTS		16 
+/* 
+ * for same reasons as above, allocate space for 24 channels even if we are not using them all 
+ */
+#define MIN_CHANNELS	24
+
 static char *ParUnitStr[] = {
 	"",
 	"A",
@@ -241,10 +252,10 @@ static void
 InitCrate( HVCRATE *cr)
 {
 	int i, j, k, l;
-	unsigned short nsl, *nch;
-	char *model, *desc;
-	unsigned short *sn;
-	unsigned char *fmwrmin, *fmwrmax;
+	unsigned short nsl = 0, *nch = NULL;
+	char *model = NULL, *desc = NULL;
+	unsigned short *sn = NULL;
+	unsigned char *fmwrmin = NULL, *fmwrmax = NULL;
 	char *str;
 	char *par, (*parnamelist)[MAX_PARAM_NAME];
 	int npar;
@@ -261,20 +272,20 @@ InitCrate( HVCRATE *cr)
 	{
 		cr->connected = 1;
 		/* Set up cratemap */
-		cr->hvchmap = (HVSLOT *)calloc( sizeof( HVSLOT), nsl + 1);
+		cr->hvchmap = (HVSLOT *)calloc( sizeof( HVSLOT), (nsl < MIN_SLOTS ? MIN_SLOTS + 1: nsl + 1) ); 
 		if( cr->hvchmap)
 		{
 			cr->nsl = nsl;
 			cr->nchan = 0;
-			str = model;
+			str = (model != NULL ? model : "");
 			for( i = 0; i < nsl; i++)
 			{
-				if( str[0] != '\0')
+				if( str[0] != '\0' )
 				{
 					snprintf( cr->hvchmap[i].slname, MAX_BOARD_NAME, "%s", str);
 PDEBUG(1) printf( "DEBUG: model %s in slot %d\n", str, i);
 					cr->hvchmap[i].nchan = nch[i];
-					cr->hvchmap[i].hvchan = (HVCHAN **)calloc( sizeof( HVCHAN *), nch[i] + 1);
+					cr->hvchmap[i].hvchan = (HVCHAN **)calloc( sizeof( HVCHAN *), (nch[i] < MIN_CHANNELS ? MIN_CHANNELS + 1 : nch[i] + 1) ); 
 					if( cr->hvchmap[i].hvchan == NULL)
 					{
 						printf( "DEBUG: failed to allocate mem for channel list for slot %hd\n", i);
@@ -289,6 +300,8 @@ PDEBUG(1) printf( "DEBUG: model %s in slot %d\n", str, i);
 				else
 				{
 					cr->hvchmap[i].hvchan = NULL;
+					cr->hvchmap[i].nchan = 0;
+					cr->hvchmap[i].slname[0] = '\0';
 				}
 				str += strlen( str) + 1;
 			}
@@ -308,13 +321,14 @@ PDEBUG(1) printf( "DEBUG: InitCrate(): found %d slots, with total of %d channels
 		}
 
 		k = 0;
-		str = model;
+		str = (model != NULL ? model : "");
 		for( i = 0; i < nsl; i++)
 		{
 			if( str[0] != '\0')
 			{
 				/* get parameters for each channel
 				   and put into respective PV fields */
+				par = NULL;
 				retval = CAENHVGetChParamInfo(cr->name, i, 0, &par);
 				parnamelist = (char (*)[MAX_PARAM_NAME])par;
 				if( retval != CAENHV_OK)
@@ -354,17 +368,21 @@ PDEBUG(4) printf( "DEBUG: paramname %s\n", parnamelist[l]);
 					}
 					k++;
 				}
-/*				free( parnamelist); */
+/*				free( parnamelist); /* on windows we get a deallocation error, but we can take the memeory leak */
 			}
 			str += strlen( str) + 1;
 		}
 	}
-/*	free( nch);
+/* 
+ * On windows we get a deallocation error, but we can take this small memeory leak
+ * 
+    free( nch);
 	free( model); 
 	free( desc);
 	free( sn);
 	free( fmwrmin);
-	free( fmwrmax); */
+	free( fmwrmax); 
+ */
 }
 
 epicsShareFunc int
@@ -1378,7 +1396,7 @@ PDEBUG(5) printf( "DEBUG: slot name (%d out of %d): %s\n", j, Crate[i].nsl, Crat
 				for( k = 0; k < hvch->npar; k++)
 				{
 					for( csl = Crate[i].csl; csl->next != NULL && strcmp( csl->pname, hvch->pplist[k].pname) != 0; csl = csl->next);
-PDEBUG(6) printf( "DEBUG: csl->next = %#lx ?= NULL, '%s' ?= '%s'\n", (unsigned long)csl->next, csl->pname, hvch->pplist[k].pname);
+PDEBUG(6) printf( "DEBUG: csl->next = %#llx ?= NULL, '%s' ?= '%s'\n", (unsigned long long)csl->next, csl->pname, hvch->pplist[k].pname);
 					if( csl->next == NULL)
 					{
 						csl->next = (CRATESCANLIST *)calloc( sizeof(CRATESCANLIST), 1);
