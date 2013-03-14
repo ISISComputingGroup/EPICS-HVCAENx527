@@ -1378,7 +1378,7 @@ PDEBUG(5) printf( "DEBUG: slot name (%d out of %d): %s\n", j, Crate[i].nsl, Crat
 				for( k = 0; k < hvch->npar; k++)
 				{
 					for( csl = Crate[i].csl; csl->next != NULL && strcmp( csl->pname, hvch->pplist[k].pname) != 0; csl = csl->next);
-PDEBUG(6) printf( "DEBUG: csl->next = %#x ?= NULL, '%s' ?= '%s'\n", (unsigned)csl->next, csl->pname, hvch->pplist[k].pname);
+PDEBUG(6) printf( "DEBUG: csl->next = %#lx ?= NULL, '%s' ?= '%s'\n", (unsigned long)csl->next, csl->pname, hvch->pplist[k].pname);
 					if( csl->next == NULL)
 					{
 						csl->next = (CRATESCANLIST *)calloc( sizeof(CRATESCANLIST), 1);

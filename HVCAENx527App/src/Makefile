@@ -16,7 +16,7 @@ USR_CFLAGS += /Zi
 USR_LDFLAGS += /DEBUG
 pdb += HVCAENx527Support.pdb HVCAENx527.pdb
 else
-USR_LDFLAGS += -L$(CAENHVWRAPPER)/lib/$(EPICS_HOST_ARCH) -lcaenhvwrapper # -lhscaenetlib 
+USR_LDFLAGS += -L$(CAENHVWRAPPER)/lib/$(EPICS_HOST_ARCH) -lcaenhvwrapper -lhscaenetlib
 endif
 
 BIN_INSTALLS_Linux += $(wildcard $(CAENHVWRAPPER)/lib/$(EPICS_HOST_ARCH)/*.so.*)
