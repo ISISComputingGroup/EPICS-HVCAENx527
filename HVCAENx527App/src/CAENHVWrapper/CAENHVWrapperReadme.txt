@@ -2,9 +2,9 @@
 /*                                                                           */
 /*                  --- CAEN SpA - Computing Division ---                    */
 /*                                                                           */
-/*   CAEN HV Wrapper Library Rel. 3.10 Installation and Use Instructions     */
-/*									  									     */
-/*   July    2010	                 				     					 */
+/*   CAEN HV Wrapper Library Rel. 5.00 Installation and Use Instructions     */
+/*									     */						
+/*   July   2012	                 				     */
 /*                                                                           */
 /*****************************************************************************/
   
@@ -19,53 +19,40 @@
  Content of the archive
  ----------------------
 
- CAENUVWrapperReadme.txt        :  This file
+ bin				            :  Directory containing the binary program of
+                                   the CAEN HV Wrapper Library Rel. 3.10
+ include						:  Directory containing the header files of
+                                   the CAEN HV Wrapper Library Rel. 3.10
+ lib							:  Directory containing the library file of
+                                   the CAEN HV Wrapper Library Rel. 3.10
+ HVWrapperDemo					:  Directory containing the source code and the project
+								   of the HVWrapperDemo program
+ CAENHVWrapperReadme.txt        :  This file
  CAENHVWrapperReleaseNotes.txt  :  Release Notes of the last software release
- Makefile 	         		    :  makefile for library installation and demo 
-                                   program
- 
- Lib/
-  libcaenhvwrapper.so.3.10    :  executable of the library
-  hscaenetlib.so.1.7          :  executable of the HSCAENETLib library to 
-                                 control A303A and A1303 simultaneously
-  
- Doc/
-  CAENHVWrapper.pdf 	      :  user's manual of the library
- 
- include/
-  CAENHVWrapper.h             :  include file for use of the library
-  caenhvoslib.h		    	  :  accessory include file
- 
- HVWrapperDemo/               :  directory with sources/executable of the demo 
-                                 program 
- 
 
 
  System Requirements
  -------------------
  
- - Network Interface Card + TCP/IP protocol (to control SY 1527/ SY 2527)
- - A303A/A1303 H.S. CAENET Controller Card (to control  N 470, N 570 and N568)
- - Linux kernel 2.4 or 2.6 with gnu C/C++ compiler
+ - Network Interface Card + TCP/IP protocol (to control SY 1527/ SY 2527 / SY4527 / SY 5527)
+ - A1303 H.S. CAENET Controller Card (to control N 470, N 570 and N568)
+ - CAENComm library (to controll the V65xx family boards)
 
 
  Installation notes
  ------------------
 
- 1. It's necessary to login as root
- 
- 2. execute: make install
- 
- The installation copies and installs the library in /usr/lib, compiles the demo 
- program and installs it in the work directory.
- To use the demo program, change to the demo program directory and launch the
- application typing ./HVWrappdemo.
+ - Launch the setup program.
+ - Follow the instructions of the setup program.
+ - Once setup process has finished, the CAENHVWrapper.dll library is 
+   installed together with sources  and executable of a demo program.
    
 
  Note:
  -----
  Control of CAEN Power Supplies via CaeNet link requires the correct
  installation of the A303 and/or A1303 device driver. 
- Control of CAEN VME Power Supplies via USB/OpticalLink requires the correct
- installation of the USB/A2818 device driver. 
+ Control of CAEN Power Supplies via USB/OpycalLink link requires the correct
+ installation of the USB/A2818 device driver and CAENComm library. 
+
 

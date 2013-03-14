@@ -4,12 +4,13 @@
 /*                                                                           */
 /*   CAEN HV Wrapper Library Release Notes                                   */
 /*                                                                           */
-/*   Rel. 3.10 - July      2010   					    					 */
-/*   Rel. 2.11 - July      2003   					    					 */
-/*   Rel. 2.8  - December  2002   					     					 */
-/*   Rel. 2.4  - May       2002          			             			 */
-/*   Rel. 2.0  - March     2002 					     					 */
-/*   Rel. 1.2  - November  2000 					     					 */
+/*   Rel. 3.10 - July      2010   					     */
+/*   Rel. 2.11 - July      2003   					     */
+/*   Rel. 2.8  - December  2002   					     */
+/*   Rel. 2.4  - May       2002          			             */
+/*   Rel. 2.0  - March     2002 					     */
+/*   Rel. 1.2  - November  2000        					     */
+/*   Rel. 5.0  - October   2012						     */
 /*                                                                           */
 /*****************************************************************************/
  
@@ -26,7 +27,7 @@
   System Requirements
   -------------------
  
- - Network Interface Card + TCP/IP protocol (to control SY 1527/ SY 2527)
+ - Network Interface Card + TCP/IP protocol (to control SY 1527/ SY 2527 / SY4527 / SY5527)
  - A1303 H.S. CAENET Controller Card (to control N 470, N 570 and N568)
  - Microsoft Visual C++ 6.0
 
@@ -36,7 +37,20 @@
    New Features and Important Notes
    --------------------------------
 
-   - add support for Sy1527/Sy2527 Event mode features (only Windows platform)
+   - add support for Sy4527/Sy5527
+
+   Bug Fixes  
+   ---------
+
+   - Corrected some minor bugs 
+
+ What's New in Rel. 3.10
+  --------------------------
+
+   New Features and Important Notes
+   --------------------------------
+
+   - add support for Sy1527/Sy2527 Event mode features
    - add support for VME Power Supply modules (V65xx Family)
 
   What's New in Rel. 2.11
