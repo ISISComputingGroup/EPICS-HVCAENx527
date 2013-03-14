@@ -16,7 +16,7 @@ USR_CFLAGS += /Zi
 USR_LDFLAGS += /DEBUG
 pdb += HVCAENx527Support.pdb HVCAENx527.pdb
 else
-USR_LDFLAGS += -L$(CAENHVWRAPPER)/lib/$(EPICS_HOST_ARCH) -lhscaenetlib -lcaenhvwrapper
+USR_LDFLAGS += -L$(CAENHVWRAPPER)/lib/$(EPICS_HOST_ARCH) -lcaenhvwrapper # -lhscaenetlib 
 endif
 
 BIN_INSTALLS_Linux += $(wildcard $(CAENHVWRAPPER)/lib/$(EPICS_HOST_ARCH)/*.so.*)
@@ -65,7 +65,7 @@ HVCAENx527_OBJS_vxWorks += $(EPICS_BASE_BIN)/vxComLibrary
 #HVCAENx527_LIBS += seq pv
 
 HVCAENx527Support_LIBS += $(EPICS_BASE_IOC_LIBS)
-HVCAENx527Support_LIBS_WIN32 += hscaenetlib caenhvwrapper
+HVCAENx527Support_LIBS_WIN32 += caenhvwrapper # hscaenetlib 
 HVCAENx527Support_SYS_LIBS_WIN32 += ws2_32
 
 HVCAENx527_LIBS += HVCAENx527Support $(EPICS_BASE_IOC_LIBS)
