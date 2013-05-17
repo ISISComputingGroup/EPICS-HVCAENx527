@@ -32,7 +32,7 @@ extern void Sleep(unsigned long x);
 #ifdef CAENHVLIB
 #define CAENHVLIB_API __declspec(dllexport) 
 #else
-#define CAENHVLIB_API 
+#define CAENHVLIB_API __declspec(dllimport)
 #endif
 
 #endif // UNIX
