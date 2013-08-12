@@ -16,7 +16,7 @@ USR_CFLAGS += /Zi
 USR_LDFLAGS += /DEBUG
 #pdb += HVCAENx527Support.pdb HVCAENx527.pdb
 else
-USR_LDFLAGS += -L$(CAENHVWRAPPER)/lib/$(EPICS_HOST_ARCH) -lcaenhvwrapper -lhscaenetlib
+USR_LDFLAGS += -L$(CAENHVWRAPPER)/lib/$(EPICS_HOST_ARCH)
 endif
 
 BIN_INSTALLS_Linux += $(wildcard $(CAENHVWRAPPER)/lib/$(EPICS_HOST_ARCH)/*.so.*)
@@ -70,6 +70,7 @@ HVCAENx527Support_SYS_LIBS_WIN32 += ws2_32
 
 HVCAENx527_LIBS += HVCAENx527Support $(EPICS_BASE_IOC_LIBS)
 HVCAENx527_LIBS_WIN32 += caenhvwrapper # hscaenetlib
+HVCAENx527_SYS_LIBS_Linux += caenhvwrapper hscaenetlib
 #The following builds sncExample as a standalone application
 #PROD_HOST += sncExample
 #sncExample_SNCFLAGS += +m
