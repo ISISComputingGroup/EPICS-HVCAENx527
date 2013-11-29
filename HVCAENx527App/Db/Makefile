@@ -16,17 +16,27 @@ include $(TOP)/configure/CONFIG
 #DB += HVCAENx527chItLk.db
 #DB += HVCAENx527cr.db
 #DB += HVCAENx527.db
-DB += ToGenDb.db
 
 TARGETS += ExpDb
 
-.PHONY: ExpDb
+.PHONY: ExpDb MkDbDir
 
-ExpDb : 
-	$(MSI) -o $(TOP)/db/HVCAENx527.db -M "P=$(MYPVPREFIX)CAEN" -I.. HVCAENx527.db
-	$(MSI) -o $(TOP)/db/HVCAENx527ch.db -M "P=$(MYPVPREFIX)CAEN" -I.. HVCAENx527ch.db 
-	$(MSI) -o $(TOP)/db/HVCAENx527chItLk.db -M "P=$(MYPVPREFIX)CAEN" -I.. HVCAENx527chItLk.db
-	$(MSI) -o $(TOP)/db/HVCAENx527cr.db -M "P=$(MYPVPREFIX)CAEN" -I.. HVCAENx527cr.db
+MY_DB = HVCAENx527.db HVCAENx527ch.db HVCAENx527chItLk.db HVCAENx527cr.db
+
+ExpDb : MkDbDir $(addsuffix _p,$(MY_DB))
+
+MkDbDir :
+	$(if $(wildcard $(TOP)/db),,$(MKDIR) $(TOP)/db)
+
+define myinst_template
+.PHONY: $(1)_p
+$(1)_p : $(1)
+	$(RM) $(TOP)/db/$(1)
+	$(MSI) -o $(TOP)/db/$(1) -M "P=$(MYPVPREFIX)CAEN" $$<
+endef
+
+$(foreach f,$(MY_DB),$(eval $(call myinst_template,$(f))))
+
 
 #----------------------------------------------------
 # If <anyname>.db template is not named <anyname>*.template add
