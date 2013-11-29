@@ -1,0 +1,4 @@
+record (stringout, "$(P):CREATED)
+{
+	field (DESC, "Record for creation of DB folder only, non-functioning)
+}

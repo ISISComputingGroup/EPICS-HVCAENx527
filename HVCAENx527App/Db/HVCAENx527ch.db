@@ -5,62 +5,61 @@
 # The following are for setting channel parameters
 # in user space
 #
-record( stringout, "$(PSNAME):$(SLOT):$(CHANNUM):name")
+record( stringout, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):name")
 {
 	field( DTYP, "CAEN x527 generic HV Channel")
 	field( OUT, "@$(CHADDR) ChName")
 }
-record( ao, "$(PSNAME):$(SLOT):$(CHANNUM):v0set")
+record( ao, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):v0set")
 {
 	field( DESC, "Primary voltage setting")
 	field( DTYP, "CAEN x527 generic HV Channel")
 	field( OUT, "@$(CHADDR) V0Set")
 	field( PREC, "2")
 }
-record( ao, "$(PSNAME):$(SLOT):$(CHANNUM):v1set")
+record( ao, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):v1set")
 {
 	field( DESC, "Secondary voltage setting")
 	field( DTYP, "CAEN x527 generic HV Channel")
 	field( OUT, "@$(CHADDR) V1Set")
 	field( PREC, "2")
 }
-record( ao, "$(PSNAME):$(SLOT):$(CHANNUM):i0set")
+record( ao, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):i0set")
 {
 	field( DESC, "Primary current limit")
 	field( DTYP, "CAEN x527 generic HV Channel")
 	field( OUT, "@$(CHADDR) I0Set")
 }
-record( ao, "$(PSNAME):$(SLOT):$(CHANNUM):i1set")
+record( ao, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):i1set")
 {
 	field( DESC, "Secondary current limit")
 	field( DTYP, "CAEN x527 generic HV Channel")
 	field( OUT, "@$(CHADDR) I1Set")
 }
-record( ao, "$(PSNAME):$(SLOT):$(CHANNUM):rampup")
+record( ao, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):rampup")
 {
 	field( DESC, "Voltage ramp-up rate")
 	field( DTYP, "CAEN x527 generic HV Channel")
 	field( OUT, "@$(CHADDR) RUp")
 }
-record( ao, "$(PSNAME):$(SLOT):$(CHANNUM):rampdn")
+record( ao, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):rampdn")
 {
 	field( DESC, "Voltage ramp-down rate")
 	field( DTYP, "CAEN x527 generic HV Channel")
 	field( OUT, "@$(CHADDR) RDWn")
 }
-record( ao, "$(PSNAME):$(SLOT):$(CHANNUM):trip")
-{
+record( ao, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):trip")
 	field( DESC, "Trip timeout")
 	field( DTYP, "CAEN x527 generic HV Channel")
 	field( OUT, "@$(CHADDR) Trip")
 }
-record( ao, "$(PSNAME):$(SLOT):$(CHANNUM):svmax")
+record( ao, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):svmax")
 {
 	field( DESC, "Software voltage limit")
 	field( DTYP, "CAEN x527 generic HV Channel")
 	field( OUT, "@$(CHADDR) SVMax")
 }
-record( bo, "$(PSNAME):$(SLOT):$(CHANNUM):pwonoff")
+record( bo, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):pwonoff")
 {
 	field( DESC, "Power on/off")
 	field( DTYP, "CAEN x527 generic HV Channel")
@@ -68,7 +67,7 @@ record( bo, "$(PSNAME):$(SLOT):$(CHANNUM):pwonoff")
 	field( ZNAM, "Off")
 	field( ONAM, "On")
 }
-record( bo, "$(PSNAME):$(SLOT):$(CHANNUM):pwupmode")
+record( bo, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):pwupmode")
 {
 	field( DESC, "Power-up mode")
 	field( DTYP, "CAEN x527 generic HV Channel")
@@ -76,7 +75,7 @@ record( bo, "$(PSNAME):$(SLOT):$(CHANNUM):pwupmode")
 	field( ZNAM, "Disable")
 	field( ONAM, "Enable")
 }
-record( bo, "$(PSNAME):$(SLOT):$(CHANNUM):pwdnmode")
+record( bo, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):pwdnmode")
 {
 	field( DESC, "Power-down mode")
 	field( DTYP, "CAEN x527 generic HV Channel")
@@ -84,13 +83,14 @@ record( bo, "$(PSNAME):$(SLOT):$(CHANNUM):pwdnmode")
 	field( ZNAM, "KILL")
 	field( ONAM, "Ramp")
 }
-record( longout, "$(PSNAME):$(SLOT):$(CHANNUM):tripint")
+record( longout, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):tripint")
+{
 {
 	field( DESC, "Internal trip connections")
 	field( DTYP, "CAEN x527 generic HV Channel")
 	field( OUT, "@$(CHADDR) TripInt")
 }
-record( longout, "$(PSNAME):$(SLOT):$(CHANNUM):tripext")
+record( longout, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):tripext")
 {
 	field( DESC, "External trip connections")
 	field( DTYP, "CAEN x527 generic HV Channel")
@@ -100,7 +100,7 @@ record( longout, "$(PSNAME):$(SLOT):$(CHANNUM):tripext")
 # The following are for monitoring channel parameters (e.g. feedback)
 # in user space
 #
-record( stringin, "$(PSNAME):$(SLOT):$(CHANNUM):name:fbk")
+record( stringin, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):name:fbk")
 {
 	field( DTYP, "CAEN x527 generic HV Channel")
 	field( INP, "@$(CHADDR) ChName")
@@ -108,7 +108,7 @@ record( stringin, "$(PSNAME):$(SLOT):$(CHANNUM):name:fbk")
 	field( PINI, "1")
 	field( VAL, "$(PSNAME):$(SLOT):$(CHANNUM)")
 }
-record( ai, "$(PSNAME):$(SLOT):$(CHANNUM):v0set:fbk")
+record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):v0set:fbk")
 {
 	field( DESC, "Primary voltage setting")
 	field( DTYP, "CAEN x527 generic HV Channel")
@@ -116,7 +116,7 @@ record( ai, "$(PSNAME):$(SLOT):$(CHANNUM):v0set:fbk")
 	field( SCAN, "Event")
 	field( PREC, "2")
 }
-record( ai, "$(PSNAME):$(SLOT):$(CHANNUM):v1set:fbk")
+record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):v1set:fbk")
 {
 	field( DESC, "Secondary voltage setting")
 	field( DTYP, "CAEN x527 generic HV Channel")
@@ -124,49 +124,49 @@ record( ai, "$(PSNAME):$(SLOT):$(CHANNUM):v1set:fbk")
 	field( SCAN, "Event")
 	field( PREC, "2")
 }
-record( ai, "$(PSNAME):$(SLOT):$(CHANNUM):i0set:fbk")
+record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):i0set:fbk")
 {
 	field( DESC, "Primary current limit")
 	field( DTYP, "CAEN x527 generic HV Channel")
 	field( INP, "@$(CHADDR) I0Set")
 	field( SCAN, "Event")
 }
-record( ai, "$(PSNAME):$(SLOT):$(CHANNUM):i1set:fbk")
+record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):i1set:fbk")
 {
 	field( DESC, "Secondary current limit")
 	field( DTYP, "CAEN x527 generic HV Channel")
 	field( INP, "@$(CHADDR) I1Set")
 	field( SCAN, "Event")
 }
-record( ai, "$(PSNAME):$(SLOT):$(CHANNUM):rampup:fbk")
+record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):rampup:fbk")
 {
 	field( DESC, "Voltage ramp-up rate")
 	field( DTYP, "CAEN x527 generic HV Channel")
 	field( INP, "@$(CHADDR) RUp")
 	field( SCAN, "Event")
 }
-record( ai, "$(PSNAME):$(SLOT):$(CHANNUM):rampdn:fbk")
+record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):rampdn:fbk")
 {
 	field( DESC, "Voltage ramp-down rate")
 	field( DTYP, "CAEN x527 generic HV Channel")
 	field( INP, "@$(CHADDR) RDWn")
 	field( SCAN, "Event")
 }
-record( ai, "$(PSNAME):$(SLOT):$(CHANNUM):trip:fbk")
+record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):trip:fbk")
 {
 	field( DESC, "Trip timeout")
 	field( DTYP, "CAEN x527 generic HV Channel")
 	field( INP, "@$(CHADDR) Trip")
 	field( SCAN, "Event")
 }
-record( ai, "$(PSNAME):$(SLOT):$(CHANNUM):svmax:fbk")
+record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):svmax:fbk")
 {
 	field( DESC, "Software voltage limit")
 	field( DTYP, "CAEN x527 generic HV Channel")
 	field( INP, "@$(CHADDR) SVMax")
 	field( SCAN, "Event")
 }
-record( ai, "$(PSNAME):$(SLOT):$(CHANNUM):vmon")
+record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):vmon")
 {
 	field( DESC, "Measured voltage")
 	field( DTYP, "CAEN x527 generic HV Channel")
@@ -174,7 +174,7 @@ record( ai, "$(PSNAME):$(SLOT):$(CHANNUM):vmon")
 	field( SCAN, "Event")
 	field( PREC, "2")
 }
-record( ai, "$(PSNAME):$(SLOT):$(CHANNUM):imon")
+record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):imon")
 {
 	field( DESC, "Measured current")
 	field( DTYP, "CAEN x527 generic HV Channel")
@@ -182,7 +182,7 @@ record( ai, "$(PSNAME):$(SLOT):$(CHANNUM):imon")
 	field( SCAN, "Event")
 	field( PREC, "2")
 }
-record( mbbi, "$(PSNAME):$(SLOT):$(CHANNUM):status")
+record( mbbi, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):status")
 {
 	field( DESC, "Status")
 	field( DTYP, "CAEN x527 generic HV Channel")
@@ -202,7 +202,7 @@ record( mbbi, "$(PSNAME):$(SLOT):$(CHANNUM):status")
 	field( ELVL, "11")	field( ELST, "Calib. Error")
 	field( TVVL, "12")	field( TVST, "Unplugged")
 }
-record( bi, "$(PSNAME):$(SLOT):$(CHANNUM):pwonoff:fbk")
+record( bi, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):pwonoff:fbk")
 {
 	field( DESC, "Power on/off")
 	field( DTYP, "CAEN x527 generic HV Channel")
@@ -211,7 +211,7 @@ record( bi, "$(PSNAME):$(SLOT):$(CHANNUM):pwonoff:fbk")
 	field( ZNAM, "Off")
 	field( ONAM, "On")
 }
-record( bi, "$(PSNAME):$(SLOT):$(CHANNUM):pwupmode:fbk")
+record( bi, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):pwupmode:fbk")
 {
 	field( DESC, "Power-up mode")
 	field( DTYP, "CAEN x527 generic HV Channel")
@@ -220,7 +220,7 @@ record( bi, "$(PSNAME):$(SLOT):$(CHANNUM):pwupmode:fbk")
 	field( ZNAM, "Disabled")
 	field( ONAM, "Enabled")
 }
-record( bi, "$(PSNAME):$(SLOT):$(CHANNUM):pwdnmode:fbk")
+record( bi, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):pwdnmode:fbk")
 {
 	field( DESC, "Power-down mode")
 	field( DTYP, "CAEN x527 generic HV Channel")
@@ -229,14 +229,14 @@ record( bi, "$(PSNAME):$(SLOT):$(CHANNUM):pwdnmode:fbk")
 	field( ZNAM, "KILL")
 	field( ONAM, "Ramp")
 }
-record( longin, "$(PSNAME):$(SLOT):$(CHANNUM):tripint:fbk")
+record( longin, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):tripint:fbk")
 {
 	field( DESC, "Internal trip connections")
 	field( DTYP, "CAEN x527 generic HV Channel")
 	field( INP, "@$(CHADDR) TripInt")
 	field( SCAN, "Event")
 }
-record( longin, "$(PSNAME):$(SLOT):$(CHANNUM):tripext:fbk")
+record( longin, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):tripext:fbk")
 {
 	field( DESC, "External trip connections")
 	field( DTYP, "CAEN x527 generic HV Channel")
@@ -248,19 +248,19 @@ record( longin, "$(PSNAME):$(SLOT):$(CHANNUM):tripext:fbk")
 #
 # RU! at initialization, the calc record sends a zero to the v0set
 # Initialize all setpoints to the crate values to fix this
-record( bo, "$(PSNAME):$(SLOT):$(CHANNUM):v0set:up")
+record( bo, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):v0set:up")
 {
 	field( OUT, "$(PSNAME):$(SLOT):$(CHANNUM):v0set:calc PP")
 	field( PINI, "1")
 	field( VAL, "0")
 }
-record( bo, "$(PSNAME):$(SLOT):$(CHANNUM):v0set:dn")
+record( bo, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):v0set:dn")
 {
 	field( OUT, "$(PSNAME):$(SLOT):$(CHANNUM):v0set:calc PP")
 	field( PINI, "1")
 	field( VAL, "0")
 }
-record( ao, "$(PSNAME):$(SLOT):$(CHANNUM):v0set:deltav")
+record( ao, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):v0set:deltav")
 {
 	field( PINI, "1")
 	field( VAL, "5")
@@ -282,7 +282,7 @@ record( ao, "$(PSNAME):$(SLOT):$(CHANNUM):v0set:deltav")
 #	field( DOL, "$(PSNAME):$(SLOT):$(CHANNUM):v0set:calc")
 #	field( OUT, "$(PSNAME):$(SLOT):$(CHANNUM):v0set PP")
 #}
-record( calcout, "$(PSNAME):$(SLOT):$(CHANNUM):v0set:calc")
+record( calcout, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):v0set:calc")
 {
 	#field( OOPT, "On Change")
 	field( INPA, "$(PSNAME):$(SLOT):$(CHANNUM):v0set")

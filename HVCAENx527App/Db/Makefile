@@ -2,6 +2,7 @@ TOP=../..
 include $(TOP)/configure/CONFIG
 #----------------------------------------
 #  ADD MACRO DEFINITIONS AFTER THIS LINE
+#"P=CAEN" "HVCAENx527.db"
 
 #----------------------------------------------------
 #  Optimization of db files using dbst (DEFAULT: NO)
@@ -11,10 +12,21 @@ include $(TOP)/configure/CONFIG
 # Create and install (or just install) into <top>/db
 # databases, templates, substitutions like this
 #DB += xxx.db
-DB += HVCAENx527ch.db
-DB += HVCAENx527chItLk.db
-DB += HVCAENx527cr.db
-DB += HVCAENx527.db
+#DB += HVCAENx527ch.db
+#DB += HVCAENx527chItLk.db
+#DB += HVCAENx527cr.db
+#DB += HVCAENx527.db
+DB += ToGenDb.db
+
+TARGETS += ExpDb
+
+.PHONY: ExpDb
+
+ExpDb : 
+	$(MSI) -o $(TOP)/db/HVCAENx527.db -M "P=$(MYPVPREFIX)CAEN" -I.. HVCAENx527.db
+	$(MSI) -o $(TOP)/db/HVCAENx527ch.db -M "P=$(MYPVPREFIX)CAEN" -I.. HVCAENx527ch.db 
+	$(MSI) -o $(TOP)/db/HVCAENx527chItLk.db -M "P=$(MYPVPREFIX)CAEN" -I.. HVCAENx527chItLk.db
+	$(MSI) -o $(TOP)/db/HVCAENx527cr.db -M "P=$(MYPVPREFIX)CAEN" -I.. HVCAENx527cr.db
 
 #----------------------------------------------------
 # If <anyname>.db template is not named <anyname>*.template add
@@ -33,3 +45,4 @@ include $(TOP)/configure/RULES
 ##	msi -I.. -M "PSNAME=PS1014001,CHADDR=0.00.000" HVCAENx527.tpl > ../O.Common/PS1014001.db
 ##	msi -I.. -S ../HVCAENx527ch.sub > ../O.Common/PS1014001ch.db
 ##	msi -I.. -S ../HVCAENx527chItLk.sub >> ../O.Common/PS1014001ch.db
+##$(MSI) -M "P=$(MYPVPREFIX)CAEN:" -o $@ $<
