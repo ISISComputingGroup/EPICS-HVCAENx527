@@ -32,7 +32,7 @@ define myinst_template
 .PHONY: $(1)_p
 $(1)_p : $(1)
 	$(RM) $(TOP)/db/$(1)
-	$(MSI) -o $(TOP)/db/$(1) -M "P=$(MYPVPREFIX)CAEN" $$<
+	$(MSI) -I. -I.. -o $(TOP)/db/$(1) -M "P=$(MYPVPREFIX)CAEN" $$<
 endef
 
 $(foreach f,$(MY_DB),$(eval $(call myinst_template,$(f))))
