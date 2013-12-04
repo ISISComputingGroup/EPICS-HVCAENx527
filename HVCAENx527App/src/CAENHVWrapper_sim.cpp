@@ -1,5 +1,5 @@
 
-#define CAENHVLIB /* so we get dllexport rather than dllimport on widnows in CAENHVWrapper.h */
+#define CAENHVLIB /* so we get dllexport rather than dllimport on windows in CAENHVWrapper.h */
 #include "CAENHVWrapper.h"
 
 #include "epicsExport.h"
@@ -60,10 +60,20 @@ CAENHVLIB_API CAENHVRESULT  CAENHVSetChName(const char *SystemName, ushort slot,
     return CAENHV_OK;
 }
  
+// Bit more work needed here
+#define NUM_SLOTS 2
+#define NUM_CH 2
+// note: must use malloc() not new[] to allocate memory as client will use free()
 CAENHVLIB_API CAENHVRESULT  CAENHVGetCrateMap(const char *SystemName,	
  ushort *NrOfSlot, ushort **NrofChList, char **ModelList, char **DescriptionList,
  ushort **SerNumList, uchar **FmwRelMinList, uchar **FmwRelMaxList)
 {
+    *NrOfSlot = NUM_SLOTS;
+	*NrofChList = static_cast<ushort*>(malloc(NUM_SLOTS * sizeof(ushort)));
+	for(int i=0; i<NUM_SLOTS; ++i)
+	{
+		(*NrofChList)[i] = NUM_CH;
+	}
     return CAENHV_OK;
 }
 
