@@ -22,9 +22,9 @@ endif
 BIN_INSTALLS_Linux += $(wildcard $(CAENHVWRAPPER)/lib/$(EPICS_HOST_ARCH)/*.so.*)
 BIN_INSTALLS_WIN32 += $(wildcard $(CAENHVWRAPPER)/dll/win32/*.dll)
 
-LIBRARY_IOC = HVCAENx527Support
+LIBRARY_IOC =  HVWrapperSim HVCAENx527SimSupport # HVCAENx527Support 
 
-PROD_IOC = HVCAENx527
+PROD_IOC =  HVCAENx527Sim # HVCAENx527
 # <name>.dbd will be created from <name>Include.dbd
 DBD += HVCAENx527.dbd
 
@@ -38,9 +38,16 @@ hscaenetlib_DIR = $(CAENHVWRAPPER)/lib/win32
 # <name>_registerRecordDeviceDriver.cpp will be created from <name>.dbd
 HVCAENx527_SRCS_DEFAULT += HVCAENx527Main.cpp HVCAENx527_registerRecordDeviceDriver.cpp
 HVCAENx527_SRCS_vxWorks += -nil-
+
 HVCAENx527Support_SRCS += HVCAENx527.c
 HVCAENx527Support_SRCS += HVCAENx527chAio.c HVCAENx527chBio.c HVCAENx527chLongio.c HVCAENx527chMBBio.c 
 HVCAENx527Support_SRCS += HVCAENx527chStringio.c HVCAENx527Stringio.c HVCAENx527MBBi.c
+
+HVCAENx527SimSupport_SRCS += $(HVCAENx527Support_SRCS)
+
+HVWrapperSim_SRCS += CAENHVWrapper_sim.c
+
+HVCAENx527Sim_SRCS_DEFAULT += $(HVCAENx527_SRCS_DEFAULT)
 
 #The following adds support from base/src/vxWorks
 HVCAENx527_OBJS_vxWorks += $(EPICS_BASE_BIN)/vxComLibrary
@@ -64,13 +71,22 @@ HVCAENx527_OBJS_vxWorks += $(EPICS_BASE_BIN)/vxComLibrary
 #HVCAENx527_SRCS += sncExample.stt
 #HVCAENx527_LIBS += seq pv
 
+HVWrapperSim_LIBS += $(EPICS_BASE_IOC_LIBS)
+HVWrapperSim_SYS_LIBS_WIN32 += ws2_32
+
 HVCAENx527Support_LIBS += $(EPICS_BASE_IOC_LIBS)
 HVCAENx527Support_LIBS_WIN32 += caenhvwrapper # hscaenetlib 
 HVCAENx527Support_SYS_LIBS_WIN32 += ws2_32
 
+HVCAENx527SimSupport_LIBS += HVWrapperSim $(EPICS_BASE_IOC_LIBS)
+HVCAENx527SimSupport_SYS_LIBS_WIN32 += ws2_32
+
 HVCAENx527_LIBS += HVCAENx527Support $(EPICS_BASE_IOC_LIBS)
 HVCAENx527_LIBS_WIN32 += caenhvwrapper # hscaenetlib
 HVCAENx527_SYS_LIBS_Linux += caenhvwrapper hscaenetlib
+
+HVCAENx527Sim_LIBS += HVCAENx527SimSupport HVWrapperSim $(EPICS_BASE_IOC_LIBS)
+
 #The following builds sncExample as a standalone application
 #PROD_HOST += sncExample
 #sncExample_SNCFLAGS += +m
