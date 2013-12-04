@@ -4,6 +4,11 @@
 
 #include "epicsExport.h"
 
+#ifdef CAENHVLIB_API
+#undef CAENHVLIB_API
+#endif
+#define CAENHVLIB_API epicsShareFunc /* so we work as a static build too - CAENHVWrapper.h only does dllexport */
+
 CAENHVLIB_API char *CAENHVGetError(const char *SystemName)
 {
     return NULL;
