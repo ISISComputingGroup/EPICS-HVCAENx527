@@ -45,7 +45,7 @@ HVCAENx527Support_SRCS += HVCAENx527chStringio.c HVCAENx527Stringio.c HVCAENx527
 
 HVCAENx527SimSupport_SRCS += $(HVCAENx527Support_SRCS)
 
-HVWrapperSim_SRCS += CAENHVWrapper_sim.c
+HVWrapperSim_SRCS += CAENHVWrapper_sim.cpp
 
 HVCAENx527Sim_SRCS_DEFAULT += $(HVCAENx527_SRCS_DEFAULT)
 
