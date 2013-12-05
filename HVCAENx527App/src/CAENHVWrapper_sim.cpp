@@ -7,13 +7,6 @@
 #define CAENHVLIB /* so we get dllexport rather than dllimport on windows in CAENHVWrapper.h */
 #include "CAENHVWrapper.h"
 
-#include "epicsExport.h"
-
-#ifdef CAENHVLIB_API
-#undef CAENHVLIB_API
-#endif
-#define CAENHVLIB_API epicsShareFunc /* so we work as a static build too - CAENHVWrapper.h only does dllexport */
-
 #define NUM_SLOTS 2
 #define NUM_CH 2
 
