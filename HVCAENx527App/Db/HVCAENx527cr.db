@@ -59,7 +59,7 @@ record( stringin, "$(P):$(PSNAME):crateIP")
 	field(DTYP, "CAEN x527 generic HV Mainframe")
 	field(SCAN, "1 second")
 	field(INP,  "@$(PSNAME) -1")
-	field(FLNK, "$(PSNAME):boardName0")
+	field(FLNK, "$(PSNAME):boardName0.PROC")
 }
 record( stringin, "$(P):$(PSNAME):boardName0")
 {
@@ -67,7 +67,7 @@ record( stringin, "$(P):$(PSNAME):boardName0")
 	field(DTYP, "CAEN x527 generic HV Mainframe")
 	field(SCAN, "Passive")
 	field(INP,  "@$(PSNAME) 0")
-	field(FLNK, "$(PSNAME):boardName1")
+	field(FLNK, "$(PSNAME):boardName1.PROC")
 }
 record( stringin, "$(P):$(PSNAME):boardName1")
 {
@@ -75,7 +75,7 @@ record( stringin, "$(P):$(PSNAME):boardName1")
 	field(DTYP, "CAEN x527 generic HV Mainframe")
 	field(SCAN, "Passive")
 	field(INP,  "@$(PSNAME) 1")
-	field(FLNK, "$(PSNAME):boardName2")
+	field(FLNK, "$(PSNAME):boardName2.PROC")
 }
 record( stringin, "$(P):$(PSNAME):boardName2")
 {
@@ -83,7 +83,7 @@ record( stringin, "$(P):$(PSNAME):boardName2")
 	field(DTYP, "CAEN x527 generic HV Mainframe")
 	field(SCAN, "Passive")
 	field(INP,  "@$(PSNAME) 2")
-	field(FLNK, "$(PSNAME):boardName3")
+	field(FLNK, "$(PSNAME):boardName3.PROC")
 }
 record( stringin, "$(P):$(PSNAME):boardName3")
 {
@@ -91,7 +91,7 @@ record( stringin, "$(P):$(PSNAME):boardName3")
 	field(DTYP, "CAEN x527 generic HV Mainframe")
 	field(SCAN, "Passive")
 	field(INP,  "@$(PSNAME) 3")
-	field(FLNK, "$(PSNAME):boardName4")
+	field(FLNK, "$(PSNAME):boardName4.PROC")
 }
 record( stringin, "$(P):$(PSNAME):boardName4")
 {
@@ -99,7 +99,7 @@ record( stringin, "$(P):$(PSNAME):boardName4")
 	field(DTYP, "CAEN x527 generic HV Mainframe")
 	field(SCAN, "Passive")
 	field(INP,  "@$(PSNAME) 4")
-	field(FLNK, "$(PSNAME):boardName5")
+	field(FLNK, "$(PSNAME):boardName5.PROC")
 }
 record( stringin, "$(P):$(PSNAME):boardName5")
 {
@@ -107,7 +107,7 @@ record( stringin, "$(P):$(PSNAME):boardName5")
 	field(DTYP, "CAEN x527 generic HV Mainframe")
 	field(SCAN, "Passive")
 	field(INP,  "@$(PSNAME) 5")
-	field(FLNK, "$(PSNAME):boardName6")
+	field(FLNK, "$(PSNAME):boardName6.PROC")
 }
 record( stringin, "$(P):$(PSNAME):boardName6")
 {
@@ -115,7 +115,7 @@ record( stringin, "$(P):$(PSNAME):boardName6")
 	field(DTYP, "CAEN x527 generic HV Mainframe")
 	field(SCAN, "Passive")
 	field(INP,  "@$(PSNAME) 6")
-	field(FLNK, "$(PSNAME):boardName7")
+	field(FLNK, "$(PSNAME):boardName7.PROC")
 }
 record( stringin, "$(P):$(PSNAME):boardName7")
 {
@@ -123,7 +123,7 @@ record( stringin, "$(P):$(PSNAME):boardName7")
 	field(DTYP, "CAEN x527 generic HV Mainframe")
 	field(SCAN, "Passive")
 	field(INP,  "@$(PSNAME) 7")
-	field(FLNK, "$(PSNAME):boardName8")
+	field(FLNK, "$(PSNAME):boardName8.PROC")
 }
 record( stringin, "$(P):$(PSNAME):boardName8")
 {
@@ -131,7 +131,7 @@ record( stringin, "$(P):$(PSNAME):boardName8")
 	field(DTYP, "CAEN x527 generic HV Mainframe")
 	field(SCAN, "Passive")
 	field(INP,  "@$(PSNAME) 8")
-	field(FLNK, "$(PSNAME):boardName9")
+	field(FLNK, "$(PSNAME):boardName9.PROC")
 }
 record( stringin, "$(P):$(PSNAME):boardName9")
 {
@@ -139,7 +139,7 @@ record( stringin, "$(P):$(PSNAME):boardName9")
 	field(DTYP, "CAEN x527 generic HV Mainframe")
 	field(SCAN, "Passive")
 	field(INP,  "@$(PSNAME) 9")
-	field(FLNK, "$(PSNAME):boardName10")
+	field(FLNK, "$(PSNAME):boardName10.PROC")
 }
 record( stringin, "$(P):$(PSNAME):boardName10")
 {
@@ -147,7 +147,7 @@ record( stringin, "$(P):$(PSNAME):boardName10")
 	field(DTYP, "CAEN x527 generic HV Mainframe")
 	field(SCAN, "Passive")
 	field(INP,  "@$(PSNAME) 10")
-	field(FLNK, "$(PSNAME):boardName11")
+	field(FLNK, "$(PSNAME):boardName11.PROC")
 }
 record( stringin, "$(P):$(PSNAME):boardName11")
 {
@@ -155,7 +155,7 @@ record( stringin, "$(P):$(PSNAME):boardName11")
 	field(DTYP, "CAEN x527 generic HV Mainframe")
 	field(SCAN, "Passive")
 	field(INP,  "@$(PSNAME) 11")
-	field(FLNK, "$(PSNAME):boardName12")
+	field(FLNK, "$(PSNAME):boardName12.PROC")
 }
 record( stringin, "$(P):$(PSNAME):boardName12")
 {
@@ -163,7 +163,7 @@ record( stringin, "$(P):$(PSNAME):boardName12")
 	field(DTYP, "CAEN x527 generic HV Mainframe")
 	field(SCAN, "Passive")
 	field(INP,  "@$(PSNAME) 12")
-	field(FLNK, "$(PSNAME):boardName13")
+	field(FLNK, "$(PSNAME):boardName13.PROC")
 }
 record( stringin, "$(P):$(PSNAME):boardName13")
 {
@@ -171,7 +171,7 @@ record( stringin, "$(P):$(PSNAME):boardName13")
 	field(DTYP, "CAEN x527 generic HV Mainframe")
 	field(SCAN, "Passive")
 	field(INP,  "@$(PSNAME) 13")
-	field(FLNK, "$(PSNAME):boardName14")
+	field(FLNK, "$(PSNAME):boardName14.PROC")
 }
 record( stringin, "$(P):$(PSNAME):boardName14")
 {
@@ -179,7 +179,7 @@ record( stringin, "$(P):$(PSNAME):boardName14")
 	field(DTYP, "CAEN x527 generic HV Mainframe")
 	field(SCAN, "Passive")
 	field(INP,  "@$(PSNAME) 14")
-	field(FLNK, "$(PSNAME):boardName15")
+	field(FLNK, "$(PSNAME):boardName15.PROC")
 }
 record( stringin, "$(P):$(PSNAME):boardName15")
 {

@@ -49,6 +49,7 @@ record( ao, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):rampdn")
 	field( OUT, "@$(CHADDR) RDWn")
 }
 record( ao, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):trip")
+{
 	field( DESC, "Trip timeout")
 	field( DTYP, "CAEN x527 generic HV Channel")
 	field( OUT, "@$(CHADDR) Trip")
@@ -84,7 +85,6 @@ record( bo, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):pwdnmode")
 	field( ONAM, "Ramp")
 }
 record( longout, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):tripint")
-{
 {
 	field( DESC, "Internal trip connections")
 	field( DTYP, "CAEN x527 generic HV Channel")

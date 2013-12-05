@@ -9,6 +9,7 @@
 
 #define NUM_SLOTS 2
 #define NUM_CH 2
+#define BOARDNAME "s1535s"
 
 // note: must use malloc() not new[] to allocate memory as client will use free()
 
@@ -70,11 +71,27 @@ CAENHVLIB_API CAENHVRESULT  CAENHVSetChName(const char *SystemName, ushort slot,
 CAENHVLIB_API CAENHVRESULT  CAENHVGetChParamInfo(const char *SystemName, 
  ushort slot, ushort Ch, char **ParNameList)
 {
+	int j=0;
     *ParNameList = static_cast<char*>(malloc(MAX_PARAM * MAX_PARAM_NAME));
 	char (*par)[MAX_PARAM_NAME] = reinterpret_cast<char (*)[MAX_PARAM_NAME]>(*ParNameList);
-	strcpy(par[0], "V0Set");
-	strcpy(par[1], "I0Set");
-	strcpy(par[2], ""); // must end list with this
+	strcpy(par[j++], "ChName");
+	strcpy(par[j++], "V0Set");
+	strcpy(par[j++], "V1Set");
+	strcpy(par[j++], "I0Set");
+	strcpy(par[j++], "I1Set");
+	strcpy(par[j++], "RUp");
+	strcpy(par[j++], "RDWn");
+	strcpy(par[j++], "Trip");
+	strcpy(par[j++], "SVMax");
+	strcpy(par[j++], "Pw");
+	strcpy(par[j++], "POn");
+	strcpy(par[j++], "PDwn");
+	strcpy(par[j++], "TripInt");
+	strcpy(par[j++], "TripExt");
+	strcpy(par[j++], "VMon");
+	strcpy(par[j++], "IMon");
+	strcpy(par[j++], "Status");
+	strcpy(par[j++], ""); // must end list with this
     return CAENHV_OK;
 }
 
@@ -136,7 +153,7 @@ CAENHVLIB_API CAENHVRESULT  CAENHVGetCrateMap(const char *SystemName,
 	*FmwRelMinList = static_cast<uchar*>(malloc(NUM_SLOTS * sizeof(uchar)));
 	*FmwRelMaxList = static_cast<uchar*>(malloc(NUM_SLOTS * sizeof(uchar)));
 	*DescriptionList = static_cast<char*>(malloc(NUM_SLOTS*(1+strlen("description"))));
-	*ModelList = static_cast<char*>(malloc(NUM_SLOTS*(1+strlen("model"))));
+	*ModelList = static_cast<char*>(malloc(NUM_SLOTS*(1+strlen(BOARDNAME))));
 	for(int i=0; i<NUM_SLOTS; ++i)
 	{
 		(*NrofChList)[i] = NUM_CH;
@@ -144,7 +161,7 @@ CAENHVLIB_API CAENHVRESULT  CAENHVGetCrateMap(const char *SystemName,
 		(*FmwRelMinList)[i] = 0;
 		(*FmwRelMaxList)[i] = 0;
 		strcpy(*DescriptionList + i * (1 + strlen("description")), "description");
-		strcpy(*ModelList  + i * (1 + strlen("model")), "model");
+		strcpy(*ModelList  + i * (1 + strlen(BOARDNAME)), BOARDNAME);
 	}
     return CAENHV_OK;
 }

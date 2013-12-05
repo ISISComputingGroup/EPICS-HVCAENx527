@@ -4,7 +4,7 @@
 #
 # Also JLab Nerses Gevorgyan
 #
-record( mbbi, "$(P):CRATES")
+record( mbbi, "$(P):crates")
 {
         field(DESC, "List of crates")
 	field(DTYP, "CAEN x527 generic HV Mainframe")

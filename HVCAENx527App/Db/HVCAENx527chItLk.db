@@ -5,7 +5,7 @@
 record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):ilock:in")
 {
 	field( INP, "$(PSNAME):$(SLOT):$(CHANNUM):vmon CPP")
-	field( FLNK, "$(PSNAME):$(SLOT):$(CHANNUM):ilock:test")
+	field( FLNK, "$(PSNAME):$(SLOT):$(CHANNUM):ilock:test.PROC")
 }
 record( mbbo, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):ilock:cond")
 {
@@ -29,7 +29,7 @@ record( calc, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):ilock:test")
 	field( INPB, "$(PSNAME):$(SLOT):$(CHANNUM):ilock:thresh")
 	field( INPJ, "$(PSNAME):$(SLOT):$(CHANNUM):ilock:cond")
 	field( CALC, "J=1&&A=B||J=2&&A<B||J=0&&A>B||J=3&&A#B")
-	field( FLNK, "$(PSNAME):$(SLOT):$(CHANNUM):ilock:act")
+	field( FLNK, "$(PSNAME):$(SLOT):$(CHANNUM):ilock:act.PROC")
 }
 record( seq, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):ilock:act")
 {
