@@ -1,3 +1,6 @@
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 #include <string>
 #include <map>
 
@@ -27,7 +30,7 @@ static std::map<std::string, crate_t> crate_info;
 
 CAENHVLIB_API char *CAENHVGetError(const char *SystemName)
 {
-    return "CAENHVWrapper_sim error";
+    return const_cast<char*>("CAENHVWrapper_sim error");
 }
 
 CAENHVLIB_API CAENHVRESULT  CAENHVInitSystem(const char *SystemName, int LinkType, void *Arg, const char *UserName, const char *Passwd)
