@@ -11,9 +11,9 @@ include $(TOP)/configure/CONFIG
 ifneq ($(findstring win32-x86,$(EPICS_HOST_ARCH)),) 
 #FILE_TYPE += pdb
 #INSTALL_pdb = $(INSTALL_BIN)
-USR_CXXFLAGS += /Zi
-USR_CFLAGS += /Zi
-USR_LDFLAGS += /DEBUG
+#USR_CXXFLAGS += /Zi
+#USR_CFLAGS += /Zi
+#USR_LDFLAGS += /DEBUG
 #pdb += HVCAENx527Support.pdb HVCAENx527.pdb
 else
 USR_LDFLAGS += -L$(CAENHVWRAPPER)/lib/$(EPICS_HOST_ARCH)
@@ -22,9 +22,19 @@ endif
 BIN_INSTALLS_Linux += $(wildcard $(CAENHVWRAPPER)/lib/$(EPICS_HOST_ARCH)/*.so.*)
 BIN_INSTALLS_WIN32 += $(wildcard $(CAENHVWRAPPER)/dll/win32/*.dll)
 
-LIBRARY_IOC =  HVWrapperSim HVCAENx527SimSupport # HVCAENx527Support 
+LIBRARY_IOC =  CAENHVWrapperSim HVCAENx527SimSupport
 
-PROD_IOC =  HVCAENx527Sim # HVCAENx527
+HVCAEN_BUILD_SHARED_YES = HVCAENx527Sim 
+PROD_IOC +=  $(HVCAEN_BUILD_SHARED_$(SHARED_LIBRARIES)) 
+ifneq ($(findstring win32-x86,$(EPICS_HOST_ARCH)),)
+PROD_IOC +=  HVCAENx527
+LIBRARY_IOC += HVCAENx527Support
+endif
+ifneq ($(findstring linux,$(EPICS_HOST_ARCH)),) 
+PROD_IOC +=  HVCAENx527
+LIBRARY_IOC += HVCAENx527Support
+endif
+ 
 # <name>.dbd will be created from <name>Include.dbd
 DBD += HVCAENx527.dbd
 
@@ -45,7 +55,7 @@ HVCAENx527Support_SRCS += HVCAENx527chStringio.c HVCAENx527Stringio.c HVCAENx527
 
 HVCAENx527SimSupport_SRCS += $(HVCAENx527Support_SRCS)
 
-HVWrapperSim_SRCS += CAENHVWrapper_sim.cpp
+CAENHVWrapperSim_SRCS += CAENHVWrapper_sim.cpp
 
 HVCAENx527Sim_SRCS_DEFAULT += $(HVCAENx527_SRCS_DEFAULT)
 
@@ -71,21 +81,21 @@ HVCAENx527_OBJS_vxWorks += $(EPICS_BASE_BIN)/vxComLibrary
 #HVCAENx527_SRCS += sncExample.stt
 #HVCAENx527_LIBS += seq pv
 
-HVWrapperSim_LIBS += $(EPICS_BASE_IOC_LIBS)
-HVWrapperSim_SYS_LIBS_WIN32 += ws2_32
+CAENHVWrapperSim_LIBS += $(EPICS_BASE_IOC_LIBS)
+CAENHVWrapperSim_SYS_LIBS_WIN32 += ws2_32
 
 HVCAENx527Support_LIBS += $(EPICS_BASE_IOC_LIBS)
 HVCAENx527Support_LIBS_WIN32 += caenhvwrapper # hscaenetlib 
 HVCAENx527Support_SYS_LIBS_WIN32 += ws2_32
 
-HVCAENx527SimSupport_LIBS += HVWrapperSim $(EPICS_BASE_IOC_LIBS)
+HVCAENx527SimSupport_LIBS += CAENHVWrapperSim $(EPICS_BASE_IOC_LIBS)
 HVCAENx527SimSupport_SYS_LIBS_WIN32 += ws2_32
 
 HVCAENx527_LIBS += HVCAENx527Support $(EPICS_BASE_IOC_LIBS)
 HVCAENx527_LIBS_WIN32 += caenhvwrapper # hscaenetlib
 HVCAENx527_SYS_LIBS_Linux += caenhvwrapper hscaenetlib
 
-HVCAENx527Sim_LIBS += HVCAENx527SimSupport HVWrapperSim $(EPICS_BASE_IOC_LIBS)
+HVCAENx527Sim_LIBS += HVCAENx527SimSupport CAENHVWrapperSim $(EPICS_BASE_IOC_LIBS)
 
 #The following builds sncExample as a standalone application
 #PROD_HOST += sncExample
