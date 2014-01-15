@@ -515,16 +515,17 @@ static void CAENx527ConfigureCreateRegister(void) {
 }
 
 /* Will dynamically load DBes according to the boards discovered on the create */
-void CAENx527DbLoadRecords(){
+/* Rob Nelson: Added the macros argument so it can expand $(P) at run time rather than compile time */
+void CAENx527DbLoadRecords(const char *macros){
 	int i,j,k;
 	char* boardname;
 	unsigned int boardnumber;
 	char args[256];
 
-	dbLoadRecords("db/HVCAENx527.db", NULL);
+	dbLoadRecords("db/HVCAENx527.db", macros);
 	for(i=0; i<MAX_CRATES; i++) {
 		if (Crate[i].connected == 1) {
-			snprintf(args,256,"PSNAME=%s,CHADDR=0.00.000",Crate[i].name);
+			snprintf(args,256,"%s,PSNAME=%s,CHADDR=0.00.000",macros,Crate[i].name);
 			PDEBUG(1) errlogPrintf("%s:%d: Load the db 'db/HVCAENx527.db' with args = %s\n",__FUNCTION__,__LINE__,args);
 			dbLoadRecords("db/HVCAENx527cr.db", args);	/* The mainframe related PVs definitions */
 			for(j=0; j<Crate[i].nsl; j++) {
@@ -535,7 +536,7 @@ void CAENx527DbLoadRecords(){
 					switch (boardnumber) {
 						case 1535:
 							for (k = 0; k < Crate[i].hvchmap[j].nchan; k++) {
-								snprintf(args,256,"PSNAME=%s,SLOT=%d,CHANNUM=%d,CHADDR=%01d.%02d.%03d",Crate[i].name,j,k,i,j,k);
+								snprintf(args,256,"%s,PSNAME=%s,SLOT=%d,CHANNUM=%d,CHADDR=%01d.%02d.%03d",macros,Crate[i].name,j,k,i,j,k);
 								PDEBUG(1) errlogPrintf("%s:%d: Load the db 'db/HVCAENx527ch.db' with args = %s\n",__FUNCTION__,__LINE__,args);
 								dbLoadRecords("db/HVCAENx527ch.db", args);		/* The channel related PVs definitions */
 								dbLoadRecords("db/HVCAENx527chItLk.db", args);	/* The software inter locks for channels */
@@ -558,11 +559,15 @@ void CAENx527DbLoadRecords(){
 	return;
 }
 
-static const iocshFuncDef CAENx527DbLoadRecordsFuncDef = {"CAENx527DbLoadRecords", 0, NULL};
+/* Information needed by iocsh */
+static const iocshArg     CAENx527DbLoadRecordsCreateArg0 = {"Macros",     iocshArgString};
+static const iocshArg    *CAENx527DbLoadRecordsCreateArgs[] = {
+  &CAENx527DbLoadRecordsCreateArg0};
+static const iocshFuncDef CAENx527DbLoadRecordsFuncDef = {"CAENx527DbLoadRecords", 1, CAENx527DbLoadRecordsCreateArgs};
 
 /* Wrapper called by iocsh, selects the argument types that function needs */
 static void CAENx527DbLoadRecordsCallFunc(const iocshArgBuf *args) {
-  CAENx527DbLoadRecords();
+  CAENx527DbLoadRecords(args[0].sval);
 }
 
 /* Registration routine, runs at startup */

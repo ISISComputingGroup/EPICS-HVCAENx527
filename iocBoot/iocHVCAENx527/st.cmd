@@ -24,7 +24,7 @@ CAENx527ConfigureCreate "hv0", "130.246.52.113"
 #dbLoadTemplate "db/userHost.substitutions"
 #dbLoadRecords "db/dbSubExample.db", "user=nersesHost"
 
-CAENx527DbLoadRecords
+CAENx527DbLoadRecords("P=$(MYPVPREFIX)")
 
 
 ## Set this to see messages from mySub
