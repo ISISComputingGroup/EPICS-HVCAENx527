@@ -86,7 +86,7 @@ record( waveform, "$(P):CHANLIST")
 
 record( subArray, "$(P):CHANLIST:ELEMENT")
 {
-	field(DESC, "Internal for sequence"
+	field(DESC, "Internal for sequence")
 	field(INP, "$(P):CHANLIST")
 	field(FTVL, "STRING")
 	field(MALM, "100")
