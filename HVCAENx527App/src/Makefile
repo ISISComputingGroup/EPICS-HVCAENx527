@@ -132,4 +132,4 @@ include $(TOP)/configure/RULES
 #----------------------------------------
 #  ADD RULES AFTER THIS LINE
 
-sncProgram$(OBJ) : sncSummary.stt
+sncProgram.c : sncSummary.stt
