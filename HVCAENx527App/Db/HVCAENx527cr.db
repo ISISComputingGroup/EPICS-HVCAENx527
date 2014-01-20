@@ -60,6 +60,9 @@ record( stringin, "$(P):$(PSNAME):crateIP")
 	field(SCAN, "1 second")
 	field(INP,  "@$(PSNAME) -1")
 	field(FLNK, "$(PSNAME):boardName0.PROC")
+	field(SIML, "$(P):SIM")
+	field(SIOL, "$(P):SIM:$(PSNAME):crateIP")
+	field(SDIS, "$(P):DISABLE")
 }
 record( stringin, "$(P):$(PSNAME):boardName0")
 {
@@ -68,6 +71,9 @@ record( stringin, "$(P):$(PSNAME):boardName0")
 	field(SCAN, "Passive")
 	field(INP,  "@$(PSNAME) 0")
 	field(FLNK, "$(PSNAME):boardName1.PROC")
+	field(SIML, "$(P):SIM")
+	field(SIOL, "$(P):SIM:$(PSNAME):boardName0")
+	field(SDIS, "$(P):DISABLE")
 }
 record( stringin, "$(P):$(PSNAME):boardName1")
 {
@@ -76,6 +82,9 @@ record( stringin, "$(P):$(PSNAME):boardName1")
 	field(SCAN, "Passive")
 	field(INP,  "@$(PSNAME) 1")
 	field(FLNK, "$(PSNAME):boardName2.PROC")
+	field(SIML, "$(P):SIM")
+	field(SIOL, "$(P):SIM:$(PSNAME):boardName1")
+	field(SDIS, "$(P):DISABLE")
 }
 record( stringin, "$(P):$(PSNAME):boardName2")
 {
@@ -84,6 +93,9 @@ record( stringin, "$(P):$(PSNAME):boardName2")
 	field(SCAN, "Passive")
 	field(INP,  "@$(PSNAME) 2")
 	field(FLNK, "$(PSNAME):boardName3.PROC")
+	field(SIML, "$(P):SIM")
+	field(SIOL, "$(P):SIM:$(PSNAME):boardName2")
+	field(SDIS, "$(P):DISABLE")
 }
 record( stringin, "$(P):$(PSNAME):boardName3")
 {
@@ -92,6 +104,9 @@ record( stringin, "$(P):$(PSNAME):boardName3")
 	field(SCAN, "Passive")
 	field(INP,  "@$(PSNAME) 3")
 	field(FLNK, "$(PSNAME):boardName4.PROC")
+	field(SIML, "$(P):SIM")
+	field(SIOL, "$(P):SIM:$(PSNAME):boardName3")
+	field(SDIS, "$(P):DISABLE")
 }
 record( stringin, "$(P):$(PSNAME):boardName4")
 {
@@ -100,6 +115,9 @@ record( stringin, "$(P):$(PSNAME):boardName4")
 	field(SCAN, "Passive")
 	field(INP,  "@$(PSNAME) 4")
 	field(FLNK, "$(PSNAME):boardName5.PROC")
+	field(SIML, "$(P):SIM")
+	field(SIOL, "$(P):SIM:$(PSNAME):boardName4")
+	field(SDIS, "$(P):DISABLE")
 }
 record( stringin, "$(P):$(PSNAME):boardName5")
 {
@@ -108,6 +126,9 @@ record( stringin, "$(P):$(PSNAME):boardName5")
 	field(SCAN, "Passive")
 	field(INP,  "@$(PSNAME) 5")
 	field(FLNK, "$(PSNAME):boardName6.PROC")
+	field(SIML, "$(P):SIM")
+	field(SIOL, "$(P):SIM:$(PSNAME):boardName5")
+	field(SDIS, "$(P):DISABLE")
 }
 record( stringin, "$(P):$(PSNAME):boardName6")
 {
@@ -116,6 +137,9 @@ record( stringin, "$(P):$(PSNAME):boardName6")
 	field(SCAN, "Passive")
 	field(INP,  "@$(PSNAME) 6")
 	field(FLNK, "$(PSNAME):boardName7.PROC")
+	field(SIML, "$(P):SIM")
+	field(SIOL, "$(P):SIM:$(PSNAME):boardName6")
+	field(SDIS, "$(P):DISABLE")
 }
 record( stringin, "$(P):$(PSNAME):boardName7")
 {
@@ -124,6 +148,9 @@ record( stringin, "$(P):$(PSNAME):boardName7")
 	field(SCAN, "Passive")
 	field(INP,  "@$(PSNAME) 7")
 	field(FLNK, "$(PSNAME):boardName8.PROC")
+	field(SIML, "$(P):SIM")
+	field(SIOL, "$(P):SIM:$(PSNAME):boardName7")
+	field(SDIS, "$(P):DISABLE")
 }
 record( stringin, "$(P):$(PSNAME):boardName8")
 {
@@ -132,6 +159,9 @@ record( stringin, "$(P):$(PSNAME):boardName8")
 	field(SCAN, "Passive")
 	field(INP,  "@$(PSNAME) 8")
 	field(FLNK, "$(PSNAME):boardName9.PROC")
+	field(SIML, "$(P):SIM")
+	field(SIOL, "$(P):SIM:$(PSNAME):boardName8")
+	field(SDIS, "$(P):DISABLE")
 }
 record( stringin, "$(P):$(PSNAME):boardName9")
 {
@@ -140,6 +170,9 @@ record( stringin, "$(P):$(PSNAME):boardName9")
 	field(SCAN, "Passive")
 	field(INP,  "@$(PSNAME) 9")
 	field(FLNK, "$(PSNAME):boardName10.PROC")
+	field(SIML, "$(P):SIM")
+	field(SIOL, "$(P):SIM:$(PSNAME):boardName9")
+	field(SDIS, "$(P):DISABLE")
 }
 record( stringin, "$(P):$(PSNAME):boardName10")
 {
@@ -148,6 +181,9 @@ record( stringin, "$(P):$(PSNAME):boardName10")
 	field(SCAN, "Passive")
 	field(INP,  "@$(PSNAME) 10")
 	field(FLNK, "$(PSNAME):boardName11.PROC")
+	field(SIML, "$(P):SIM")
+	field(SIOL, "$(P):SIM:$(PSNAME):boardName10")
+	field(SDIS, "$(P):DISABLE")
 }
 record( stringin, "$(P):$(PSNAME):boardName11")
 {
@@ -156,6 +192,9 @@ record( stringin, "$(P):$(PSNAME):boardName11")
 	field(SCAN, "Passive")
 	field(INP,  "@$(PSNAME) 11")
 	field(FLNK, "$(PSNAME):boardName12.PROC")
+	field(SIML, "$(P):SIM")
+	field(SIOL, "$(P):SIM:$(PSNAME):boardName11")
+	field(SDIS, "$(P):DISABLE")
 }
 record( stringin, "$(P):$(PSNAME):boardName12")
 {
@@ -164,6 +203,9 @@ record( stringin, "$(P):$(PSNAME):boardName12")
 	field(SCAN, "Passive")
 	field(INP,  "@$(PSNAME) 12")
 	field(FLNK, "$(PSNAME):boardName13.PROC")
+	field(SIML, "$(P):SIM")
+	field(SIOL, "$(P):SIM:$(PSNAME):boardName12")
+	field(SDIS, "$(P):DISABLE")
 }
 record( stringin, "$(P):$(PSNAME):boardName13")
 {
@@ -172,6 +214,9 @@ record( stringin, "$(P):$(PSNAME):boardName13")
 	field(SCAN, "Passive")
 	field(INP,  "@$(PSNAME) 13")
 	field(FLNK, "$(PSNAME):boardName14.PROC")
+	field(SIML, "$(P):SIM")
+	field(SIOL, "$(P):SIM:$(PSNAME):boardName13")
+	field(SDIS, "$(P):DISABLE")
 }
 record( stringin, "$(P):$(PSNAME):boardName14")
 {
@@ -180,6 +225,9 @@ record( stringin, "$(P):$(PSNAME):boardName14")
 	field(SCAN, "Passive")
 	field(INP,  "@$(PSNAME) 14")
 	field(FLNK, "$(PSNAME):boardName15.PROC")
+	field(SIML, "$(P):SIM")
+	field(SIOL, "$(P):SIM:$(PSNAME):boardName14")
+	field(SDIS, "$(P):DISABLE")
 }
 record( stringin, "$(P):$(PSNAME):boardName15")
 {
@@ -188,4 +236,126 @@ record( stringin, "$(P):$(PSNAME):boardName15")
 	field(SCAN, "Passive")
 	field(INP,  "@$(PSNAME) 15")
 #	field(FLNK, "$(PSNAME):boardName2")
+	field(SIML, "$(P):SIM")
+	field(SIOL, "$(P):SIM:$(PSNAME):boardName15")
+	field(SDIS, "$(P):DISABLE")
 }
+
+record( stringin, "$(P):SIM:$(PSNAME):crateIP")
+{
+    field(DESC, "Simulated Name of Slot0 Board")
+	field(VAL, "0.0.0.0")
+}
+
+record( stringin, "$(P):SIM:$(PSNAME):boardName0")
+{
+    field(DESC, "Simulated Name of Slot0 Board")
+	field(SCAN, "Passive")
+	field(VAL, "Board 0")
+}
+
+record( stringin, "$(P):SIM:$(PSNAME):boardName1")
+{
+    field(DESC, "Simulated Name of Slot1 Board")
+	field(SCAN, "Passive")
+	field(VAL, "Board 1")
+}
+
+record( stringin, "$(P):SIM:$(PSNAME):boardName2")
+{
+    field(DESC, "Simulated Name of Slot2 Board")
+	field(SCAN, "Passive")
+	field(VAL, "Board 2")
+}
+
+record( stringin, "$(P):SIM:$(PSNAME):boardName3")
+{
+    field(DESC, "Simulated Name of Slot3 Board")
+	field(SCAN, "Passive")
+	field(VAL, "Board 3")
+}
+
+record( stringin, "$(P):SIM:$(PSNAME):boardName4")
+{
+    field(DESC, "Simulated Name of Slot4 Board")
+	field(SCAN, "Passive")
+	field(VAL, "Board 4")
+}
+
+record( stringin, "$(P):SIM:$(PSNAME):boardName5")
+{
+    field(DESC, "Simulated Name of Slot5 Board")
+	field(SCAN, "Passive")
+	field(VAL, "Board 5")
+}
+
+record( stringin, "$(P):SIM:$(PSNAME):boardName6")
+{
+    field(DESC, "Simulated Name of Slot6 Board")
+	field(SCAN, "Passive")
+	field(VAL, "Board 6")
+}
+
+record( stringin, "$(P):SIM:$(PSNAME):boardName7")
+{
+    field(DESC, "Simulated Name of Slot7 Board")
+	field(SCAN, "Passive")
+	field(VAL, "Board 7")
+}
+
+record( stringin, "$(P):SIM:$(PSNAME):boardName8")
+{
+    field(DESC, "Simulated Name of Slot8 Board")
+	field(SCAN, "Passive")
+	field(VAL, "Board 8")
+}
+
+record( stringin, "$(P):SIM:$(PSNAME):boardName9")
+{
+    field(DESC, "Simulated Name of Slot9 Board")
+	field(SCAN, "Passive")
+	field(VAL, "Board 9")
+}
+
+record( stringin, "$(P):SIM:$(PSNAME):boardName10")
+{
+    field(DESC, "Simulated Name of Slot10 Board")
+	field(SCAN, "Passive")
+	field(VAL, "Board 10")
+}
+
+record( stringin, "$(P):SIM:$(PSNAME):boardName11")
+{
+    field(DESC, "Simulated Name of Slot11 Board")
+	field(SCAN, "Passive")
+	field(VAL, "Board 11")
+}
+
+record( stringin, "$(P):SIM:$(PSNAME):boardName12")
+{
+    field(DESC, "Simulated Name of Slot12 Board")
+	field(SCAN, "Passive")
+	field(VAL, "Board 12")
+}
+
+record( stringin, "$(P):SIM:$(PSNAME):boardName13")
+{
+    field(DESC, "Simulated Name of Slot13 Board")
+	field(SCAN, "Passive")
+	field(VAL, "Board 13")
+}
+
+record( stringin, "$(P):SIM:$(PSNAME):boardName14")
+{
+    field(DESC, "Simulated Name of Slot14 Board")
+	field(SCAN, "Passive")
+	field(VAL, "Board 14")
+}
+
+record( stringin, "$(P):SIM:$(PSNAME):boardName15")
+{
+    field(DESC, "Simulated Name of Slot15 Board")
+	field(SCAN, "Passive")
+	field(VAL, "Board 15")
+}
+

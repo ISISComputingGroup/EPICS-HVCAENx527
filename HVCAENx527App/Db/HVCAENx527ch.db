@@ -9,6 +9,9 @@ record( stringout, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):name")
 {
 	field( DTYP, "CAEN x527 generic HV Channel")
 	field( OUT, "@$(CHADDR) ChName")
+	field(SIML, "$(P):SIM")
+	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):name")
+	field(SDIS, "$(P):DISABLE")
 }
 record( ao, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):v0set")
 {
@@ -16,6 +19,9 @@ record( ao, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):v0set")
 	field( DTYP, "CAEN x527 generic HV Channel")
 	field( OUT, "@$(CHADDR) V0Set")
 	field( PREC, "2")
+	field(SIML, "$(P):SIM")
+	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):v0set")
+	field(SDIS, "$(P):DISABLE")
 }
 record( ao, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):v1set")
 {
@@ -23,42 +29,63 @@ record( ao, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):v1set")
 	field( DTYP, "CAEN x527 generic HV Channel")
 	field( OUT, "@$(CHADDR) V1Set")
 	field( PREC, "2")
+	field(SIML, "$(P):SIM")
+	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):viset")
+	field(SDIS, "$(P):DISABLE")
 }
 record( ao, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):i0set")
 {
 	field( DESC, "Primary current limit")
 	field( DTYP, "CAEN x527 generic HV Channel")
 	field( OUT, "@$(CHADDR) I0Set")
+	field(SIML, "$(P):SIM")
+	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):i0set")
+	field(SDIS, "$(P):DISABLE")
 }
 record( ao, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):i1set")
 {
 	field( DESC, "Secondary current limit")
 	field( DTYP, "CAEN x527 generic HV Channel")
 	field( OUT, "@$(CHADDR) I1Set")
+	field(SIML, "$(P):SIM")
+	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):i1set")
+	field(SDIS, "$(P):DISABLE")
 }
 record( ao, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):rampup")
 {
 	field( DESC, "Voltage ramp-up rate")
 	field( DTYP, "CAEN x527 generic HV Channel")
 	field( OUT, "@$(CHADDR) RUp")
+	field(SIML, "$(P):SIM")
+	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):rampup")
+	field(SDIS, "$(P):DISABLE")
 }
 record( ao, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):rampdn")
 {
 	field( DESC, "Voltage ramp-down rate")
 	field( DTYP, "CAEN x527 generic HV Channel")
 	field( OUT, "@$(CHADDR) RDWn")
+	field(SIML, "$(P):SIM")
+	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):rampdn")
+	field(SDIS, "$(P):DISABLE")
 }
 record( ao, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):trip")
 {
 	field( DESC, "Trip timeout")
 	field( DTYP, "CAEN x527 generic HV Channel")
 	field( OUT, "@$(CHADDR) Trip")
+	field(SIML, "$(P):SIM")
+	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):trip")
+	field(SDIS, "$(P):DISABLE")
 }
 record( ao, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):svmax")
 {
 	field( DESC, "Software voltage limit")
 	field( DTYP, "CAEN x527 generic HV Channel")
 	field( OUT, "@$(CHADDR) SVMax")
+	field(SIML, "$(P):SIM")
+	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):svmax")
+	field(SDIS, "$(P):DISABLE")
 }
 record( bo, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):pwonoff")
 {
@@ -67,6 +94,9 @@ record( bo, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):pwonoff")
 	field( OUT, "@$(CHADDR) Pw")
 	field( ZNAM, "Off")
 	field( ONAM, "On")
+	field(SIML, "$(P):SIM")
+	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):pwonoff")
+	field(SDIS, "$(P):DISABLE")
 }
 record( bo, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):pwupmode")
 {
@@ -75,6 +105,9 @@ record( bo, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):pwupmode")
 	field( OUT, "@$(CHADDR) POn")
 	field( ZNAM, "Disable")
 	field( ONAM, "Enable")
+	field(SIML, "$(P):SIM")
+	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):pwupmode")
+	field(SDIS, "$(P):DISABLE")
 }
 record( bo, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):pwdnmode")
 {
@@ -83,18 +116,27 @@ record( bo, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):pwdnmode")
 	field( OUT, "@$(CHADDR) PDwn")
 	field( ZNAM, "KILL")
 	field( ONAM, "Ramp")
+	field(SIML, "$(P):SIM")
+	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):pwdnmode")
+	field(SDIS, "$(P):DISABLE")
 }
 record( longout, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):tripint")
 {
 	field( DESC, "Internal trip connections")
 	field( DTYP, "CAEN x527 generic HV Channel")
 	field( OUT, "@$(CHADDR) TripInt")
+	field(SIML, "$(P):SIM")
+	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):tripint")
+	field(SDIS, "$(P):DISABLE")
 }
 record( longout, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):tripext")
 {
 	field( DESC, "External trip connections")
 	field( DTYP, "CAEN x527 generic HV Channel")
 	field( OUT, "@$(CHADDR) TripExt")
+	field(SIML, "$(P):SIM")
+	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):tripext")
+	field(SDIS, "$(P):DISABLE")
 }
 #
 # The following are for monitoring channel parameters (e.g. feedback)
@@ -107,6 +149,9 @@ record( stringin, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):name:fbk")
 	field( SCAN, "Event")
 	field( PINI, "1")
 	field( VAL, "$(PSNAME):$(SLOT):$(CHANNUM)")
+	field(SIML, "$(P):SIM")
+	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):name:fbk")
+	field(SDIS, "$(P):DISABLE")
 }
 record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):v0set:fbk")
 {
@@ -115,6 +160,9 @@ record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):v0set:fbk")
 	field( INP, "@$(CHADDR) V0Set")
 	field( SCAN, "Event")
 	field( PREC, "2")
+	field(SIML, "$(P):SIM")
+	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):v0set:fbk")
+	field(SDIS, "$(P):DISABLE")
 }
 record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):v1set:fbk")
 {
@@ -123,6 +171,9 @@ record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):v1set:fbk")
 	field( INP, "@$(CHADDR) V1Set")
 	field( SCAN, "Event")
 	field( PREC, "2")
+	field(SIML, "$(P):SIM")
+	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):v1set:fbk")
+	field(SDIS, "$(P):DISABLE")
 }
 record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):i0set:fbk")
 {
@@ -130,6 +181,9 @@ record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):i0set:fbk")
 	field( DTYP, "CAEN x527 generic HV Channel")
 	field( INP, "@$(CHADDR) I0Set")
 	field( SCAN, "Event")
+	field(SIML, "$(P):SIM")
+	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):i0set:fbk")
+	field(SDIS, "$(P):DISABLE")
 }
 record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):i1set:fbk")
 {
@@ -137,6 +191,9 @@ record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):i1set:fbk")
 	field( DTYP, "CAEN x527 generic HV Channel")
 	field( INP, "@$(CHADDR) I1Set")
 	field( SCAN, "Event")
+	field(SIML, "$(P):SIM")
+	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):i2set:fbk")
+	field(SDIS, "$(P):DISABLE")
 }
 record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):rampup:fbk")
 {
@@ -144,6 +201,9 @@ record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):rampup:fbk")
 	field( DTYP, "CAEN x527 generic HV Channel")
 	field( INP, "@$(CHADDR) RUp")
 	field( SCAN, "Event")
+	field(SIML, "$(P):SIM")
+	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):rampup:fbk")
+	field(SDIS, "$(P):DISABLE")
 }
 record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):rampdn:fbk")
 {
@@ -151,6 +211,9 @@ record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):rampdn:fbk")
 	field( DTYP, "CAEN x527 generic HV Channel")
 	field( INP, "@$(CHADDR) RDWn")
 	field( SCAN, "Event")
+	field(SIML, "$(P):SIM")
+	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):rampdn:fbk")
+	field(SDIS, "$(P):DISABLE")
 }
 record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):trip:fbk")
 {
@@ -158,6 +221,9 @@ record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):trip:fbk")
 	field( DTYP, "CAEN x527 generic HV Channel")
 	field( INP, "@$(CHADDR) Trip")
 	field( SCAN, "Event")
+	field(SIML, "$(P):SIM")
+	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):trip:fbk")
+	field(SDIS, "$(P):DISABLE")
 }
 record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):svmax:fbk")
 {
@@ -165,6 +231,9 @@ record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):svmax:fbk")
 	field( DTYP, "CAEN x527 generic HV Channel")
 	field( INP, "@$(CHADDR) SVMax")
 	field( SCAN, "Event")
+	field(SIML, "$(P):SIM")
+	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):svmax:fbk")
+	field(SDIS, "$(P):DISABLE")
 }
 record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):vmon")
 {
@@ -173,6 +242,9 @@ record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):vmon")
 	field( INP, "@$(CHADDR) VMon")
 	field( SCAN, "Event")
 	field( PREC, "2")
+	field(SIML, "$(P):SIM")
+	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):vmon")
+	field(SDIS, "$(P):DISABLE")
 }
 record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):imon")
 {
@@ -181,6 +253,9 @@ record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):imon")
 	field( INP, "@$(CHADDR) IMon")
 	field( SCAN, "Event")
 	field( PREC, "2")
+	field(SIML, "$(P):SIM")
+	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):imon")
+	field(SDIS, "$(P):DISABLE")
 }
 record( mbbi, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):status")
 {
@@ -201,6 +276,9 @@ record( mbbi, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):status")
 	field( TEVL, "10")	field( TEST, "Internal Trip")
 	field( ELVL, "11")	field( ELST, "Calib. Error")
 	field( TVVL, "12")	field( TVST, "Unplugged")
+	field(SIML, "$(P):SIM")
+	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):status")
+	field(SDIS, "$(P):DISABLE")
 }
 record( bi, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):pwonoff:fbk")
 {
@@ -210,6 +288,9 @@ record( bi, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):pwonoff:fbk")
 	field( SCAN, "Event")
 	field( ZNAM, "Off")
 	field( ONAM, "On")
+	field(SIML, "$(P):SIM")
+	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):pwonoff:fbk")
+	field(SDIS, "$(P):DISABLE")
 }
 record( bi, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):pwupmode:fbk")
 {
@@ -219,6 +300,9 @@ record( bi, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):pwupmode:fbk")
 	field( SCAN, "Event")
 	field( ZNAM, "Disabled")
 	field( ONAM, "Enabled")
+	field(SIML, "$(P):SIM")
+	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):pwupmode:fbk")
+	field(SDIS, "$(P):DISABLE")
 }
 record( bi, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):pwdnmode:fbk")
 {
@@ -228,6 +312,9 @@ record( bi, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):pwdnmode:fbk")
 	field( SCAN, "Event")
 	field( ZNAM, "KILL")
 	field( ONAM, "Ramp")
+	field(SIML, "$(P):SIM")
+	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):pwdnmode:fbk")
+	field(SDIS, "$(P):DISABLE")
 }
 record( longin, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):tripint:fbk")
 {
@@ -235,6 +322,9 @@ record( longin, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):tripint:fbk")
 	field( DTYP, "CAEN x527 generic HV Channel")
 	field( INP, "@$(CHADDR) TripInt")
 	field( SCAN, "Event")
+	field(SIML, "$(P):SIM")
+	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):tripint:fbk")
+	field(SDIS, "$(P):DISABLE")
 }
 record( longin, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):tripext:fbk")
 {
@@ -242,6 +332,9 @@ record( longin, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):tripext:fbk")
 	field( DTYP, "CAEN x527 generic HV Channel")
 	field( INP, "@$(CHADDR) TripExt")
 	field( SCAN, "Event")
+	field(SIML, "$(P):SIM")
+	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):tripext:fbk")
+	field(SDIS, "$(P):DISABLE")
 }
 #
 # The following are for higher level operations on channel parameters
@@ -293,3 +386,103 @@ record( calcout, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):v0set:calc")
 	field( OUT, "$(PSNAME):$(SLOT):$(CHANNUM):v0set PP")
 	field( PREC, "2")
 }
+
+record( stringout, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):name")
+{
+	field( DESC, "Simulated Channel Name Output")
+	field( PINI, "1")
+	field( VAL, "$(PSNAME):$(SLOT):$(CHANNUM)")
+}
+record( ao, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):v0set")
+{
+	field( DESC, "Simulated Primary voltage setting")
+}
+record( ao, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):v1set")
+{
+	field( DESC, "Simulated Secondary voltage setting")
+}
+record( ao, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):i0set")
+{
+	field( DESC, "Simulated Primary current limit")
+}
+record( ao, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):i1set")
+{
+	field( DESC, "Simulated Secondary current limit")
+}
+record( ao, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):rampup")
+{
+	field( DESC, "Simulated Voltage ramp-up rate")
+}
+record( ao, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):rampdn")
+{
+	field( DESC, "Simulated Voltage ramp-down rate")
+}
+record( ao, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):trip")
+{
+	field( DESC, "Simulated Trip timeout")
+}
+record( ao, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):svmax")
+{
+	field( DESC, "Simulated Software voltage limit")
+}
+record( bo, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):pwonoff")
+{
+	field( DESC, "Simulated Power on/off")
+	field( ZNAM, "Off")
+	field( ONAM, "On")
+}
+record( bo, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):pwupmode")
+{
+	field( DESC, "Simulated Power-up mode")
+	field( ZNAM, "Disable")
+	field( ONAM, "Enable")
+}
+record( bo, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):pwdnmode")
+{
+	field( DESC, "Simulated Power-down mode")
+	field( ZNAM, "KILL")
+	field( ONAM, "Ramp")
+}
+record( longout, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):tripint")
+{
+	field( DESC, "Simulated Internal trip connections")
+}
+record( longout, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):tripext")
+{
+	field( DESC, "Simulated External trip connections")
+}
+record( mbbi, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):status")
+{
+	field( DESC, "Simulated Status")
+	field( VAL, "0")
+	field( ZRVL, "0")	field( ZRST, "Off")
+	field( ONVL, "1")	field( ONST, "On")
+	field( TWVL, "2")	field( TWST, "Ramping Up")
+	field( THVL, "3")	field( THST, "Ramping Down")
+	field( FRVL, "4")	field( FRST, "Over-Current")
+	field( FVVL, "5")	field( FVST, "Over-Voltage")
+	field( SXVL, "6")	field( SXST, "Under-Voltage")
+	field( SVVL, "7")	field( SVST, "External Trip")
+	field( EIVL, "8")	field( EIST, "Max V")
+	field( NIVL, "9")	field( NIST, "Ext. Disable")
+	field( TEVL, "10")	field( TEST, "Internal Trip")
+	field( ELVL, "11")	field( ELST, "Calib. Error")
+	field( TVVL, "12")	field( TVST, "Unplugged")
+}
+
+alias("$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):name","$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):name:fbk")
+alias("$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):v0set","$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):vmon")
+alias("$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):v0set","$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):v0set:fbk")
+alias("$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):v1set","$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):v1set:fbk")
+alias("$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):i0set","$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):imon")
+alias("$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):i0set","$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):i0set:fbk")
+alias("$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):i1set","$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):i1set:fbk")
+alias("$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):rampup","$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):rampup:fbk")
+alias("$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):rampdn","$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):rampdn:fbk")
+alias("$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):trip","$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):trip:fbk")
+alias("$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):svmax","$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):svmax:fbk")
+alias("$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):pwonoff","$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):pwonoff:fbk")
+alias("$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):pwupmode","$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):pwupmode:fbk")
+alias("$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):pwdnmode","$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):pwdnmode:fbk")
+alias("$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):tripint","$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):tripint:fbk")
+alias("$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):tripext","$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):tripext:fbk")

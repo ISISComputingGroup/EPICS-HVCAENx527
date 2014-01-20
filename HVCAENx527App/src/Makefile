@@ -95,7 +95,29 @@ HVCAENx527_LIBS += HVCAENx527Support $(EPICS_BASE_IOC_LIBS)
 HVCAENx527_LIBS_WIN32 += caenhvwrapper # hscaenetlib
 HVCAENx527_SYS_LIBS_Linux += caenhvwrapper hscaenetlib
 
+ifneq ($(SNCSEQ),)
+    sncSummary_SNCFLAGS += +r
+    HVCAENx527_DBD += sncSummary.dbd
+	ifeq ($(findsting yes,$(SHARED_LIBRARIES)),)
+		HVCAENx527Sim_SRCS += sncSummary.stt
+		HVCAENx527Sim_LIBS += seq pv
+	else
+		HVCAENx527_SRCS += sncSummary.stt
+	endif
+	HVCAENx527_LIBS +=  seq pv
+
+
+    # Build sncProgram as a standalone program
+    PROD_HOST += sncProgram
+    sncProgram_SNCFLAGS += +m
+    sncProgram_SRCS += sncProgram.st
+    sncProgram_LIBS += seq pv
+    sncProgram_LIBS += $(EPICS_BASE_HOST_LIBS)
+endif
+
 HVCAENx527Sim_LIBS += HVCAENx527SimSupport CAENHVWrapperSim $(EPICS_BASE_IOC_LIBS)
+
+
 
 #The following builds sncExample as a standalone application
 #PROD_HOST += sncExample

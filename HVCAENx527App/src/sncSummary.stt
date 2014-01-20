@@ -1,0 +1,65 @@
+program sncSummary
+
+char pwchan[100];
+char *prefix;
+int i;
+short sumoff;
+short sumerr;
+
+string sel;
+assign sel to "{P}:CHANLIST";
+string singlechan;
+assign singlechan to "{P}:CHANLIST:ELEMENT";
+unsigned long chanindex;
+assign chanindex to "{P}:CHANLIST:ELEMENT.INDX";
+short pwonoff;
+assign pwonoff to "";
+short status;
+assign status to "";
+long nord;
+assign nord to "{P}:CHANLIST.NORD";
+short sumpw;
+assign sumpw to "{P}:CHANLIST:PWONOFF";
+short sumstat;
+assign sumstat to "{P}:CHANLIST:ERRORSTAT";
+
+ss summarise_caen {
+	state summarise {
+	when (delay(1)) {
+		prefix = macValueGet("P");
+		sumoff = 1;
+		sumerr = 0;
+		pvGet(sel);
+		pvGet(nord);
+		if (nord == 0){
+			sumoff = 0;
+			sumerr = 1;
+		}
+		else
+		{
+		for(i=0;i<nord;i++)
+		{
+			chanindex = i;
+			pvPut(chanindex);
+			pvGet(singlechan);
+			if (sumoff == 1) {
+			sprintf(pwchan, "%s:%s:pwonoff", prefix, singlechan);
+			pvAssign(pwonoff, pwchan);
+			pvGet(pwonoff);
+			if (pwonoff == 0) sumoff = 0;
+			}
+			if (sumerr == 0) {
+			sprintf(pwchan, "%s:%s:status", prefix, singlechan);
+			pvAssign(status, pwchan);
+			pvGet(status);
+			if (status >= 4) sumerr = 1;
+			}
+		}
+		}
+		sumpw = sumoff;
+		pvPut(sumpw);
+		sumstat = sumerr;
+		pvPut(sumstat);
+	} state summarise
+}
+}

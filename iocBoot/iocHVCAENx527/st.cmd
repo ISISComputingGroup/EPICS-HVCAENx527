@@ -38,3 +38,4 @@ iocInit
 
 ## Start any sequence programs
 #seq sncExample, "user=nersesHost"
+seq sncSummary, "P=$(MYPVPREFIX)CAEN"
