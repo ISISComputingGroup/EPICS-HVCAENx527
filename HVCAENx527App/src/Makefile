@@ -114,10 +114,10 @@ ifneq ($(SNCSEQ),)
     sncProgram_SRCS += sncProgram.st
     sncProgram_LIBS += seq pv
     sncProgram_LIBS += $(EPICS_BASE_HOST_LIBS)
+    snvProgram_DEPENDS += sncSummary.stt
 endif
 
 HVCAENx527Sim_LIBS += HVCAENx527SimSupport CAENHVWrapperSim $(EPICS_BASE_IOC_LIBS)
-
 
 
 #The following builds sncExample as a standalone application
