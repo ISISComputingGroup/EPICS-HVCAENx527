@@ -5,9 +5,8 @@ char *prefix;
 int i;
 short sumoff;
 short sumerr;
+string channel;
 
-string sel;
-assign sel to "{P}:CHANLIST";
 string singlechan;
 assign singlechan to "{P}:CHANLIST:ELEMENT";
 int chanindex;
@@ -29,7 +28,6 @@ ss summarise_caen {
 		prefix = macValueGet("P");
 		sumoff = 1;
 		sumerr = 0;
-		pvGet(sel);
 		pvGet(nord);
 		if (nord == 0){
 			sumoff = 0;
@@ -42,8 +40,9 @@ ss summarise_caen {
 			chanindex = i;
 			pvPut(chanindex);
 			pvGet(singlechan);
+			sscanf(singlechan,"%s",channel);
 			if (sumoff == 1) {
-			sprintf(pwchan, "%s:%s:pwonoff", prefix, singlechan);
+			sprintf(pwchan, "%s:%s:pwonoff", prefix, channel);
 			pvAssign(pwonoff, pwchan);
 			pvGet(pwonoff);
 			if (pwonoff == 0) sumoff = 0;
@@ -63,3 +62,4 @@ ss summarise_caen {
 	} state summarise
 }
 }
+

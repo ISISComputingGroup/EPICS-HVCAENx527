@@ -19,3 +19,4 @@ device( stringin,  INST_IO, devCAENx527Stringin,    "CAEN x527 generic HV Mainfr
 device( mbbi,      CONSTANT,devCAENx527MBBi,        "CAEN x527 generic HV Mainframe" )
 driver( drvCAENx527 )
 include "sncSummary.dbd"
+include "asubFunctions.dbd"

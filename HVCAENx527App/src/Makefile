@@ -95,6 +95,9 @@ HVCAENx527_LIBS += HVCAENx527Support $(EPICS_BASE_IOC_LIBS)
 HVCAENx527_LIBS_WIN32 += caenhvwrapper # hscaenetlib
 HVCAENx527_SYS_LIBS_Linux += caenhvwrapper hscaenetlib
 
+HVCAENx527_LIBS += asubFunctions
+HVCAENx527Sim_LIBS += asubFunctions
+
 #Addition of a sequence for summary information
 ifneq ($(SNCSEQ),)
     sncSummary_SNCFLAGS += +r

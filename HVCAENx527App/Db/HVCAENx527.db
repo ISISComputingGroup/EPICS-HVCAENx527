@@ -83,6 +83,13 @@ record( waveform, "$(P):CHANLIST")
 	field(NELM, "100")
 }
 
+record( waveform, "$(P):CHANLIST:UPDATE")
+{
+	field(DESC, "Update location summary list")
+	field(FTVL, "CHAR")
+	field(NELM, "4000")
+	field(FLNK, "$(P):CHANLIST:WFCTOS")
+}
 
 record( subArray, "$(P):CHANLIST:ELEMENT")
 {
@@ -92,6 +99,20 @@ record( subArray, "$(P):CHANLIST:ELEMENT")
 	field(MALM, "100")
 	field(NELM, "1")
 }
+
+record(aSub, "$(P):CHANLIST:WFCTOS")
+{
+  field(SNAM, "charToStringWaveform")
+  field(INPA, "$(P):CHANLIST:UPDATE")
+  field(FTA, "UCHAR")
+  field(NOA, "4000")
+  field(INPB, "$(P):CHANLIST:UPDATE.NORD")
+  field(FTB, "ULONG")
+  field(NOB, "1")
+  field(OUTA, "$(P):CHANLIST")
+  field(FTVA, "STRING")
+  field(NOVA, "100")
+} 
 
 record (bi, "$(P):CHANLIST:PWONOFF")
 {
