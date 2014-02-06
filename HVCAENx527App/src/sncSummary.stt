@@ -40,6 +40,7 @@ ss summarise_caen {
 			chanindex = i;
 			pvPut(chanindex);
 			pvGet(singlechan);
+			/*sscanf to strip whitespace*/
 			sscanf(singlechan,"%s",channel);
 			if (sumoff == 1) {
 			sprintf(pwchan, "%s:%s:pwonoff", prefix, channel);

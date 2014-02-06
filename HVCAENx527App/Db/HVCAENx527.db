@@ -89,6 +89,7 @@ record( waveform, "$(P):CHANLIST:UPDATE")
 	field(FTVL, "CHAR")
 	field(NELM, "4000")
 	field(FLNK, "$(P):CHANLIST:WFCTOS")
+	field(VAL, "")
 }
 
 record( subArray, "$(P):CHANLIST:ELEMENT")
@@ -109,7 +110,7 @@ record(aSub, "$(P):CHANLIST:WFCTOS")
   field(INPB, "$(P):CHANLIST:UPDATE.NORD")
   field(FTB, "ULONG")
   field(NOB, "1")
-  field(OUTA, "$(P):CHANLIST")
+  field(OUTA, "$(P):CHANLIST PP")
   field(FTVA, "STRING")
   field(NOVA, "100")
 } 
