@@ -50,7 +50,7 @@ typedef struct ParProp
 	char Onstate[32], Offstate[32];	/* Labels associated with state */
 	struct HVChan *hvchan;
 	/* EPICS-related variables */
-	char PVname[32];
+	char PVname[61];
 	/* "period" is here for future implementation */
 	double period;	/* desired scan period, -1 == not scanned */
 	int evntno;	/* EPICS event number, -1 == not scanned */
@@ -79,6 +79,7 @@ typedef struct HVSlot
 {
 	char slname[64];
 	short nchan;
+	float hvmax;
 	HVCHAN **hvchan;	/* channel list */
 } HVSLOT;
 

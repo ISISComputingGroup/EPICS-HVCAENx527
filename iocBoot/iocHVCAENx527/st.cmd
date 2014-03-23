@@ -14,9 +14,11 @@ cd ${TOP}
 dbLoadDatabase "dbd/HVCAENx527.dbd"
 HVCAENx527_registerRecordDeviceDriver pdbbase
 
+# use -D argument to turn on debugging
+
 ## arguments to CAENx527ConfigureCreate are: name, ip_address, username, password
 ## username, password are optional and the crate factory default is used if these are not specified
-CAENx527ConfigureCreate "hv0", "130.246.52.113"
+CAENx527ConfigureCreate "hv0", "130.246.39.47"
 #CAENx527ConfigureCreate "hv1", "halldcaenhv1"
 
 

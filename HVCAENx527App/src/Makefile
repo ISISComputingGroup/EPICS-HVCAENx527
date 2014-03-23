@@ -101,12 +101,11 @@ HVCAENx527Sim_LIBS += asubFunctions
 #Addition of a sequence for summary information
 ifneq ($(SNCSEQ),)
     sncSummary_SNCFLAGS += +r
-    HVCAENx527_DBD += sncSummary.dbd
-    HVCAENx527_SRCS += sncSummary.stt
-    HVCAENx527_LIBS +=  seq pv
-    HVCAENx527Sim_DBD += sncSummary.dbd
-    HVCAENx527Sim_SRCS += sncSummary.stt
-    HVCAENx527Sim_LIBS += seq pv
+    HVCAENx527Support_SRCS += sncSummary.stt # also does SimSupport_SRCS
+    HVCAENx527Support_DBD += sncSummary.dbd
+    HVCAENx527Support_LIBS +=  seq pv
+    HVCAENx527SimSupport_DBD += sncSummary.dbd
+    HVCAENx527SimSupport_LIBS += seq pv
 
     # Build sncProgram as a standalone program
     PROD_HOST += sncProgram

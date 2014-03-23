@@ -165,3 +165,13 @@ CAENHVLIB_API CAENHVRESULT  CAENHVGetCrateMap(const char *SystemName,
 	}
     return CAENHV_OK;
 }
+
+CAENHVLIB_API CAENHVRESULT  CAENHVGetBdParam(const char *SystemName, 
+ ushort slotNum, const ushort *slotList, const char *ParName, void *ParValList)
+{
+    if ( !strcmp(ParName, "HVMax") )
+    {
+        *(float*)ParValList = 10.0f * slotNum;
+    }
+    return CAENHV_OK;
+}

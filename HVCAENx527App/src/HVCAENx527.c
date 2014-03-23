@@ -55,7 +55,7 @@
 #include "HVCAENx527.h"
 /*#include "/misc/halld/Online/controls/epics/R3-14-11/base-3-14-11/include/dbAccess.h"*/
 
-epicsShareExtern short DEBUG = 0;
+epicsShareDef short DEBUG = 0;
 
 short Busy[MAX_CRATES];
 epicsThreadId scanThread;
@@ -256,7 +256,10 @@ InitCrate( HVCRATE *cr)
 	char *model = NULL, *desc = NULL;
 	unsigned short *sn = NULL;
 	unsigned char *fmwrmin = NULL, *fmwrmax = NULL;
+	unsigned short slot;
+	float hvmax;
 	char *str;
+	char* desc_str;
 	char *par, (*parnamelist)[MAX_PARAM_NAME];
 	int npar;
 	HVCHAN *hvch;
@@ -278,12 +281,19 @@ InitCrate( HVCRATE *cr)
 			cr->nsl = nsl;
 			cr->nchan = 0;
 			str = (model != NULL ? model : "");
+			desc_str = desc;
 			for( i = 0; i < nsl; i++)
 			{
-				if( str[0] != '\0' )
+				retval = CAENHVGetCrateMap( cr->name, &nsl, &nch, &model, &desc, &sn, &fmwrmin, &fmwrmax );
+				slot = i;
+				retval = CAENHVGetBdParam(cr->name, 1, &slot, "HVMax", &hvmax);
+				cr->hvchmap[i].hvmax =  hvmax;
+				if( str[0] != '\0')
 				{
 					snprintf( cr->hvchmap[i].slname, MAX_BOARD_NAME, "%s", str);
-PDEBUG(1) printf( "DEBUG: model %s in slot %d\n", str, i);
+					snprintf( cr->hvchmap[i].slname+strlen(str), MAX_BOARD_DESC, "%s", desc_str);
+					PDEBUG(1) printf( "DEBUG: model %s in slot %d ", str, i);
+					PDEBUG(1) printf( "desc = %s HVMAX = %f\n", desc_str, hvmax);
 					cr->hvchmap[i].nchan = nch[i];
 					cr->hvchmap[i].hvchan = (HVCHAN **)calloc( sizeof( HVCHAN *), (nch[i] < MIN_CHANNELS ? MIN_CHANNELS + 1 : nch[i] + 1) ); 
 					if( cr->hvchmap[i].hvchan == NULL)
@@ -304,6 +314,7 @@ PDEBUG(1) printf( "DEBUG: model %s in slot %d\n", str, i);
 					cr->hvchmap[i].slname[0] = '\0';
 				}
 				str += strlen( str) + 1;
+				desc_str += strlen( desc_str) + 1;
 			}
 		}
 		else
@@ -376,12 +387,12 @@ PDEBUG(4) printf( "DEBUG: paramname %s\n", parnamelist[l]);
 /* 
  * On windows we get a deallocation error, but we can take this small memeory leak
  * 
-    free( nch);
-	free( model); 
+	free( nch);
+	free( model);
 	free( desc);
 	free( sn);
 	free( fmwrmin);
-	free( fmwrmax); 
+	free( fmwrmax);
  */
 }
 
@@ -451,6 +462,8 @@ void CAENx527ConfigureCreate(char *name, char *addr, char *username, char* passw
   char ip[32];
   int i;
 
+  PDEBUG(1) errlogPrintf("%s::%s::%d will connect to the crate %s(%s) with user=%s password=%s",
+		  __FILE__,__FUNCTION__,__LINE__, name,addr,username,password);
   /* Check the name */
   if (strlen(name) == 0) {
     fprintf(stderr,"ERROR in %s:%d: name = NULL\n",__FUNCTION__,__LINE__);
@@ -486,6 +499,8 @@ void CAENx527ConfigureCreate(char *name, char *addr, char *username, char* passw
 	  snprintf( Crate[i].password, 63, "%s", password);*/
   }
   /* Connect to the crate */
+  PDEBUG(1) errlogPrintf("%s::%s::%d will connect to the crate %s(%s) with user=%s password=%s",
+		  __FILE__,__FUNCTION__,__LINE__, name,ip,username,password);
   if( ConnectCrate(name) == 0){
     printf( "Successfully connected to %s @ %s\n", name, ip);
   }
@@ -517,11 +532,16 @@ static void CAENx527ConfigureCreateRegister(void) {
 /* Will dynamically load DBes according to the boards discovered on the create */
 /* Rob Nelson: Added the macros argument so it can expand $(P) at run time rather than compile time */
 void CAENx527DbLoadRecords(const char *macros){
+	/* Prevent calling this twice */
 	int i,j,k;
 	char* boardname;
 	unsigned int boardnumber;
 	char args[256];
-
+	static int isCAENx527DbLoadRecordsCalled = 0;
+	PDEBUG(1) printf("%s:%d: The function called\n",__FUNCTION__,__LINE__);
+	if (isCAENx527DbLoadRecordsCalled>0) return;
+	isCAENx527DbLoadRecordsCalled = 1;
+	PDEBUG(1) printf("%s:%d: The function executed\n",__FUNCTION__,__LINE__);
 	dbLoadRecords("db/HVCAENx527.db", macros);
 	for(i=0; i<MAX_CRATES; i++) {
 		if (Crate[i].connected == 1) {
@@ -535,15 +555,18 @@ void CAENx527DbLoadRecords(const char *macros){
 					PDEBUG(1) errlogPrintf("%s:%d: Crate = %2d Slot = %2d Board name = %d\n",__FUNCTION__,__LINE__,i,j,boardnumber);
 					switch (boardnumber) {
 						case 1535:
+						case 1550:
+						case 1733:
 							for (k = 0; k < Crate[i].hvchmap[j].nchan; k++) {
 								snprintf(args,256,"%s,PSNAME=%s,SLOT=%d,CHANNUM=%d,CHADDR=%01d.%02d.%03d",macros,Crate[i].name,j,k,i,j,k);
 								PDEBUG(1) errlogPrintf("%s:%d: Load the db 'db/HVCAENx527ch.db' with args = %s\n",__FUNCTION__,__LINE__,args);
-								dbLoadRecords("db/HVCAENx527ch.db", args);		/* The channel related PVs definitions */
+								dbLoadRecords("db/HVCAENx527ch.db", args);	/* The channel related PVs definitions */
 								dbLoadRecords("db/HVCAENx527chItLk.db", args);	/* The software inter locks for channels */
 							}
-
 							break;
+
 						default:
+                            errlogPrintf("%s:%d: Crate = %2d Slot = %2d UNKNOWN Board name = %d\n",__FUNCTION__,__LINE__,i,j,boardnumber);
 							break;
 					}
 				}
