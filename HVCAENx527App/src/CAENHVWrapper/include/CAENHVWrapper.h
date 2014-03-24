@@ -32,8 +32,10 @@
 #define ushort unsigned short
 #endif
 #ifndef ulong
-#define ulong unsigned long
+#define ulong unsigned int
 #endif
+
+#define LIBSWREL				"5.52"
 
 #define MAX_CH_NAME                12
  
@@ -55,6 +57,8 @@
 #define PARAM_TYPE_CHSTATUS         2
 #define PARAM_TYPE_BDSTATUS         3
 #define PARAM_TYPE_BINARY			4			// Rel. 2.16
+#define PARAM_TYPE_STRING			5
+#define PARAM_TYPE_ENUM				6			// Rel 5.30
 
 #define PARAM_MODE_RDONLY           0
 #define PARAM_MODE_WRONLY           1
@@ -71,6 +75,7 @@
 #define PARAM_UN_SECOND             8
 #define PARAM_UN_RPM                9             // Rel. 1.4
 #define PARAM_UN_COUNT             10             // Rel. 2.6
+#define PARAM_UN_BIT               11			
 
 #define SYSPROP_TYPE_STR            0
 #define SYSPROP_TYPE_REAL           1
@@ -156,12 +161,13 @@
 #define CAENHV_SOCKETERROR			28
 #define CAENHV_COMMUNICATIONERROR	29
 #define CAENHV_NOTYETIMPLEMENTED	30
-#define CAENHV_CONNECTED	         (0x1000 + 1)
-#define CAENHV_NOTCONNECTED	       (0x1000 + 2)
-#define CAENHV_OS    	             (0x1000 + 3)
-#define CAENHV_LOGINFAILED         (0x1000 + 4)
-#define CAENHV_LOGOUTFAILED        (0x1000 + 5)
-#define CAENHV_LINKNOTSUPPORTED    (0x1000 + 6)  // Rel. 1.2
+#define CAENHV_CONNECTED			(0x1000 + 1)
+#define CAENHV_NOTCONNECTED			(0x1000 + 2)
+#define CAENHV_OS					(0x1000 + 3)
+#define CAENHV_LOGINFAILED			(0x1000 + 4)
+#define CAENHV_LOGOUTFAILED			(0x1000 + 5)
+#define CAENHV_LINKNOTSUPPORTED		(0x1000 + 6)  // Rel. 1.2
+#define CAENHV_USERPASSFAILED		(0x1000 + 7)  // Rel. 5.0
 
 // Link Types for InitSystem
 #define LINKTYPE_TCPIP				0
@@ -169,6 +175,7 @@
 #define LINKTYPE_CAENET				2
 #define LINKTYPE_USB				3
 #define LINKTYPE_OPTLINK			4
+#define LINKTYPE_USB_VCP			5
 
 #ifndef __CAENHVRESULT__                         // Rel. 2.0 - Linux
 // The Error Code type
@@ -203,8 +210,8 @@ typedef struct {
 typedef struct {
 	CAENHV_ID_TYPE_t	Type;
 	int					SystemHandle;
-	long				BoardIndex;
-	long				ChannelIndex;
+	int					BoardIndex;
+	int					ChannelIndex;
 	char				ItemID[20];
 	IDValue_t			Value;
 } CAENHVEVENT_TYPE_t;
@@ -215,7 +222,11 @@ typedef enum {
 	SY4527		= 2,
 	SY5527		= 3,
 	N568		= 4,
-	V65XX		= 5
+	V65XX		= 5,
+	N1470		= 6,
+	V8100		= 7,
+	N568E		= 8,
+	DT55XX		= 9
 } CAENHV_SYSTEM_TYPE_t;
 typedef enum {
 	SYNC		= 0,
@@ -238,6 +249,9 @@ CAENHVLIB_API CAENHVRESULT CAENHVCaenetComm(const char *SystemName,
  ushort Crate, ushort Code, ushort NrWCode, ushort *WCode, short *Result,
  ushort *NrOfData, ushort **Data);
 
+CAENHVLIB_API CAENHVRESULT CAENHV_CaenetComm(int handle, 
+ ushort Crate, ushort Code, ushort NrWCode, ushort *WCode, short *Result,
+ ushort *NrOfData, ushort **Data);
 
 HV_DEPRECATED(CAENHVLIB_API CAENHVRESULT  CAENHVInitSystem(const char *SystemName, 
  int LinkType, void *Arg, const char *UserName, const char *Passwd));
@@ -375,6 +389,8 @@ CAENHVLIB_API CAENHVRESULT CAENHV_UnSubscribeChannelParams(int handle, short Por
 
 HV_DEPRECATED (CAENHVLIB_API CAENHVRESULT CAENHV_Subscribe(int handle, 
  short Port, ushort NrOfItems, const char *ListOfItems, char *ListofResultCodes));
+
+CAENHVLIB_API char *CAENHV_GetError(int handle);
 
 HV_DEPRECATED(CAENHVLIB_API CAENHVRESULT CAENHVUnSubscribe(const char *SystemName, short Port,
  ushort NrOfItems, const char *ListOfItems, char *ListofResultCodes));

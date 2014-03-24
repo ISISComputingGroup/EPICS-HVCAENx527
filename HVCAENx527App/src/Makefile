@@ -8,32 +8,36 @@ include $(TOP)/configure/CONFIG
 #=============================
 # build an ioc application
 
-ifneq ($(findstring win32-x86,$(EPICS_HOST_ARCH)),) 
 #FILE_TYPE += pdb
 #INSTALL_pdb = $(INSTALL_BIN)
 #USR_CXXFLAGS += /Zi
 #USR_CFLAGS += /Zi
 #USR_LDFLAGS += /DEBUG
 #pdb += HVCAENx527Support.pdb HVCAENx527.pdb
-else
+
+ifneq ($(findstring linux,$(EPICS_HOST_ARCH)),) 
 USR_LDFLAGS += -L$(CAENHVWRAPPER)/lib/$(EPICS_HOST_ARCH)
 endif
 
+ifneq ($(findstring win32-x86,$(EPICS_HOST_ARCH)),)
+CAEN_ARCH=win32
+endif
+
+ifneq ($(findstring windows-x64,$(EPICS_HOST_ARCH)),)
+CAEN_ARCH=win64
+endif
+
 BIN_INSTALLS_Linux += $(wildcard $(CAENHVWRAPPER)/lib/$(EPICS_HOST_ARCH)/*.so.*)
-BIN_INSTALLS_WIN32 += $(wildcard $(CAENHVWRAPPER)/dll/win32/*.dll)
+
+BIN_INSTALLS_WIN32 += $(wildcard $(CAENHVWRAPPER)/dll/$(CAEN_ARCH)/*.dll)
 
 LIBRARY_IOC =  CAENHVWrapperSim HVCAENx527SimSupport
 
 HVCAEN_BUILD_SHARED_YES = HVCAENx527Sim 
 PROD_IOC +=  $(HVCAEN_BUILD_SHARED_$(SHARED_LIBRARIES)) 
-ifneq ($(findstring win32-x86,$(EPICS_HOST_ARCH)),)
-PROD_IOC +=  HVCAENx527
+
+PROD_IOC += HVCAENx527
 LIBRARY_IOC += HVCAENx527Support
-endif
-ifneq ($(findstring linux,$(EPICS_HOST_ARCH)),) 
-PROD_IOC +=  HVCAENx527
-LIBRARY_IOC += HVCAENx527Support
-endif
  
 # <name>.dbd will be created from <name>Include.dbd
 DBD += HVCAENx527.dbd
@@ -42,8 +46,8 @@ CAENHVWRAPPER=../CAENHVWrapper
 
 USR_INCLUDES += -I$(CAENHVWRAPPER)/include
 
-caenhvwrapper_DIR = $(CAENHVWRAPPER)/lib/win32
-hscaenetlib_DIR = $(CAENHVWRAPPER)/lib/win32
+caenhvwrapper_DIR = $(CAENHVWRAPPER)/lib/$(CAEN_ARCH)
+hscaenetlib_DIR = $(CAENHVWRAPPER)/lib/$(CAEN_ARCH)
 
 # <name>_registerRecordDeviceDriver.cpp will be created from <name>.dbd
 HVCAENx527_SRCS_DEFAULT += HVCAENx527Main.cpp HVCAENx527_registerRecordDeviceDriver.cpp
@@ -58,9 +62,6 @@ HVCAENx527SimSupport_SRCS += $(HVCAENx527Support_SRCS)
 CAENHVWrapperSim_SRCS += CAENHVWrapper_sim.cpp
 
 HVCAENx527Sim_SRCS_DEFAULT += $(HVCAENx527_SRCS_DEFAULT)
-
-#The following adds support from base/src/vxWorks
-HVCAENx527_OBJS_vxWorks += $(EPICS_BASE_BIN)/vxComLibrary
 
 #add a definition for each support application used by this application
 #HVCAENx527_LIBS += xxx
