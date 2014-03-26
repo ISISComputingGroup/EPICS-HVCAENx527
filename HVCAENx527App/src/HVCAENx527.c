@@ -1104,11 +1104,14 @@ PDEBUG(4) printf( "DEBUG: EGU scale %d -> %s\n", pp->Exp, exp);
 	return( fieldval);
 }
 
+static int stop_scan_channels = 0;
+
 epicsShareFunc void
 Shutdown()
 {
 	int i, j;
 	CAENHVRESULT retval;
+	stop_scan_channels = 1;
 
 	i = 0;
 	while( i < MAX_CRATES && Crate[i].hvchan != NULL)
@@ -1402,6 +1405,7 @@ PDEBUG(6) printf( "DEBUG: scanning crate %d for %s\n", i, csl->pname);
 		post_event( EVNTNO_T3);
 }
 
+
 void
 InitScanChannels()
 {
@@ -1502,7 +1506,7 @@ PDEBUG( 7) printf( "DEBUG: %s: event #: %d\n", csl->pname, hvch[m].pplist[k].evn
 void
 ScanChannels_Thread( void *param)
 {
-	while( 1)
+	while(!stop_scan_channels)
 	{
 		ScanChannels();
 		epicsThreadSleep( ScanChannelsPeriod);
