@@ -22,6 +22,7 @@ record( ao, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):v0set")
 	field(SIML, "$(P):SIM")
 	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):v0set")
 	field(SDIS, "$(P):DISABLE")
+	field(EGU, "V")
 }
 record( ao, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):v1set")
 {
@@ -32,6 +33,7 @@ record( ao, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):v1set")
 	field(SIML, "$(P):SIM")
 	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):viset")
 	field(SDIS, "$(P):DISABLE")
+	field(EGU, "V")
 }
 record( ao, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):i0set")
 {
@@ -41,6 +43,7 @@ record( ao, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):i0set")
 	field(SIML, "$(P):SIM")
 	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):i0set")
 	field(SDIS, "$(P):DISABLE")
+	field(EGU, "A")
 }
 record( ao, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):i1set")
 {
@@ -50,6 +53,7 @@ record( ao, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):i1set")
 	field(SIML, "$(P):SIM")
 	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):i1set")
 	field(SDIS, "$(P):DISABLE")
+	field(EGU, "A")
 }
 record( ao, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):rampup")
 {
@@ -59,6 +63,7 @@ record( ao, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):rampup")
 	field(SIML, "$(P):SIM")
 	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):rampup")
 	field(SDIS, "$(P):DISABLE")
+	field(EGU, "V/s")
 }
 record( ao, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):rampdn")
 {
@@ -68,6 +73,7 @@ record( ao, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):rampdn")
 	field(SIML, "$(P):SIM")
 	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):rampdn")
 	field(SDIS, "$(P):DISABLE")
+	field(EGU, "V/s")
 }
 record( ao, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):trip")
 {
@@ -77,6 +83,7 @@ record( ao, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):trip")
 	field(SIML, "$(P):SIM")
 	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):trip")
 	field(SDIS, "$(P):DISABLE")
+	field(EGU, "s")
 }
 record( ao, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):svmax")
 {
@@ -86,6 +93,7 @@ record( ao, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):svmax")
 	field(SIML, "$(P):SIM")
 	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):svmax")
 	field(SDIS, "$(P):DISABLE")
+	field(EGU, "V")
 }
 record( bo, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):pwonoff")
 {
@@ -163,6 +171,7 @@ record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):v0set:fbk")
 	field(SIML, "$(P):SIM")
 	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):v0set:fbk")
 	field(SDIS, "$(P):DISABLE")
+	field(EGU, "V")
 }
 record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):v1set:fbk")
 {
@@ -174,6 +183,7 @@ record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):v1set:fbk")
 	field(SIML, "$(P):SIM")
 	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):v1set:fbk")
 	field(SDIS, "$(P):DISABLE")
+	field(EGU, "V")
 }
 record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):i0set:fbk")
 {
@@ -184,6 +194,7 @@ record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):i0set:fbk")
 	field(SIML, "$(P):SIM")
 	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):i0set:fbk")
 	field(SDIS, "$(P):DISABLE")
+	field(EGU, "A")
 }
 record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):i1set:fbk")
 {
@@ -194,6 +205,7 @@ record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):i1set:fbk")
 	field(SIML, "$(P):SIM")
 	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):i2set:fbk")
 	field(SDIS, "$(P):DISABLE")
+	field(EGU, "A")
 }
 record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):rampup:fbk")
 {
@@ -204,6 +216,7 @@ record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):rampup:fbk")
 	field(SIML, "$(P):SIM")
 	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):rampup:fbk")
 	field(SDIS, "$(P):DISABLE")
+	field(EGU, "V/s")
 }
 record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):rampdn:fbk")
 {
@@ -214,6 +227,7 @@ record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):rampdn:fbk")
 	field(SIML, "$(P):SIM")
 	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):rampdn:fbk")
 	field(SDIS, "$(P):DISABLE")
+	field(EGU, "V/s")
 }
 record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):trip:fbk")
 {
@@ -224,6 +238,7 @@ record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):trip:fbk")
 	field(SIML, "$(P):SIM")
 	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):trip:fbk")
 	field(SDIS, "$(P):DISABLE")
+	field(EGU, "s")
 }
 record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):svmax:fbk")
 {
@@ -234,6 +249,7 @@ record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):svmax:fbk")
 	field(SIML, "$(P):SIM")
 	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):svmax:fbk")
 	field(SDIS, "$(P):DISABLE")
+	field(EGU, "V")
 }
 record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):vmon")
 {
@@ -245,6 +261,7 @@ record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):vmon")
 	field(SIML, "$(P):SIM")
 	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):vmon")
 	field(SDIS, "$(P):DISABLE")
+	field(EGU, "V")
 }
 record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):imon")
 {
@@ -256,6 +273,7 @@ record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):imon")
 	field(SIML, "$(P):SIM")
 	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):imon")
 	field(SDIS, "$(P):DISABLE")
+	field(EGU, "A")
 }
 record( mbbi, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):status")
 {
@@ -396,34 +414,42 @@ record( stringout, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):name")
 record( ao, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):v0set")
 {
 	field( DESC, "Simulated Primary voltage setting")
+	field(EGU, "V")
 }
 record( ao, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):v1set")
 {
 	field( DESC, "Simulated Secondary voltage setting")
+	field(EGU, "V")
 }
 record( ao, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):i0set")
 {
 	field( DESC, "Simulated Primary current limit")
+	field(EGU, "A")
 }
 record( ao, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):i1set")
 {
 	field( DESC, "Simulated Secondary current limit")
+	field(EGU, "A")
 }
 record( ao, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):rampup")
 {
 	field( DESC, "Simulated Voltage ramp-up rate")
+	field(EGU, "V/s")
 }
 record( ao, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):rampdn")
 {
 	field( DESC, "Simulated Voltage ramp-down rate")
+	field(EGU, "V/s")
 }
 record( ao, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):trip")
 {
 	field( DESC, "Simulated Trip timeout")
+	field(EGU, "s")
 }
 record( ao, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):svmax")
 {
 	field( DESC, "Simulated Software voltage limit")
+	field(EGU, "V")
 }
 record( bo, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):pwonoff")
 {
