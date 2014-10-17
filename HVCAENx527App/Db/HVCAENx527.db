@@ -137,7 +137,7 @@ record(aSub, "$(P):CHANLIST:WFCTOS")
 {
   field(SNAM, "charToStringWaveform")
   field(INPA, "$(P):CHANLIST:UPDATE")
-  field(FTA, "UCHAR")
+  field(FTA, "CHAR")
   field(NOA, "4000")
   field(INPB, "$(P):CHANLIST:UPDATE.NORD")
   field(FTB, "ULONG")
