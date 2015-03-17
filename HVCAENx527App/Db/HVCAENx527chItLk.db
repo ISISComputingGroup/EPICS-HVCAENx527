@@ -4,8 +4,8 @@
 #
 record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):ilock:in")
 {
-	field( INP, "$(PSNAME):$(SLOT):$(CHANNUM):vmon CPP")
-	field( FLNK, "$(PSNAME):$(SLOT):$(CHANNUM):ilock:test.PROC")
+	field( INP, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):vmon CPP")
+	field( FLNK, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):ilock:test.PROC")
 }
 record( mbbo, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):ilock:cond")
 {
@@ -25,16 +25,16 @@ record( ao, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):ilock:thresh")
 # The fanout actually determines if a signal should be sent.
 record( calc, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):ilock:test")
 {
-	field( INPA, "$(PSNAME):$(SLOT):$(CHANNUM):ilock:in")
-	field( INPB, "$(PSNAME):$(SLOT):$(CHANNUM):ilock:thresh")
-	field( INPJ, "$(PSNAME):$(SLOT):$(CHANNUM):ilock:cond")
+	field( INPA, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):ilock:in")
+	field( INPB, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):ilock:thresh")
+	field( INPJ, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):ilock:cond")
 	field( CALC, "J=1&&A=B||J=2&&A<B||J=0&&A>B||J=3&&A#B")
-	field( FLNK, "$(PSNAME):$(SLOT):$(CHANNUM):ilock:act.PROC")
+	field( FLNK, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):ilock:act.PROC")
 }
 record( seq, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):ilock:act")
 {
-	field( SELL, "$(PSNAME):$(SLOT):$(CHANNUM):ilock:test")
+	field( SELL, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):ilock:test")
 	field( SELM, "Specified")
 	field( DOL1, "0")
-	field( LNK1, "$(PSNAME):$(SLOT):$(CHANNUM):pwonoff PP")
+	field( LNK1, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):pwonoff PP")
 }

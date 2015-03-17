@@ -361,13 +361,13 @@ record( longin, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):tripext:fbk")
 # Initialize all setpoints to the crate values to fix this
 record( bo, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):v0set:up")
 {
-	field( OUT, "$(PSNAME):$(SLOT):$(CHANNUM):v0set:calc PP")
+	field( OUT, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):v0set:calc PP")
 	field( PINI, "1")
 	field( VAL, "0")
 }
 record( bo, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):v0set:dn")
 {
-	field( OUT, "$(PSNAME):$(SLOT):$(CHANNUM):v0set:calc PP")
+	field( OUT, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):v0set:calc PP")
 	field( PINI, "1")
 	field( VAL, "0")
 }
@@ -396,12 +396,12 @@ record( ao, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):v0set:deltav")
 record( calcout, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):v0set:calc")
 {
 	#field( OOPT, "On Change")
-	field( INPA, "$(PSNAME):$(SLOT):$(CHANNUM):v0set")
-	field( INPB, "$(PSNAME):$(SLOT):$(CHANNUM):v0set:up")
-	field( INPC, "$(PSNAME):$(SLOT):$(CHANNUM):v0set:dn")
-	field( INPD, "$(PSNAME):$(SLOT):$(CHANNUM):v0set:deltav")
+	field( INPA, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):v0set")
+	field( INPB, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):v0set:up")
+	field( INPC, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):v0set:dn")
+	field( INPD, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):v0set:deltav")
 	field( CALC, "A+D*(B-C)")
-	field( OUT, "$(PSNAME):$(SLOT):$(CHANNUM):v0set PP")
+	field( OUT, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):v0set PP")
 	field( PREC, "2")
 }
 
