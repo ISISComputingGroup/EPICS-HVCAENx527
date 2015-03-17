@@ -44,7 +44,7 @@ record( mbbi, "$(P):crates")
 	field( FFST, "Fifteen")
 	field( PINI, "YES")
 	field(SIML, "$(P):SIM")
-	field(SIOL, "$(P):SIM:CRATES")
+	field(SIOL, "$(P):SIM:crates")
 	field(SDIS, "$(P):DISABLE")
 }
 
