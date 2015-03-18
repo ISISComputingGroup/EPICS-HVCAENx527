@@ -359,16 +359,18 @@ record( longin, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):tripext:fbk")
 #
 # RU! at initialization, the calc record sends a zero to the v0set
 # Initialize all setpoints to the crate values to fix this
+
+## ISIS: comment out PINI in next two records as do not want to change voltage on startup
 record( bo, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):v0set:up")
 {
 	field( OUT, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):v0set:calc PP")
-	field( PINI, "1")
+#	field( PINI, "1")
 	field( VAL, "0")
 }
 record( bo, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):v0set:dn")
 {
 	field( OUT, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):v0set:calc PP")
-	field( PINI, "1")
+#	field( PINI, "1")
 	field( VAL, "0")
 }
 record( ao, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):v0set:deltav")

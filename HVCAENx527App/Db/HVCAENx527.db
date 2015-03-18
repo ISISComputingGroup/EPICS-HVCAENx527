@@ -106,9 +106,7 @@ record( bo, "$(P):DISABLE")
   field(ONAM, "Comms Disabled")
 }
 
-# Additions for ISIS Instruments
-# Maintain list of channel waveforms - I understand that waveforms are recorded by autosave, 
-# hence not doing more than holding a record here
+# Additions for ISIS Instruments maintain list of channel waveforms
 record( waveform, "$(P):CHANLIST")
 {
 	field(DESC, "List of channels to use in summary")
@@ -122,6 +120,8 @@ record( waveform, "$(P):CHANLIST:UPDATE")
 	field(FTVL, "CHAR")
 	field(NELM, "4000")
 	field(FLNK, "$(P):CHANLIST:WFCTOS")
+    field(PINI, "1")
+    info(autosaveFields, "VAL NORD")
 }
 
 record( subArray, "$(P):CHANLIST:ELEMENT")
