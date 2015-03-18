@@ -16,7 +16,7 @@ device( mbbo,      INST_IO, devCAENx527chMBBo,      "CAEN x527 generic HV Channe
 device( stringin,  INST_IO, devCAENx527chStringin,  "CAEN x527 generic HV Channel" )
 device( stringout, INST_IO, devCAENx527chStringout, "CAEN x527 generic HV Channel" )
 device( stringin,  INST_IO, devCAENx527Stringin,    "CAEN x527 generic HV Mainframe" )
-device( mbbi,      CONSTANT,devCAENx527MBBi,        "CAEN x527 generic HV Mainframe" )
+device( mbbi,      INST_IO, devCAENx527MBBi,        "CAEN x527 generic HV Mainframe" )
 driver( drvCAENx527 )
 include "sncSummary.dbd"
 include "asubFunctions.dbd"

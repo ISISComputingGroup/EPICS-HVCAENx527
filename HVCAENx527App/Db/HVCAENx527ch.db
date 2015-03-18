@@ -31,7 +31,7 @@ record( ao, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):v1set")
 	field( OUT, "@$(CHADDR) V1Set")
 	field( PREC, "2")
 	field(SIML, "$(P):SIM")
-	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):viset")
+	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):v1set")
 	field(SDIS, "$(P):DISABLE")
 	field(EGU, "V")
 }
@@ -203,7 +203,7 @@ record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):i1set:fbk")
 	field( INP, "@$(CHADDR) I1Set")
 	field( SCAN, "Event")
 	field(SIML, "$(P):SIM")
-	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):i2set:fbk")
+	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):i1set:fbk")
 	field(SDIS, "$(P):DISABLE")
 	field(EGU, "A")
 }
@@ -512,3 +512,4 @@ alias("$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):pwupmode","$(P):SIM:$(PSNAME):$(SLO
 alias("$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):pwdnmode","$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):pwdnmode:fbk")
 alias("$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):tripint","$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):tripint:fbk")
 alias("$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):tripext","$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):tripext:fbk")
+

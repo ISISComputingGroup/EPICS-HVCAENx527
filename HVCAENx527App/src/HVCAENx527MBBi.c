@@ -23,7 +23,9 @@ void setMbbiField (char* field, unsigned int id) {
 	if (id < MAX_CRATES) {
 		if (Crate[id].connected == 1) {
 			strncpy(field, Crate[id].name, n);
-		}
+		} else {
+            strncpy(field, "", n);
+        }
 	} else {
 		errlogPrintf("Possible Create IDes are: 0 - %d, got %d\n", MAX_CRATES-1, id);
 	}
@@ -40,11 +42,16 @@ init_record_mbbi_mf( mbbiRecord *pior)
 		errlogPrintf( "%s(%d): mbbi INP field type should be CONSTANT(0)\n", pior->name, pior->inp.type);
 		return( S_db_badField);
 	}*/
-
+    if (pior->inp.type != INST_IO)
+	{
+		errlogPrintf( "%s(%d): mbbi INP field type should be INST_IO\n", pior->name, pior->inp.type);
+		return( S_db_badField);
+    }
 	/* parse device dependent option string and set data pointer */
-	str = pior->inp.value.constantStr;
+    /*	str = pior->inp.value.constantStr; */
+    str = pior->inp.value.instio.string;
 	if (strcmp(str,"crateList") != 0) {
-		errlogPrintf( "ERROR: Unsupported INP field %s for PV %s . Should be crates instead.", str, pior->name);
+		errlogPrintf( "ERROR: Unsupported INP field @%s for PV %s . Should be \"@crateList\" instead.", str, pior->name);
 		return(-1);
 	}
 
