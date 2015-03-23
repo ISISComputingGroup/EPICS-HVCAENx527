@@ -135,13 +135,16 @@ record( subArray, "$(P):CHANLIST:ELEMENT")
 
 record(aSub, "$(P):CHANLIST:WFCTOS")
 {
-  field(SNAM, "charToStringWaveform")
-  field(INPA, "$(P):CHANLIST:UPDATE")
+  field(SNAM, "splitToStringWaveform")
+  field(INPA, "$(P)CAEN:CHANLIST:UPDATE")
   field(FTA, "CHAR")
   field(NOA, "4000")
   field(INPB, "$(P):CHANLIST:UPDATE.NORD")
   field(FTB, "ULONG")
   field(NOB, "1")
+  field(INPC, "$(P):CHANLIST:DELIM")
+  field(FTC, "STRING")
+  field(NOC, "1")
   field(OUTA, "$(P):CHANLIST PP")
   field(FTVA, "STRING")
   field(NOVA, "100")
@@ -159,4 +162,9 @@ record (bi, "$(P):CHANLIST:ERRORSTAT")
 	field( DESC, "Summary of Status")
 	field( ZNAM, "OK")
 	field( ONAM, "Error")
+}
+
+record (stringin, "$(P):CHANLIST:DELIM")
+{
+	field(VAL, " ")
 }
