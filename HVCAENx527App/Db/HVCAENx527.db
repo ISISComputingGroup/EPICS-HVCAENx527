@@ -136,7 +136,7 @@ record( subArray, "$(P):CHANLIST:ELEMENT")
 record(aSub, "$(P):CHANLIST:WFCTOS")
 {
   field(SNAM, "splitToStringWaveform")
-  field(INPA, "$(P)CAEN:CHANLIST:UPDATE")
+  field(INPA, "$(P):CHANLIST:UPDATE")
   field(FTA, "CHAR")
   field(NOA, "4000")
   field(INPB, "$(P):CHANLIST:UPDATE.NORD")
