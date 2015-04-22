@@ -23,6 +23,8 @@ record( ao, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):v0set")
 	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):v0set")
 	field(SDIS, "$(P):DISABLE")
 	field(EGU, "V")
+    info(INTEREST, "HIGH")
+    info(archive, "VAL")
 }
 record( ao, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):v1set")
 {
@@ -34,6 +36,8 @@ record( ao, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):v1set")
 	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):v1set")
 	field(SDIS, "$(P):DISABLE")
 	field(EGU, "V")
+    info(archive, "VAL")
+    info(INTEREST, "HIGH")
 }
 record( ao, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):i0set")
 {
@@ -44,6 +48,8 @@ record( ao, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):i0set")
 	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):i0set")
 	field(SDIS, "$(P):DISABLE")
 	field(EGU, "A")
+    info(archive, "VAL")
+    info(INTEREST, "HIGH")
 }
 record( ao, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):i1set")
 {
@@ -54,6 +60,8 @@ record( ao, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):i1set")
 	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):i1set")
 	field(SDIS, "$(P):DISABLE")
 	field(EGU, "A")
+    info(archive, "VAL")
+    info(INTEREST, "HIGH")
 }
 record( ao, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):rampup")
 {
@@ -172,6 +180,8 @@ record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):v0set:fbk")
 	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):v0set:fbk")
 	field(SDIS, "$(P):DISABLE")
 	field(EGU, "V")
+    info(archive, "VAL")
+    info(INTEREST, "HIGH")
 }
 record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):v1set:fbk")
 {
@@ -184,6 +194,8 @@ record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):v1set:fbk")
 	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):v1set:fbk")
 	field(SDIS, "$(P):DISABLE")
 	field(EGU, "V")
+    info(archive, "VAL")
+    info(INTEREST, "HIGH")
 }
 record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):i0set:fbk")
 {
@@ -195,6 +207,8 @@ record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):i0set:fbk")
 	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):i0set:fbk")
 	field(SDIS, "$(P):DISABLE")
 	field(EGU, "A")
+    info(archive, "VAL")
+    info(INTEREST, "HIGH")
 }
 record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):i1set:fbk")
 {
@@ -206,6 +220,8 @@ record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):i1set:fbk")
 	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):i1set:fbk")
 	field(SDIS, "$(P):DISABLE")
 	field(EGU, "A")
+    info(archive, "VAL")
+    info(INTEREST, "HIGH")
 }
 record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):rampup:fbk")
 {
@@ -262,6 +278,8 @@ record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):vmon")
 	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):vmon")
 	field(SDIS, "$(P):DISABLE")
 	field(EGU, "V")
+    info(archive, "VAL")
+    info(INTEREST, "HIGH")
 }
 record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):imon")
 {
@@ -274,6 +292,8 @@ record( ai, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):imon")
 	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):imon")
 	field(SDIS, "$(P):DISABLE")
 	field(EGU, "A")
+    info(archive, "VAL")
+    info(INTEREST, "HIGH")
 }
 record( mbbi, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):status")
 {
@@ -297,6 +317,7 @@ record( mbbi, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):status")
 	field(SIML, "$(P):SIM")
 	field(SIOL, "$(P):SIM:$(PSNAME):$(SLOT):$(CHANNUM):status")
 	field(SDIS, "$(P):DISABLE")
+    info(INTEREST, "HIGH")
 }
 record( bi, "$(P):$(PSNAME):$(SLOT):$(CHANNUM):pwonoff:fbk")
 {
