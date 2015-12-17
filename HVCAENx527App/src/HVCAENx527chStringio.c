@@ -11,13 +11,10 @@
 
 #include <stringinRecord.h>
 #include <stringoutRecord.h>
+#include <epicsStdio.h>
 
 #include <epicsExport.h>
 #include "HVCAENx527.h"
-
-#ifdef _WIN32
-#define snprintf _snprintf
-#endif
 
 /*
  * devCAENx527chStringin
@@ -145,7 +142,7 @@ write_stringout( stringoutRecord *pior)
 	hvch = (HVCHAN *)(pior->dpvt);
 	if( hvch == NULL || hvch->epicsenabled == 0)
 		return(3);
-	snprintf( hvch->chname, 12, "%s", pior->val);
+	epicsSnprintf( hvch->chname, 12, "%s", pior->val);
 PDEBUG(10) printf( "DEBUG: put name = %s\n", pior->val);
 	if( CAENx527SetChName( hvch, pior->val) != 0)
 		return( 3);

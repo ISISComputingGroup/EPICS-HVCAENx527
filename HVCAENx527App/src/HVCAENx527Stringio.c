@@ -45,10 +45,7 @@
 
 #include "recGbl.h"
 
-#ifdef _WIN32
-#define snprintf _snprintf
-#endif
-
+#include <epicsStdio.h>
 #include "stringinRecord.h"
 #include "epicsExport.h"
 #include "HVCAENx527.h"
@@ -124,12 +121,12 @@ static long read_crate_stringin(stringinRecord *prec)
 		return(-1);
 	}
 	if(slot == -1) {
-		snprintf(prec->val, sizeof(prec->val),"%s", Crate[i].IPaddr);
+		epicsSnprintf(prec->val, sizeof(prec->val),"%s", Crate[i].IPaddr);
 	} else if (slot>=0) {
 		if (Crate[i].hvchmap[slot].nchan) {
-			snprintf(prec->val, sizeof(prec->val),"%s (%d ch)", Crate[i].hvchmap[slot].slname, Crate[i].hvchmap[slot].nchan);
+			epicsSnprintf(prec->val, sizeof(prec->val),"%s (%d ch)", Crate[i].hvchmap[slot].slname, Crate[i].hvchmap[slot].nchan);
 		} else {
-			snprintf(prec->val, sizeof(prec->val),"N/A");
+			epicsSnprintf(prec->val, sizeof(prec->val),"N/A");
 		}
 	}
 	return 0;
