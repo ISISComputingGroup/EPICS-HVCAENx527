@@ -47,7 +47,7 @@ init_record_ai( aiRecord *pior)
 	}
 
 	pp->hvchan->epicsenabled = 1;
-PDEBUG(10) printf( "DEBUG: set %s EVNT: %d\n", pp->pname, pior->evnt);
+PDEBUG(4) printf( "DEBUG: set %s EVNT: %d\n", pp->pname, pior->evnt);
 
 	return( 0);
 }
@@ -72,7 +72,7 @@ read_ai( aiRecord *pior)
 
 	pior->val = (double)(pp->pval.f);
 	pior->udf = FALSE;
-PDEBUG(10) printf( "DEBUG: get %s = %lf\n", pp->pname, pior->val);
+PDEBUG(5) printf( "DEBUG: get %s = %lf\n", pp->pname, pior->val);
 
 	return( 2);
 }
@@ -159,7 +159,7 @@ write_ao( aoRecord *pior)
 	}
 	else
 		pp->pvalset.f = (float)(pior->val);
-PDEBUG(10) printf( "DEBUG: put %s = %lf (%f)\n", pp->pname, pior->val, pp->pvalset.f);
+PDEBUG(4) printf( "DEBUG: put %s = %lf (%f)\n", pp->pname, pior->val, pp->pvalset.f);
 	if( CAENx527SetChParVal( pp) != 0)
 		return( 3);
 

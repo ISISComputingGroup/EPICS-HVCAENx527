@@ -1,0 +1,1507 @@
+4 0 0
+beginScreenProperties
+major 4
+minor 0
+release 0
+x 727
+y 210
+w 475
+h 435
+font "helvetica-medium-r-18.0"
+ctlFont "helvetica-medium-r-18.0"
+btnFont "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 60
+textColor index 14
+ctlFgColor1 index 14
+ctlFgColor2 index 0
+ctlBgColor1 index 0
+ctlBgColor2 index 14
+topShadowColor index 0
+botShadowColor index 14
+showGrid
+snapToGrid
+gridSize 5
+endScreenProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 10
+y 40
+w 455
+h 390
+lineColor index 14
+fillColor index 0
+endObjectProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 150
+y 80
+w 310
+h 55
+lineColor index 14
+fill
+fillColor index 64
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 10
+y 10
+w 116
+h 27
+font "helvetica-bold-r-24.0"
+fgColor index 14
+bgColor index 0
+value {
+  "HV Group"
+}
+autoSize
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 140
+y 55
+w 150
+h 21
+controlPv "$(PSNAME):$(GRP1):status"
+font "helvetica-medium-r-18.0"
+fgColor index 14
+fgAlarm
+bgColor index 2
+autoHeight
+limitsFromDb
+nullColor index 0
+useHexPrefix
+useAlarmBorder
+objType "monitors"
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 325
+y 110
+w 60
+h 21
+controlPv "$(PSNAME):$(GRP1):rampdn"
+font "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 0
+editable
+autoHeight
+limitsFromDb
+nullColor index 0
+useHexPrefix
+objType "controls"
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 325
+y 85
+w 60
+h 21
+controlPv "$(PSNAME):$(GRP1):rampup"
+font "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 0
+editable
+autoHeight
+limitsFromDb
+nullColor index 0
+useHexPrefix
+objType "controls"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 155
+y 100
+w 102
+h 21
+font "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Ramp Rates:"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 290
+y 85
+w 26
+h 21
+font "helvetica-medium-r-18.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "up:"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 265
+y 110
+w 51
+h 21
+font "helvetica-medium-r-18.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "down:"
+}
+autoSize
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 395
+y 85
+w 60
+h 21
+controlPv "$(PSNAME):$(GRP1):rampup:fbk"
+font "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 2
+autoHeight
+limitsFromDb
+nullColor index 0
+useHexPrefix
+showUnits
+objType "monitors"
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 395
+y 110
+w 60
+h 21
+controlPv "$(PSNAME):$(GRP1):rampdn:fbk"
+font "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 2
+autoHeight
+limitsFromDb
+nullColor index 0
+useHexPrefix
+showUnits
+objType "monitors"
+endObjectProperties
+
+# (Textentry)
+object TextentryClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 320
+y 185
+w 70
+h 40
+controlPv "$(PSNAME):$(SCC0):v0set:deltav"
+fgColor index 14
+bgColor index 0
+fill
+font "helvetica-medium-r-12.0"
+endObjectProperties
+
+# (Button)
+object activeButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 300
+y 205
+w 20
+h 20
+fgColor index 14
+onColor index 40
+offColor index 40
+inconsistentColor index 14
+topShadowColor index 0
+botShadowColor index 14
+controlPv "$(PSNAME):$(SCC0):v0set:dn"
+onLabel "Dn"
+offLabel "Dn"
+labelType "literal"
+buttonType "push"
+3d
+font "helvetica-medium-r-12.0"
+objType "controls"
+endObjectProperties
+
+# (Button)
+object activeButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 300
+y 185
+w 20
+h 20
+fgColor index 14
+onColor index 40
+offColor index 40
+inconsistentColor index 14
+topShadowColor index 0
+botShadowColor index 14
+controlPv "$(PSNAME):$(SCC0):v0set:up"
+onLabel "Up"
+offLabel "Up"
+labelType "literal"
+buttonType "push"
+3d
+font "helvetica-medium-r-12.0"
+objType "controls"
+endObjectProperties
+
+# (Textentry)
+object TextentryClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 230
+y 185
+w 70
+h 40
+controlPv "$(PSNAME):$(SCC0):v0set"
+fgColor index 14
+bgColor index 0
+fill
+font "helvetica-medium-r-12.0"
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 150
+y 195
+w 60
+h 20
+controlPv "$(PSNAME):$(SCC0):vmon"
+precision 2
+fgColor index 14
+bgColor index 2
+fill
+font "helvetica-medium-r-12.0"
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 25
+y 195
+w 90
+h 20
+controlPv "$(PSNAME):$(SCC0):name.DESC"
+fgColor index 14
+bgColor index 0
+fill
+font "helvetica-medium-r-12.0"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 330
+y 160
+w 30
+h 20
+font "helvetica-medium-r-12.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "delta"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 260
+y 140
+w 85
+h 14
+font "helvetica-medium-r-12.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Voltage Setting"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 240
+y 160
+w 45
+h 14
+font "helvetica-medium-r-12.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Setpoint"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 150
+y 150
+w 43
+h 28
+font "helvetica-medium-r-12.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Actual"
+  "Voltage"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 25
+y 150
+w 60
+h 28
+font "helvetica-medium-r-12.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Channel &"
+  "Descrip."
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 20
+y 50
+w 110
+h 25
+font "helvetica-medium-r-24.0"
+fontAlign "right"
+fgColor index 14
+bgColor index 0
+value {
+  "HV Group"
+}
+endObjectProperties
+
+# (Textentry)
+object TextentryClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 320
+y 345
+w 70
+h 40
+controlPv "$(PSNAME):$(SCC4):v0set:deltav"
+fgColor index 14
+bgColor index 0
+fill
+font "helvetica-medium-r-12.0"
+endObjectProperties
+
+# (Button)
+object activeButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 300
+y 365
+w 20
+h 20
+fgColor index 14
+onColor index 40
+offColor index 40
+inconsistentColor index 14
+topShadowColor index 0
+botShadowColor index 14
+controlPv "$(PSNAME):$(SCC4):v0set:dn"
+onLabel "Dn"
+offLabel "Dn"
+labelType "literal"
+buttonType "push"
+3d
+font "helvetica-medium-r-12.0"
+objType "controls"
+endObjectProperties
+
+# (Button)
+object activeButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 300
+y 345
+w 20
+h 20
+fgColor index 14
+onColor index 40
+offColor index 40
+inconsistentColor index 14
+topShadowColor index 0
+botShadowColor index 14
+controlPv "$(PSNAME):$(SCC4):v0set:up"
+onLabel "Up"
+offLabel "Up"
+labelType "literal"
+buttonType "push"
+3d
+font "helvetica-medium-r-12.0"
+objType "controls"
+endObjectProperties
+
+# (Textentry)
+object TextentryClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 230
+y 345
+w 70
+h 40
+controlPv "$(PSNAME):$(SCC4):v0set"
+fgColor index 14
+bgColor index 0
+fill
+font "helvetica-medium-r-12.0"
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 150
+y 355
+w 60
+h 20
+controlPv "$(PSNAME):$(SCC4):vmon"
+precision 2
+fgColor index 14
+bgColor index 2
+fill
+font "helvetica-medium-r-12.0"
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 25
+y 355
+w 90
+h 20
+controlPv "$(PSNAME):$(SCC4):name.DESC"
+fgColor index 14
+bgColor index 0
+fill
+font "helvetica-medium-r-12.0"
+endObjectProperties
+
+# (Textentry)
+object TextentryClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 320
+y 305
+w 70
+h 40
+controlPv "$(PSNAME):$(SCC3):v0set:deltav"
+fgColor index 14
+bgColor index 0
+fill
+font "helvetica-medium-r-12.0"
+endObjectProperties
+
+# (Button)
+object activeButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 300
+y 325
+w 20
+h 20
+fgColor index 14
+onColor index 40
+offColor index 40
+inconsistentColor index 14
+topShadowColor index 0
+botShadowColor index 14
+controlPv "$(PSNAME):$(SCC3):v0set:dn"
+onLabel "Dn"
+offLabel "Dn"
+labelType "literal"
+buttonType "push"
+3d
+font "helvetica-medium-r-12.0"
+objType "controls"
+endObjectProperties
+
+# (Button)
+object activeButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 300
+y 305
+w 20
+h 20
+fgColor index 14
+onColor index 40
+offColor index 40
+inconsistentColor index 14
+topShadowColor index 0
+botShadowColor index 14
+controlPv "$(PSNAME):$(SCC3):v0set:up"
+onLabel "Up"
+offLabel "Up"
+labelType "literal"
+buttonType "push"
+3d
+font "helvetica-medium-r-12.0"
+objType "controls"
+endObjectProperties
+
+# (Textentry)
+object TextentryClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 230
+y 305
+w 70
+h 40
+controlPv "$(PSNAME):$(SCC3):v0set"
+fgColor index 14
+bgColor index 0
+fill
+font "helvetica-medium-r-12.0"
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 150
+y 315
+w 60
+h 20
+controlPv "$(PSNAME):$(SCC3):vmon"
+precision 2
+fgColor index 14
+bgColor index 2
+fill
+font "helvetica-medium-r-12.0"
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 25
+y 315
+w 90
+h 20
+controlPv "$(PSNAME):$(SCC3):name.DESC"
+fgColor index 14
+bgColor index 0
+fill
+font "helvetica-medium-r-12.0"
+endObjectProperties
+
+# (Textentry)
+object TextentryClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 320
+y 265
+w 70
+h 40
+controlPv "$(PSNAME):$(SCC2):v0set:deltav"
+fgColor index 14
+bgColor index 0
+fill
+font "helvetica-medium-r-12.0"
+endObjectProperties
+
+# (Button)
+object activeButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 300
+y 285
+w 20
+h 20
+fgColor index 14
+onColor index 40
+offColor index 40
+inconsistentColor index 14
+topShadowColor index 0
+botShadowColor index 14
+controlPv "$(PSNAME):$(SCC2):v0set:dn"
+onLabel "Dn"
+offLabel "Dn"
+labelType "literal"
+buttonType "push"
+3d
+font "helvetica-medium-r-12.0"
+objType "controls"
+endObjectProperties
+
+# (Button)
+object activeButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 300
+y 265
+w 20
+h 20
+fgColor index 14
+onColor index 40
+offColor index 40
+inconsistentColor index 14
+topShadowColor index 0
+botShadowColor index 14
+controlPv "$(PSNAME):$(SCC2):v0set:up"
+onLabel "Up"
+offLabel "Up"
+labelType "literal"
+buttonType "push"
+3d
+font "helvetica-medium-r-12.0"
+objType "controls"
+endObjectProperties
+
+# (Textentry)
+object TextentryClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 230
+y 265
+w 70
+h 40
+controlPv "$(PSNAME):$(SCC2):v0set"
+fgColor index 14
+bgColor index 0
+fill
+font "helvetica-medium-r-12.0"
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 150
+y 275
+w 60
+h 20
+controlPv "$(PSNAME):$(SCC2):vmon"
+precision 2
+fgColor index 14
+bgColor index 2
+fill
+font "helvetica-medium-r-12.0"
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 25
+y 275
+w 90
+h 20
+controlPv "$(PSNAME):$(SCC2):name.DESC"
+fgColor index 14
+bgColor index 0
+fill
+font "helvetica-medium-r-12.0"
+endObjectProperties
+
+# (Textentry)
+object TextentryClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 320
+y 225
+w 70
+h 40
+controlPv "$(PSNAME):$(SCC1):v0set:deltav"
+fgColor index 14
+bgColor index 0
+fill
+font "helvetica-medium-r-12.0"
+endObjectProperties
+
+# (Button)
+object activeButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 300
+y 245
+w 20
+h 20
+fgColor index 14
+onColor index 40
+offColor index 40
+inconsistentColor index 14
+topShadowColor index 0
+botShadowColor index 14
+controlPv "$(PSNAME):$(SCC1):v0set:dn"
+onLabel "Dn"
+offLabel "Dn"
+labelType "literal"
+buttonType "push"
+3d
+font "helvetica-medium-r-12.0"
+objType "controls"
+endObjectProperties
+
+# (Button)
+object activeButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 300
+y 225
+w 20
+h 20
+fgColor index 14
+onColor index 40
+offColor index 40
+inconsistentColor index 14
+topShadowColor index 0
+botShadowColor index 14
+controlPv "$(PSNAME):$(SCC1):v0set:up"
+onLabel "Up"
+offLabel "Up"
+labelType "literal"
+buttonType "push"
+3d
+font "helvetica-medium-r-12.0"
+objType "controls"
+endObjectProperties
+
+# (Textentry)
+object TextentryClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 230
+y 225
+w 70
+h 40
+controlPv "$(PSNAME):$(SCC1):v0set"
+fgColor index 14
+bgColor index 0
+fill
+font "helvetica-medium-r-12.0"
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 150
+y 235
+w 60
+h 20
+controlPv "$(PSNAME):$(SCC1):vmon"
+precision 2
+fgColor index 14
+bgColor index 2
+fill
+font "helvetica-medium-r-12.0"
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 25
+y 235
+w 90
+h 20
+controlPv "$(PSNAME):$(SCC1):name.DESC"
+fgColor index 14
+bgColor index 0
+fill
+font "helvetica-medium-r-12.0"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 400
+y 150
+w 60
+h 30
+font "helvetica-medium-r-12.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Measured"
+  "Current"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 310
+y 55
+w 59
+h 16
+font "helvetica-bold-r-14.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Current:"
+}
+autoSize
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 375
+y 50
+w 80
+h 21
+controlPv "$(PSNAME):$(GRP1):imon"
+font "helvetica-medium-r-18.0"
+fgColor index 14
+fgAlarm
+bgColor index 2
+autoHeight
+limitsFromDb
+nullColor index 0
+useHexPrefix
+showUnits
+useAlarmBorder
+objType "monitors"
+endObjectProperties
+
+# (Button)
+object activeButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 120
+y 195
+w 20
+h 20
+fgColor index 14
+onColor index 15
+offColor index 20
+inconsistentColor index 14
+topShadowColor index 0
+botShadowColor index 14
+controlPv "$(PSNAME):ToF-1:enable0"
+labelType "pvState"
+3d
+font "helvetica-medium-r-12.0"
+objType "controls"
+endObjectProperties
+
+# (Button)
+object activeButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 120
+y 235
+w 20
+h 20
+fgColor index 14
+onColor index 15
+offColor index 20
+inconsistentColor index 14
+topShadowColor index 0
+botShadowColor index 14
+controlPv "$(PSNAME):ToF-1:enable1"
+labelType "pvState"
+3d
+font "helvetica-medium-r-12.0"
+objType "controls"
+endObjectProperties
+
+# (Button)
+object activeButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 120
+y 275
+w 20
+h 20
+fgColor index 14
+onColor index 15
+offColor index 20
+inconsistentColor index 14
+topShadowColor index 0
+botShadowColor index 14
+controlPv "$(PSNAME):ToF-1:enable2"
+labelType "pvState"
+3d
+font "helvetica-medium-r-12.0"
+objType "controls"
+endObjectProperties
+
+# (Button)
+object activeButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 120
+y 315
+w 20
+h 20
+fgColor index 14
+onColor index 15
+offColor index 20
+inconsistentColor index 14
+topShadowColor index 0
+botShadowColor index 14
+controlPv "$(PSNAME):ToF-1:enable3"
+labelType "pvState"
+3d
+font "helvetica-medium-r-12.0"
+objType "controls"
+endObjectProperties
+
+# (Button)
+object activeButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 120
+y 355
+w 20
+h 20
+fgColor index 14
+onColor index 15
+offColor index 20
+inconsistentColor index 14
+topShadowColor index 0
+botShadowColor index 14
+controlPv "$(PSNAME):ToF-1:enable4"
+labelType "pvState"
+3d
+font "helvetica-medium-r-12.0"
+objType "controls"
+endObjectProperties
+
+# (Textentry)
+object TextentryClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 320
+y 385
+w 70
+h 40
+controlPv "$(PSNAME):$(SCC5):v0set:deltav"
+fgColor index 14
+bgColor index 0
+fill
+font "helvetica-medium-r-12.0"
+endObjectProperties
+
+# (Button)
+object activeButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 300
+y 405
+w 20
+h 20
+fgColor index 14
+onColor index 40
+offColor index 40
+inconsistentColor index 14
+topShadowColor index 0
+botShadowColor index 14
+controlPv "$(PSNAME):$(SCC5):v0set:dn"
+onLabel "Dn"
+offLabel "Dn"
+labelType "literal"
+buttonType "push"
+3d
+font "helvetica-medium-r-12.0"
+objType "controls"
+endObjectProperties
+
+# (Button)
+object activeButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 300
+y 385
+w 20
+h 20
+fgColor index 14
+onColor index 40
+offColor index 40
+inconsistentColor index 14
+topShadowColor index 0
+botShadowColor index 14
+controlPv "$(PSNAME):$(SCC5):v0set:up"
+onLabel "Up"
+offLabel "Up"
+labelType "literal"
+buttonType "push"
+3d
+font "helvetica-medium-r-12.0"
+objType "controls"
+endObjectProperties
+
+# (Textentry)
+object TextentryClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 230
+y 385
+w 70
+h 40
+controlPv "$(PSNAME):$(SCC5):v0set"
+fgColor index 14
+bgColor index 0
+fill
+font "helvetica-medium-r-12.0"
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 150
+y 395
+w 60
+h 20
+controlPv "$(PSNAME):$(SCC5):vmon"
+precision 2
+fgColor index 14
+bgColor index 2
+fill
+font "helvetica-medium-r-12.0"
+endObjectProperties
+
+# (Textupdate)
+object TextupdateClass
+beginObjectProperties
+major 10
+minor 0
+release 0
+x 25
+y 395
+w 90
+h 20
+controlPv "$(PSNAME):$(SCC5):name.DESC"
+fgColor index 14
+bgColor index 0
+fill
+font "helvetica-medium-r-12.0"
+endObjectProperties
+
+# (Button)
+object activeButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 120
+y 395
+w 20
+h 20
+fgColor index 14
+onColor index 15
+offColor index 20
+inconsistentColor index 14
+topShadowColor index 0
+botShadowColor index 14
+controlPv "$(PSNAME):ToF-1:enable5"
+labelType "pvState"
+3d
+font "helvetica-medium-r-12.0"
+objType "controls"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 115
+y 150
+w 20
+h 28
+font "helvetica-medium-r-12.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "In"
+  "Grp"
+}
+autoSize
+endObjectProperties
+
+# (Message Button)
+object activeMessageButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 20
+y 85
+w 60
+h 45
+fgColor index 0
+onColor index 20
+offColor index 20
+topShadowColor index 75
+botShadowColor index 24
+controlPv "$(PSNAME):ToF-:pwonoff"
+pressValue "0"
+onLabel "Off"
+offLabel "Off"
+3d
+useEnumNumeric
+font "helvetica-medium-r-18.0"
+endObjectProperties
+
+# (Message Button)
+object activeMessageButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 95
+y 85
+w 40
+h 30
+fgColor index 14
+onColor index 40
+offColor index 40
+topShadowColor index 55
+botShadowColor index 44
+controlPv "$(PSNAME):ToF-:pwonoff"
+pressValue "1"
+onLabel "On"
+offLabel "On"
+3d
+useEnumNumeric
+font "helvetica-medium-r-18.0"
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 405
+y 195
+w 50
+h 20
+controlPv "$(PSNAME):$(SCC0):imon"
+font "helvetica-medium-r-12.0"
+fgColor index 14
+fgAlarm
+bgColor index 2
+limitsFromDb
+nullColor index 0
+useHexPrefix
+showUnits
+useAlarmBorder
+objType "monitors"
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 405
+y 235
+w 50
+h 20
+controlPv "$(PSNAME):$(SCC1):imon"
+font "helvetica-medium-r-12.0"
+fgColor index 14
+fgAlarm
+bgColor index 2
+limitsFromDb
+nullColor index 0
+useHexPrefix
+showUnits
+useAlarmBorder
+objType "monitors"
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 405
+y 275
+w 50
+h 20
+controlPv "$(PSNAME):$(SCC2):imon"
+font "helvetica-medium-r-12.0"
+fgColor index 14
+fgAlarm
+bgColor index 2
+limitsFromDb
+nullColor index 0
+useHexPrefix
+showUnits
+useAlarmBorder
+objType "monitors"
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 405
+y 315
+w 50
+h 20
+controlPv "$(PSNAME):$(SCC3):imon"
+font "helvetica-medium-r-12.0"
+fgColor index 14
+fgAlarm
+bgColor index 2
+limitsFromDb
+nullColor index 0
+useHexPrefix
+showUnits
+useAlarmBorder
+objType "monitors"
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 405
+y 355
+w 50
+h 20
+controlPv "$(PSNAME):$(SCC4):imon"
+font "helvetica-medium-r-12.0"
+fgColor index 14
+fgAlarm
+bgColor index 2
+limitsFromDb
+nullColor index 0
+useHexPrefix
+showUnits
+useAlarmBorder
+objType "monitors"
+endObjectProperties
+
+# (Text Monitor)
+object activeXTextDspClass:noedit
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 405
+y 395
+w 50
+h 20
+controlPv "$(PSNAME):$(SCC5):imon"
+font "helvetica-medium-r-12.0"
+fgColor index 14
+fgAlarm
+bgColor index 2
+limitsFromDb
+nullColor index 0
+useHexPrefix
+showUnits
+useAlarmBorder
+objType "monitors"
+endObjectProperties
+

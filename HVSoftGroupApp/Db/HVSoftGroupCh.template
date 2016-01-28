@@ -1,0 +1,73 @@
+#
+# Copyright Canadian Light Source, Inc.  All rights reserved.
+#    - see licence.txt and licence_CAEN.txt for limitations on use.
+#
+# The following are used as inputs from a member of the group
+# to the group equivalent.
+#
+# Add/Remove from group.  Note macro MEM must correspond to a bit number
+# in $(PSNAME):$(GRP):enable:calc.
+record( bo, "$(PSNAME):$(GRP):enable$(MEM)")
+{
+	field( DESC, "Enable HV member $(MEM)")
+	field( ZNAM, "N")
+	field( ONAM, "Y")
+	field( OUT, "$(PSNAME):$(GRP):enable:calc.B$(MEM) PP")
+}
+#
+# isolation PVs: if any of the macros are undefined, and they are used
+# directly in calc record INP fields, that record will lock up. 
+# Since the INP fields will not be defined until run time, we can't
+# pre-filter here, either.  So we provide interface PVs to isolate
+# the calc's.
+#
+# Power on/off feedback
+record( bi, "$(PSNAME):$(GRP):pwr:in$(MEM)")
+{
+	field( INP, "$(PSNAME):$(CH):pwonoff:fbk CP")
+}
+# status
+record( ai, "$(PSNAME):$(GRP):status:in$(MEM)")
+{
+	field( INP, "$(PSNAME):$(CH):status CP")
+}
+# measured current
+record( ai, "$(PSNAME):$(GRP):imon:in$(MEM)")
+{
+	field( INP, "$(PSNAME):$(CH):imon CP MS")
+}
+# max current setpoint
+record( ai, "$(PSNAME):$(GRP):i0set:in$(MEM)")
+{
+	field( INP, "$(PSNAME):$(CH):i0set:fbk CP")
+}
+#
+# generate output
+#
+record( transform, "$(PSNAME):$(GRP):calc$(MEM):1")
+{
+	field( INPA, "$(PSNAME):$(GRP):pwr:in$(MEM) CP")
+	field( CLCB, "P=0?0:A")
+	field( OUTB, "$(PSNAME):$(GRP):pwr:in.PROC")
+
+	field( INPC, "$(PSNAME):$(GRP):status:in$(MEM) CP")
+	field( CLCD, "P=0?0:C")
+	field( OUTD, "$(PSNAME):$(GRP):status:in.PROC")
+
+	field( INPE, "$(PSNAME):$(GRP):imon:in$(MEM) CP")
+	field( CLCF, "P=0?0:E")
+	field( OUTF, "$(PSNAME):$(GRP):imon:in.PROC")
+
+	# i0set used mainly for setting group alarm levels when none active
+	field( INPG, "$(PSNAME):$(GRP):i0set:in$(MEM) CP")
+	field( CLCH, "P=0?0:G")
+	field( OUTH, "$(PSNAME):$(GRP):i0set:in.PROC")
+
+	# isevr used to set group alarm level when one member alarm is active
+	field( INPI, "$(PSNAME):$(GRP):imon:in$(MEM).SEVR CP")
+	field( CLCJ, "P=0?1e9:(I=0?1e9:G)")
+	field( OUTJ, "$(PSNAME):$(GRP):isevr:in.PROC")
+
+	# state of enable
+	field( INPP, "$(PSNAME):$(GRP):enable$(MEM) CP")
+}

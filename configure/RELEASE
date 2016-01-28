@@ -14,12 +14,30 @@ TEMPLATE_TOP=$(EPICS_BASE)/templates/makeBaseApp/top
 # define INSTALL_LOCATION_APP here
 #INSTALL_LOCATION_APP=<fullpathname>
 
+# Set CAENHVWrapperVersion to the version you are using,
+# format is Mmm (1 or 2 digit major, 2 digits minor):
+#CAENHVWrapperVERSION=211
+CAENHVWrapperVERSION=552
+
 #If using the sequencer, point SNCSEQ at its top directory:
 #SNCSEQ=$(EPICS_BASE)/../modules/soft/seq
+# Assumes the wrapper libs are in $(TOP)/../CAENHVWrapper/CAENHVWrapper_<version>/lib/linux*.
+# Change to directory where you installed the libs (sans lib/<arch>)).
+ifeq ($(CAENHVWrapperVERSION),211)
+CAENHVWRAPPER=$(TOP)/../CAENHVWrapper/2.11
+HSCAENET=$(TOP)/../CAENHVWrapper/2.11
+else
+CAENHVWRAPPER=$(TOP)/../CAENHVWrapper/5.52
+HSCAENET=$(TOP)/../CAENHVWrapper/5.52
+endif
 
 # EPICS_BASE usually appears last so other apps can override stuff:
-EPICS_BASE=/home/epics/src/R3.14.6/base
+#EPICS_BASE=/home/epics/src/R3.14.6/base
+EPICS_BASE=/home/epics/src/R3.14.12/base
 
 #Capfast users may need the following definitions
 #CAPFAST_TEMPLATES=
 #SCH2EDIF_PATH=
+
+VERSION=1.3
+REVISION=0

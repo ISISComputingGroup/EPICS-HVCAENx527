@@ -12,6 +12,8 @@ cd ${TOP}
 dbLoadDatabase("dbd/HVCAENx527.dbd",0,0)
 HVCAENx527_registerRecordDeviceDriver(pdbbase)
 
+HVCAENx527Connect( "SY1527", "10.51.10.11")
+
 ## Load record instances
 dbLoadRecords("db/PS1014001.db")
 dbLoadRecords("db/PS1014001ch.db")

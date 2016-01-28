@@ -1,4 +1,4 @@
-/* $Header: HVCAENx527/HVCAENx527App/src/HVCAENx527Main.cpp 1.6 2007/06/01 13:32:58CST Ru Igarashi (igarasr) Exp Ru Igarashi (igarasr)(2007/06/01 13:32:58CST) $
+/* $Header: HVCAENx527/HVCAENx527App/src/HVCAENx527Main.cpp 1.6.1.1 2014/04/30 17:46:55CST Ru Igarashi (igarasr) Exp  $
  * 
  * Copyright Canadian Light Source, Inc.  All rights reserved.
  *    - see licence.txt and licence_CAEN.txt for limitations on use.
@@ -27,53 +27,15 @@ int main(int argc,char *argv[])
 	extern short DEBUG;
 	short daemon;
 	char stcmd[256];
-#if 0
-	char *str;
-	int crnlen;
-	char crname[32], craddr[32];
-#else
 	short naddr;
 	char straddr[32][255];	/* MAX_BOARDS = 32 */
-#endif
 	/* Need to catch hangup signal to make sure semaphores are
 	   cleaned up properly */
 	SetSigShutdownHandler();
 
 	daemon = 0;
-	if(argc>=2) {    
+	if(argc>=1) {    
 		snprintf( stcmd, 255, "%s", argv[1]);
-#if 0
-		strncpy( stcmd, argv[1], 255);
-		/* parse command line args for crate and IP */
-		for( i = 2; i < argc; i++)
-		{
-			if( strcmp( argv[i], "-c") == 0)
-			{
-				i++;
-				str = argv[i];
-				crnlen = strlen( str);
-				for( j = 0; j < crnlen && str[j] != '@'; j++);
-				snprintf( crname, ++j, "%s", str);
-				if( j < crnlen)
-				{
-					str += j;
-					crnlen -= j;
-					for( j = 0; j < crnlen && argv[i][j] != ':'; j++);
-					snprintf( craddr, ++j, "%s", str);
-				}
-				if( j < crnlen)
-				{
-					str += j;
-					crnlen -= j;
-					printf( "slot option currently not supported: %s\n", str);
-				}
-				if( ConnectCrate( crname, craddr) == 0)
-				{
-					printf( "Successfully connected to %s @ %s\n", crname, craddr);
-				}
-			}
-		}
-#else
 		/* parse command line args for crate and IP */
 		j = 0;
 		for( i = 2; i < argc; i++)
@@ -97,21 +59,15 @@ int main(int argc,char *argv[])
 		naddr = j;
 		if( naddr > 0)
 			ParseCrateAddr( straddr, naddr);
-		else
-		{
-			printf( "No crates to monitor.  Shutting down.\n");
-			exit( 0);
-		}
-#endif
-
 	}
 	else
 	{
-		printf( "Syntax: hvcontrol <st.cmd> [-c <name>@<hostname>[:<slotlist>]] [-d] [-D <debuglevel>]\n");
-		printf( "        where <slotlist> = comma and dash separated list of slots.\n");
+		printf( "Syntax: hvcontrol <st.cmd> [-d] [-D <debuglevel>]\n");
 		printf( "              -d = run in daemon mode\n");
 		printf( "              <debuglevel> = 0 no messages\n");
 		printf( "              <debuglevel> = 10 all available messages\n");
+		printf( "\nor, the old Syntax, which will eventually be deprecated:\n");
+		printf( "        hvcontrol <st.cmd> [-c <name>@<hostname>] [-d] [-D <debuglevel>]\n");
 	}
 
 	if(stcmd)
@@ -132,6 +88,9 @@ int main(int argc,char *argv[])
 
 /* 
  *  $Log: HVCAENx527/HVCAENx527App/src/HVCAENx527Main.cpp  $
+ *  Revision 1.6.1.1 2014/04/30 17:46:55CST Ru Igarashi (igarasr) 
+ *  - new iocsh command eliminates need for command line connection information
+ *  - removed dead code
  *  Revision 1.6 2007/06/01 13:32:58CST Ru Igarashi (igarasr) 
  *  Member moved from EPICS/HVCAENx527App/src/HVCAENx527Main.cpp in project e:/MKS_Home/archive/cs/epics_local/drivers/CAENx527HV/project.pj to HVCAENx527/HVCAENx527App/src/HVCAENx527Main.cpp in project e:/MKS_Home/archive/cs/epics_local/drivers/CAENx527HV/project.pj.
  */

@@ -1,4 +1,4 @@
-/* $Header: HVCAENx527/HVCAENx527App/src/HVCAENx527chLongio.c 1.13 2007/06/01 13:32:58CST Ru Igarashi (igarasr) Exp Ru Igarashi (igarasr)(2007/06/01 13:32:58CST) $
+/* $Header: HVCAENx527/libHVCAENx527App/src/HVCAENx527chLongio.c 1.15 2014/04/29 23:04:40CST Ru Igarashi (igarasr) Exp  $
  * 
  * Copyright Canadian Light Source, Inc.  All rights reserved.
  *    - see licence.txt and licence_CAEN.txt for limitations on use.
@@ -66,7 +66,7 @@ read_longin( longinRecord *pior)
 
 	pior->val = (long)(pp->pval.l);
 	pior->udf = FALSE;
-PDEBUG(10) printf( "DEBUG: get %s = %ld\n", pp->pname, (long)(pior->val));
+PDEBUG(5) printf( "DEBUG: get %s = %ld\n", pp->pname, (long)(pior->val));
 
 	return( 0);
 }
@@ -137,7 +137,7 @@ write_longout( longoutRecord *pior)
 	if( pp == NULL || pp->hvchan->epicsenabled == 0)
 		return(3);
 	pp->pvalset.l = (long)(pior->val);
-PDEBUG(10) printf( "DEBUG: put %s = %ld\n", pp->pname, (long)(pior->val));
+PDEBUG(4) printf( "DEBUG: put %s = %ld\n", pp->pname, (long)(pior->val));
 	if( CAENx527SetChParVal( pp) != 0)
 		return( 3);
 
@@ -168,7 +168,11 @@ epicsExportAddress(dset,devCAENx527chLongin);
 epicsExportAddress(dset,devCAENx527chLongout);
 
 /* 
- * $Log: HVCAENx527/HVCAENx527App/src/HVCAENx527chLongio.c  $
+ * $Log: HVCAENx527/libHVCAENx527App/src/HVCAENx527chLongio.c  $
+ * Revision 1.15 2014/04/29 23:04:40CST Ru Igarashi (igarasr) 
+ * Member moved from HVCAENx527/HVCAENx527App/src/HVCAENx527chLongio.c in project e:/MKS_Home/archive/cs/epics_local/drivers/CAENx527HV/project.pj to HVCAENx527/libHVCAENx527App/src/HVCAENx527chLongio.c in project e:/MKS_Home/archive/cs/epics_local/drivers/CAENx527HV/project.pj.
+ * Revision 1.14 2014/04/28 20:05:42CST Ru Igarashi (igarasr) 
+ * harmonized debug level usage (as per HVCAENx527.h)
  * Revision 1.13 2007/06/01 13:32:58CST Ru Igarashi (igarasr) 
  * Member moved from EPICS/HVCAENx527App/src/HVCAENx527chLongio.c in project e:/MKS_Home/archive/cs/epics_local/drivers/CAENx527HV/project.pj to HVCAENx527/HVCAENx527App/src/HVCAENx527chLongio.c in project e:/MKS_Home/archive/cs/epics_local/drivers/CAENx527HV/project.pj.
  */
