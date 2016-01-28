@@ -189,16 +189,11 @@ ReadChParProp( int handle, unsigned short slot, unsigned short chan, char *pname
 #endif	/* CAENHVWrapperVERSION */
 	if( retval != CAENHV_OK)
 	{
-<<<<<<< HEAD:HVCAENx527App/src/HVCAENx527.c
-		printf( "CAENHVGetCHParamProp(): Slot = %2d Channel = %2d ParName = %s Error = %s (%d)\n",
-				slot, chan, pname, CAENHVGetError( name), retval);
-=======
 #if CAENHVWrapperVERSION / 100 == 2
 		printf( "CAENHVGetCHParamProp(): %s (%d)\n", CAENHVGetError( name), retval);
 #else
 		printf( "CAENHV_GetCHParamProp(): %s (%d)\n", CAENHV_GetError( handle), retval);
 #endif	/* CAENHVWrapperVERSION */
->>>>>>> vendor_1_3_0:libHVCAENx527App/src/HVCAENx527.c
 	}
 
 #if CAENHVWrapperVERSION / 100 == 2
@@ -208,16 +203,11 @@ ReadChParProp( int handle, unsigned short slot, unsigned short chan, char *pname
 #endif	/* CAENHVWrapperVERSION */
 	if( retval != CAENHV_OK)
 	{
-<<<<<<< HEAD:HVCAENx527App/src/HVCAENx527.c
-		printf( "CAENHVGetCHParamProp(): Slot = %2d Channel = %2d ParName = %s Error = %s (%d)\n",
-				slot, chan, pname, CAENHVGetError( name), retval);
-=======
 #if CAENHVWrapperVERSION / 100 == 2
 		printf( "CAENHVGetCHParamProp(): %s (%d)\n", CAENHVGetError( name), retval);
 #else
 		printf( "CAENHV_GetCHParamProp(): %s (%d)\n", CAENHV_GetError( handle), retval);
 #endif	/* CAENHVWrapperVERSION */
->>>>>>> vendor_1_3_0:libHVCAENx527App/src/HVCAENx527.c
 	}
 
 	if( pp->Type == PARAM_TYPE_NUMERIC)
@@ -229,16 +219,11 @@ ReadChParProp( int handle, unsigned short slot, unsigned short chan, char *pname
 #endif	/* CAENHVWrapperVERSION */
 		if( retval != CAENHV_OK)
 		{
-<<<<<<< HEAD:HVCAENx527App/src/HVCAENx527.c
-			printf( "CAENHVGetCHParamProp(): Slot = %2d Channel = %2d ParName = %s Error = %s (%d)\n",
-					slot, chan, pname, CAENHVGetError( name), retval);
-=======
 #if CAENHVWrapperVERSION / 100 == 2
 			printf( "CAENHVGetCHParamProp(): %s (%d)\n", CAENHVGetError( name), retval);
 #else
 			printf( "CAENHV_GetCHParamProp(): %s (%d)\n", CAENHV_GetError( handle), retval);
 #endif	/* CAENHVWrapperVERSION */
->>>>>>> vendor_1_3_0:libHVCAENx527App/src/HVCAENx527.c
 		}
 
 #if CAENHVWrapperVERSION / 100 == 2
@@ -248,16 +233,11 @@ ReadChParProp( int handle, unsigned short slot, unsigned short chan, char *pname
 #endif	/* CAENHVWrapperVERSION */
 		if( retval != CAENHV_OK)
 		{
-<<<<<<< HEAD:HVCAENx527App/src/HVCAENx527.c
-			printf( "CAENHVGetCHParamProp(): Slot = %2d Channel = %2d ParName = %s Error = %s (%d)\n",
-					slot, chan, pname, CAENHVGetError( name), retval);
-=======
 #if CAENHVWrapperVERSION / 100 == 2
 			printf( "CAENHVGetCHParamProp(): %s (%d)\n", CAENHVGetError( name), retval);
 #else
 			printf( "CAENHV_GetCHParamProp(): %s (%d)\n", CAENHV_GetError( handle), retval);
 #endif	/* CAENHVWrapperVERSION */
->>>>>>> vendor_1_3_0:libHVCAENx527App/src/HVCAENx527.c
 		}
 
 #if CAENHVWrapperVERSION / 100 == 2
@@ -267,16 +247,11 @@ ReadChParProp( int handle, unsigned short slot, unsigned short chan, char *pname
 #endif	/* CAENHVWrapperVERSION */
 		if( retval != CAENHV_OK)
 		{
-<<<<<<< HEAD:HVCAENx527App/src/HVCAENx527.c
-			printf( "CAENHVGetCHParamProp(): Slot = %2d Channel = %2d ParName = %s Error = %s (%d)\n",
-					slot, chan, pname, CAENHVGetError( name), retval);
-=======
 #if CAENHVWrapperVERSION / 100 == 2
 			printf( "CAENHVGetCHParamProp(): %s (%d)\n", CAENHVGetError( name), retval);
 #else
 			printf( "CAENHV_GetCHParamProp(): %s (%d)\n", CAENHV_GetError( handle), retval);
 #endif	/* CAENHVWrapperVERSION */
->>>>>>> vendor_1_3_0:libHVCAENx527App/src/HVCAENx527.c
 		}
 
 #if CAENHVWrapperVERSION / 100 == 2
@@ -286,16 +261,11 @@ ReadChParProp( int handle, unsigned short slot, unsigned short chan, char *pname
 #endif	/* CAENHVWrapperVERSION */
 		if( retval != CAENHV_OK)
 		{
-<<<<<<< HEAD:HVCAENx527App/src/HVCAENx527.c
-			printf( "CAENHVGetCHParamProp(): Slot = %2d Channel = %2d ParName = %s Error = %s (%d)\n",
-					slot, chan, pname, CAENHVGetError( name), retval);
-=======
 #if CAENHVWrapperVERSION / 100 == 2
 			printf( "CAENHVGetCHParamProp(): %s (%d)\n", CAENHVGetError( name), retval);
 #else
 			printf( "CAENHV_GetCHParamProp(): %s (%d)\n", CAENHV_GetError( handle), retval);
 #endif	/* CAENHVWrapperVERSION */
->>>>>>> vendor_1_3_0:libHVCAENx527App/src/HVCAENx527.c
 		}
 
 	}
@@ -308,16 +278,11 @@ ReadChParProp( int handle, unsigned short slot, unsigned short chan, char *pname
 #endif	/* CAENHVWrapperVERSION */
 		if( retval != CAENHV_OK)
 		{
-<<<<<<< HEAD:HVCAENx527App/src/HVCAENx527.c
-			printf( "CAENHVGetCHParamProp(): Slot = %2d Channel = %2d ParName = %s Error = %s (%d)\n",
-					slot, chan, pname, CAENHVGetError( name), retval);
-=======
 #if CAENHVWrapperVERSION / 100 == 2
 			printf( "CAENHVGetCHParamProp(): %s (%d)\n", CAENHVGetError( name), retval);
 #else
 			printf( "CAENHV_GetCHParamProp(): %s (%d)\n", CAENHV_GetError( handle), retval);
 #endif	/* CAENHVWrapperVERSION */
->>>>>>> vendor_1_3_0:libHVCAENx527App/src/HVCAENx527.c
 		}
 
 #if CAENHVWrapperVERSION / 100 == 2
@@ -327,16 +292,11 @@ ReadChParProp( int handle, unsigned short slot, unsigned short chan, char *pname
 #endif	/* CAENHVWrapperVERSION */
 		if( retval != CAENHV_OK)
 		{
-<<<<<<< HEAD:HVCAENx527App/src/HVCAENx527.c
-			printf( "CAENHVGetCHParamProp(): Slot = %2d Channel = %2d ParName = %s Error = %s (%d)\n",
-					slot, chan, pname, CAENHVGetError( name), retval);
-=======
 #if CAENHVWrapperVERSION / 100 == 2
 			printf( "CAENHVGetCHParamProp(): %s (%d)\n", CAENHVGetError( name), retval);
 #else
 			printf( "CAENHV_GetCHParamProp(): %s (%d)\n", CAENHV_GetError( handle), retval);
 #endif	/* CAENHVWrapperVERSION */
->>>>>>> vendor_1_3_0:libHVCAENx527App/src/HVCAENx527.c
 		}
 	}
 	else if( pp->Type == PARAM_TYPE_CHSTATUS)
@@ -476,11 +436,8 @@ PDEBUG(1) printf( "DEBUG: InitCrate(): found %d slots, with total of %d channels
 			{
 				/* get parameters for each channel
 				   and put into respective PV fields */
-<<<<<<< HEAD:HVCAENx527App/src/HVCAENx527.c
 				par = NULL;
-=======
 #if CAENHVWrapperVERSION / 100 == 2
->>>>>>> vendor_1_3_0:libHVCAENx527App/src/HVCAENx527.c
 				retval = CAENHVGetChParamInfo(cr->name, i, 0, &par);
 #else
 				retval = CAENHV_GetChParamInfo(cr->handle, i, 0, &par, &npar);
@@ -544,24 +501,12 @@ PDEBUG(4) printf( "DEBUG: paramname %s\n", parnamelist[l]);
  */
 }
 
-<<<<<<< HEAD:HVCAENx527App/src/HVCAENx527.c
-epicsShareFunc int
-ConnectCrate( char *name)
-{
-	int i;
-	CAENHVRESULT retval;
-	/* Find the create by name */
-	i=0;
-	while( i < MAX_CRATES  &&  strcmp(Crate[i].name, name) != 0) i++;
-	if (i >= MAX_CRATES) {
-		errlogPrintf("%s:%d: Could not find the crate named '%s'\n",__FUNCTION__,__LINE__,name);
-=======
 #if CAENHVWrapperVERSION / 100 == 2
-int
+epicsShareFunc int
 ConnectCrate( char *name, char *linkaddr)
 #else
 int
-ConnectCrate( char *name, char *linkaddr, CAENHV_SYSTEM_TYPE_t type)
+epicsShareFunc ConnectCrate( char *name, char *linkaddr, CAENHV_SYSTEM_TYPE_t type)
 #endif	/* CAENHVWrapperVERSION */
 {
 	int i;
@@ -574,7 +519,6 @@ ConnectCrate( char *name, char *linkaddr, CAENHV_SYSTEM_TYPE_t type)
 	if( name == NULL || name[0] == '\0' || linkaddr[0] == '\0')
 	{
 		printf( "ConnectCrate(): lacking crate name or address\n");
->>>>>>> vendor_1_3_0:libHVCAENx527App/src/HVCAENx527.c
 		return -1;
 	}
 #else
@@ -585,21 +529,6 @@ ConnectCrate( char *name, char *linkaddr, CAENHV_SYSTEM_TYPE_t type)
 	}
 #endif	/* CAENHVWrapperVERSION */
 
-	/* TCP/IP connection to crates */
-<<<<<<< HEAD:HVCAENx527App/src/HVCAENx527.c
-	retval = CAENHVInitSystem(
-				Crate[i].name,
-				LINKTYPE_TCPIP,
-				(void *)Crate[i].IPaddr,
-				Crate[i].username,
-				Crate[i].password);
-	printf( "Connecting to crate %s@%s\n", name, Crate[i].IPaddr);
-	if( retval == CAENHV_OK) {
-		/* get list of boards */
-		InitCrate( &(Crate[i]));
-		return(0);
-	} else {
-=======
 #if CAENHVWrapperVERSION / 100 == 2
 	retval = CAENHVInitSystem( name, LINKTYPE_TCPIP, (void *)linkaddr, "admin", "admin");
 #else
@@ -627,7 +556,6 @@ ConnectCrate( char *name, char *linkaddr, CAENHV_SYSTEM_TYPE_t type)
 	else
 	{
 #if CAENHVWrapperVERSION / 100 == 2
->>>>>>> vendor_1_3_0:libHVCAENx527App/src/HVCAENx527.c
 		printf( "CAENHVInitSystem(): %s (%d)\n", CAENHVGetError( name), retval);
 #else
 		printf( "CAENHV_InitSystem(): %s (%d)\n", CAENHV_GetError( handle), retval);
@@ -636,151 +564,6 @@ ConnectCrate( char *name, char *linkaddr, CAENHV_SYSTEM_TYPE_t type)
 	return(-1);
 }
 
-<<<<<<< HEAD:HVCAENx527App/src/HVCAENx527.c
-
- /*                                                                                                                          
-  *       Get ip from domain name
-  */                                                                                                                         
-int hostname_to_ip(char *hostname , char *ip) {
-  struct addrinfo hints, *servinfo, *p;
-  struct sockaddr_in *h;
-  int rv;
-  
-  memset(&hints, 0, sizeof hints);
-  hints.ai_family = AF_UNSPEC; // use AF_INET6 to force IPv6
-  hints.ai_socktype = SOCK_STREAM;
-
-  if ( (rv = getaddrinfo( hostname , "http" , &hints , &servinfo)) != 0)
-         {
-                 fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(rv));
-                 return 1;
-         }
-
-         // loop through all the results and connect to the first we can
-         for(p = servinfo; p != NULL; p = p->ai_next)
-         {
-                 h = (struct sockaddr_in *) p->ai_addr;
-                 strcpy(ip , inet_ntoa( h->sin_addr ) );
-         }
-
-         freeaddrinfo(servinfo); // all done with this structure
-         return 0;
- }
-
-
-void CAENx527ConfigureCreate(char *name, char *addr, char *username, char* password){
-  char ip[32];
-  int i;
-
-  PDEBUG(1) errlogPrintf("%s::%s::%d will connect to the crate %s(%s) with user=%s password=%s",
-		  __FILE__,__FUNCTION__,__LINE__, name,addr,username,password);
-  /* Check the name */
-  if (strlen(name) == 0) {
-    fprintf(stderr,"ERROR in %s:%d: name = NULL\n",__FUNCTION__,__LINE__);
-    return;
-  }
-  /* Check the address */
-  if (strlen(addr) == 0) {
-    fprintf(stderr,"ERROR in %s:%d: addr = NULL\n",__FUNCTION__,__LINE__);
-    return;
-  }
-  /* Check if address is belonging to the IPv4 address space */
-  hostname_to_ip(addr, ip);
-  printf("For address = %s\nThe IP is = %s\n",addr, ip);
-  /* Check user name and password */
-  if (username == NULL) {
-    username = "admin";
-    if (password == NULL) password = "admin";
-  }
-  /* Configure the crate */
-  i = 0;
-  while( i < MAX_CRATES && Crate[i].hvchan != NULL) i++;
-  if (i < MAX_CRATES) {
-	  Crate[i].crate = i;
-	  strncpy(Crate[i].name,     name,     sizeof(Crate[i].name)-1);
-	  strncpy(Crate[i].IPaddr,   ip,       sizeof(Crate[i].IPaddr)-1);
-	  strncpy(Crate[i].username, username, sizeof(Crate[i].username)-1);
-	  strncpy(Crate[i].password, password, sizeof(Crate[i].password)-1);
-
-/*	Replaced by Nerses
-	  snprintf( Crate[i].name, 63, "%s", name);
-	  snprintf( Crate[i].IPaddr, 63, "%s", ip);
-	  snprintf( Crate[i].username, 63, "%s", username);
-	  snprintf( Crate[i].password, 63, "%s", password);*/
-  }
-  /* Connect to the crate */
-  PDEBUG(1) errlogPrintf("%s::%s::%d will connect to the crate %s(%s) with user=%s password=%s",
-		  __FILE__,__FUNCTION__,__LINE__, name,ip,username,password);
-  if( ConnectCrate(name) == 0){
-    printf( "Successfully connected to %s @ %s\n", name, ip);
-  }
-  return;
-}
-
-/* Information needed by iocsh */
-static const iocshArg     CAENx527ConfigureCreateArg0 = {"Name",     iocshArgString};
-static const iocshArg     CAENx527ConfigureCreateArg1 = {"Address",  iocshArgString};
-static const iocshArg     CAENx527ConfigureCreateArg2 = {"Username", iocshArgString};
-static const iocshArg     CAENx527ConfigureCreateArg3 = {"Password", iocshArgString};
-static const iocshArg    *CAENx527ConfigureCreateArgs[] = {
-  &CAENx527ConfigureCreateArg0, 
-  &CAENx527ConfigureCreateArg1, 
-  &CAENx527ConfigureCreateArg2,
-  &CAENx527ConfigureCreateArg3};
-static const iocshFuncDef CAENx527ConfigureCreateFuncDef = {"CAENx527ConfigureCreate", 4, CAENx527ConfigureCreateArgs};
-
-/* Wrapper called by iocsh, selects the argument types that function needs */
-static void CAENx527ConfigureCreateCallFunc(const iocshArgBuf *args) {
-  CAENx527ConfigureCreate(args[0].sval, args[1].sval, args[2].sval, args[3].sval);
-}
-
-/* Registration routine, runs at startup */
-static void CAENx527ConfigureCreateRegister(void) {
-    iocshRegister(&CAENx527ConfigureCreateFuncDef, CAENx527ConfigureCreateCallFunc);
-}
-
-/* Will dynamically load DBes according to the boards discovered on the create */
-/* Rob Nelson: Added the macros argument so it can expand $(P) at run time rather than compile time */
-void CAENx527DbLoadRecords(const char *macros){
-	/* Prevent calling this twice */
-	int i,j,k;
-	char* boardname;
-	unsigned int boardnumber;
-	char args[256];
-	static int isCAENx527DbLoadRecordsCalled = 0;
-	PDEBUG(1) printf("%s:%d: The function called\n",__FUNCTION__,__LINE__);
-	if (isCAENx527DbLoadRecordsCalled>0) return;
-	isCAENx527DbLoadRecordsCalled = 1;
-	PDEBUG(1) printf("%s:%d: The function executed\n",__FUNCTION__,__LINE__);
-	dbLoadRecords("db/HVCAENx527.db", macros);
-	for(i=0; i<MAX_CRATES; i++) {
-		if (Crate[i].connected == 1) {
-			snprintf(args,256,"%s,PSNAME=%s,CHADDR=0.00.000",macros,Crate[i].name);
-			PDEBUG(1) errlogPrintf("%s:%d: Load the db 'db/HVCAENx527.db' with args = %s\n",__FUNCTION__,__LINE__,args);
-			dbLoadRecords("db/HVCAENx527cr.db", args);	/* The mainframe related PVs definitions */
-			for(j=0; j<Crate[i].nsl; j++) {
-				boardname = Crate[i].hvchmap[j].slname;
-				sscanf((boardname+1), "%4d", &boardnumber);
-				if (strlen(boardname)>0) {
-					PDEBUG(1) errlogPrintf("%s:%d: Crate = %2d Slot = %2d Board name = %d\n",__FUNCTION__,__LINE__,i,j,boardnumber);
-					switch (boardnumber) {
-						case 1535:
-						case 1550:
-						case 1733:
-							for (k = 0; k < Crate[i].hvchmap[j].nchan; k++) {
-								snprintf(args,256,"%s,PSNAME=%s,SLOT=%d,CHANNUM=%d,CHADDR=%01d.%02d.%03d",macros,Crate[i].name,j,k,i,j,k);
-								PDEBUG(1) errlogPrintf("%s:%d: Load the db 'db/HVCAENx527ch.db' with args = %s\n",__FUNCTION__,__LINE__,args);
-								dbLoadRecords("db/HVCAENx527ch.db", args);	/* The channel related PVs definitions */
-								dbLoadRecords("db/HVCAENx527chItLk.db", args);	/* The software inter locks for channels */
-							}
-							break;
-
-						default:
-                            errlogPrintf("%s:%d: Crate = %2d Slot = %2d UNKNOWN Board name = %d\n",__FUNCTION__,__LINE__,i,j,boardnumber);
-							break;
-					}
-				}
-=======
 void
 ParseCrateAddr( char (*straddr)[255], short naddr)
 {
@@ -839,7 +622,6 @@ PDEBUG(1) printf( "DEBUG: resolve %s -> %s (%s,%s,%d)\n", craddr, crip, hostip->
 #endif	/* CAENHVWrapperVERSION / 100 */
 			{
 				printf( "Successfully connected to %s @ %s\n", crname, craddr);
->>>>>>> vendor_1_3_0:libHVCAENx527App/src/HVCAENx527.c
 			}
 		}
 	}
@@ -1048,13 +830,9 @@ CAENx527GetAllChParVal( HVCRATE *cr, char *pname)
 	int i, j;
 	int nset;
 	int pnum;
-<<<<<<< HEAD:HVCAENx527App/src/HVCAENx527.c
-	unsigned short *chlist;
-=======
 	unsigned long type;
 	short *chlist;
 	/* 4-byte data */
->>>>>>> vendor_1_3_0:libHVCAENx527App/src/HVCAENx527.c
 	union pval
 	{
 		float f;
@@ -1093,23 +871,6 @@ CAENx527GetAllChParVal( HVCRATE *cr, char *pname)
 			epicsThreadSleep( 0.01);
 
 		Busy[cr->crate] = 1;
-<<<<<<< HEAD:HVCAENx527App/src/HVCAENx527.c
-/* Note: allocating and building these lists repeatedly is not efficient.
-   This should really be done once at init_record. */
-		chlist = (ushort *)calloc( sizeof(ushort), cr->nchan);
-		if( chlist == NULL)
-		{
-			printf( "GetAllChParVal: Failed to calloc channel list.\n");
-			return( 3);
-		}
-		pval = (union pval *)calloc( sizeof(union pval), cr->nchan);
-		if( pval == NULL)
-		{
-			printf( "GetAllChParVal: Failed to calloc value list.\n");
-			return( 3);
-		}
-=======
->>>>>>> vendor_1_3_0:libHVCAENx527App/src/HVCAENx527.c
 		/* Build the list of channels to change in this slot */
 		nset = 0;
 		pnum = 9999;
@@ -1284,13 +1045,9 @@ CAENx527SetAllChParVal( HVCRATE *cr, char *pname, void *val)
 {
 	int i, j;
 	int nset;
-<<<<<<< HEAD:HVCAENx527App/src/HVCAENx527.c
-	unsigned short *chlist;
-=======
 	int pnum;
 	unsigned long type;
 	short *chlist;
->>>>>>> vendor_1_3_0:libHVCAENx527App/src/HVCAENx527.c
 	union pval
 	{
 		float f;
@@ -1330,9 +1087,6 @@ CAENx527SetAllChParVal( HVCRATE *cr, char *pname, void *val)
 
 /* Note: allocating and building these lists repeatedly is not efficient.
    This should really be done once at init_record. */
-<<<<<<< HEAD:HVCAENx527App/src/HVCAENx527.c
-		chlist = (ushort *)calloc( sizeof(ushort), cr->nchan);
-=======
 		pval = NULL;
 #if CAENHVWrapperVERSION / 100 > 2 || ! defined( CAENHVWrapperVERSION)
 		pval8 = NULL;
@@ -1340,7 +1094,6 @@ CAENx527SetAllChParVal( HVCRATE *cr, char *pname, void *val)
 		pvala = NULL;
 #endif	/* CAENHVWrapperVERSION */
 		chlist = (short *)calloc( sizeof(short), cr->nchan);
->>>>>>> vendor_1_3_0:libHVCAENx527App/src/HVCAENx527.c
 		if( chlist == NULL)
 		{
 			printf( "SetAllChParVal: Failed to calloc channel list.\n");
@@ -1944,15 +1697,11 @@ PDEBUG(10) printf( "DEBUG: scanning crate %d\n", i);
 				/* If we lose the connection, we have to log
 				   back in. */
 #if 1
-<<<<<<< HEAD:HVCAENx527App/src/HVCAENx527.c
-				retval = CAENHVInitSystem( Crate[i].name, LINKTYPE_TCPIP, (void *)(Crate[i].IPaddr), Crate[i].username, Crate[i].password);
-=======
 #if CAENHVWrapperVERSION / 100 == 2
 				retval = CAENHVInitSystem( Crate[i].name, LINKTYPE_TCPIP, (void *)(Crate[i].IPaddr), "admin", "admin");
 #else
 				retval = CAENHV_InitSystem( Crate[i].type, LINKTYPE_TCPIP, (void *)(Crate[i].IPaddr), "admin", "admin", &(Crate[i].handle));
 #endif	/* CAENHVWrapperVERSION */
->>>>>>> vendor_1_3_0:libHVCAENx527App/src/HVCAENx527.c
 				if( retval == CAENHV_OK)
 				{
 					Crate[i].connected = 1;
@@ -2060,11 +1809,7 @@ PDEBUG(5) printf( "DEBUG: slot name (%d out of %d): %s\n", j, Crate[i].nsl, Crat
 				for( k = 0; k < hvch->npar; k++)
 				{
 					for( csl = Crate[i].csl; csl->next != NULL && strcmp( csl->pname, hvch->pplist[k].pname) != 0; csl = csl->next);
-<<<<<<< HEAD:HVCAENx527App/src/HVCAENx527.c
-PDEBUG(6) printf( "DEBUG: csl->next = %#llx ?= NULL, '%s' ?= '%s'\n", (unsigned long long)csl->next, csl->pname, hvch->pplist[k].pname);
-=======
 PDEBUG(6) printf( "DEBUG: csl->next = %p ?= NULL, '%s' ?= '%s'\n", csl->next, csl->pname, hvch->pplist[k].pname);
->>>>>>> vendor_1_3_0:libHVCAENx527App/src/HVCAENx527.c
 					if( csl->next == NULL)
 					{
 						csl->next = (CRATESCANLIST *)calloc( sizeof(CRATESCANLIST), 1);
@@ -2186,7 +1931,6 @@ epicsRegisterFunction( InitScanChannels);
 epicsRegisterFunction( ScanChannels);
 #endif
 
-epicsExportRegistrar(CAENx527ConfigureCreateRegister);
 epicsExportRegistrar(CAENx527DbLoadRecordsRegister);
 
 

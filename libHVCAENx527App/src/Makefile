@@ -16,6 +16,8 @@ LIBRARY_DEFAULT = HVCAENx527
 SHRLIB_VERSION = $(VERSION_DOT)
 
 USR_CFLAGS += -DCAENHVWrapperVERSION=$(CAENHVWrapperVERSION)
+USR_INCLUDES += -I$(CAENHVWRAPPER)/include
+
 #USR_CFLAGS_Linux += -std=gnu99		# for RH7 compatibility only
 #USR_LDFLAGS_Linux += -ldl		# for RH7 compatibility only
 

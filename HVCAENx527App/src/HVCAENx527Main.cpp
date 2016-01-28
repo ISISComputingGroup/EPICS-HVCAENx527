@@ -14,11 +14,9 @@
 #include <stdio.h>
 
 #include "epicsThread.h"
+#include "epicsString.h"
+#include "epicsStdio.h"
 #include "iocsh.h"
-
-#ifdef _WIN32
-#define snprintf _snprintf
-#endif
 
 extern "C" {
 //    epicsShareFunc int ConnectCrate( char *name);
