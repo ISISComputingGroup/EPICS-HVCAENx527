@@ -1,4 +1,4 @@
-/* $Header: HVCAENx527/HVCAENx527App/src/HVCAENx527chStringio.c 1.8 2007/06/01 13:32:58CST Ru Igarashi (igarasr) Exp Ru Igarashi (igarasr)(2007/06/01 13:32:58CST) $
+/* $Header: HVCAENx527/libHVCAENx527App/src/HVCAENx527chStringio.c 1.10 2014/04/29 23:04:40CST Ru Igarashi (igarasr) Exp  $
  *
  * Copyright Canadian Light Source, Inc.  All rights reserved.
  *    - see licence.txt and licence_CAEN.txt for limitations on use.
@@ -70,7 +70,7 @@ read_stringin( stringinRecord *pior)
 
 	strcpy( pior->val, hvch->chname);
 	pior->udf = FALSE;
-PDEBUG(10) printf( "DEBUG: get name = %s\n", pior->val);
+PDEBUG(5) printf( "DEBUG: get name = %s\n", pior->val);
 
 	return( 2);
 }
@@ -127,7 +127,7 @@ init_record_stringout( stringoutRecord *pior)
 	if( pval == NULL)
 		return( 3);
 	strcpy( pior->val, hvch->chname);
-PDEBUG(3) printf( "DEBUG: init stringin %s -> %s\n", pinstio->string, hvch->chname);
+PDEBUG(4) printf( "DEBUG: init stringin %s -> %s\n", pinstio->string, hvch->chname);
 
 	hvch->epicsenabled = 1;
 
@@ -143,7 +143,7 @@ write_stringout( stringoutRecord *pior)
 	if( hvch == NULL || hvch->epicsenabled == 0)
 		return(3);
 	epicsSnprintf( hvch->chname, 12, "%s", pior->val);
-PDEBUG(10) printf( "DEBUG: put name = %s\n", pior->val);
+PDEBUG(4) printf( "DEBUG: put name = %s\n", pior->val);
 	if( CAENx527SetChName( hvch, pior->val) != 0)
 		return( 3);
 
@@ -175,7 +175,11 @@ epicsExportAddress(dset,devCAENx527chStringin);
 epicsExportAddress(dset,devCAENx527chStringout);
 
 /*
- * $Log: HVCAENx527/HVCAENx527App/src/HVCAENx527chStringio.c  $
+ * $Log: HVCAENx527/libHVCAENx527App/src/HVCAENx527chStringio.c  $
+ * Revision 1.10 2014/04/29 23:04:40CST Ru Igarashi (igarasr) 
+ * Member moved from HVCAENx527/HVCAENx527App/src/HVCAENx527chStringio.c in project e:/MKS_Home/archive/cs/epics_local/drivers/CAENx527HV/project.pj to HVCAENx527/libHVCAENx527App/src/HVCAENx527chStringio.c in project e:/MKS_Home/archive/cs/epics_local/drivers/CAENx527HV/project.pj.
+ * Revision 1.9 2014/04/28 20:05:42CST Ru Igarashi (igarasr) 
+ * harmonized debug level usage (as per HVCAENx527.h)
  * Revision 1.8 2007/06/01 13:32:58CST Ru Igarashi (igarasr) 
  * Member moved from EPICS/HVCAENx527App/src/HVCAENx527chStringio.c in project e:/MKS_Home/archive/cs/epics_local/drivers/CAENx527HV/project.pj to HVCAENx527/HVCAENx527App/src/HVCAENx527chStringio.c in project e:/MKS_Home/archive/cs/epics_local/drivers/CAENx527HV/project.pj.
  */

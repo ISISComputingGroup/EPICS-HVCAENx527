@@ -1,5 +1,8 @@
 #
-# Interlock Records for a channel of a
+# Copyright Canadian Light Source, Inc.  All rights reserved.
+#    - see licence.txt and licence_CAEN.txt for limitations on use.
+#
+# Interlock Records for channel $(CHANNUM) of a
 # CAEN HVx527 HV controller
 #
 record( ai, "$(PSNAME):$(CHANNUM):ilock:in")

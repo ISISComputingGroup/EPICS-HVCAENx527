@@ -2,7 +2,12 @@
 include $(TOP)/configure/CONFIG_APP
 # Add any changes to make definitions here
 
+#CROSS_COMPILER_TARGET_ARCHS =
 #CROSS_COMPILER_TARGET_ARCHS = vxWorks-68040
+# Uncomment the next line if you are compiling on 32-bit and cross for 64-bit
+#CROSS_COMPILER_TARGET_ARCHS = linux-x86_64
+# Uncomment the next line if you are compiling on 64-bit and cross for 32-bit
+CROSS_COMPILER_TARGET_ARCHS = linux-x86
 
 # Use this when your IOC and the host use different paths
 # to access the application. Typically this will be 

@@ -46,13 +46,9 @@ include $(TOP)/configure/RULES
 #----------------------------------------
 #  ADD RULES AFTER THIS LINE
 
-##HVCAENx527.tpl:
+../O.Common/PS1014001.db: $(TOP)/templates/HVCAENx527.tpl $(TOP)/templates/PS1014001.sub
+	msi -I $(TOP)/templates -M "PSNAME=PS1014001,CHADDR=0.00.000" $(TOP)/templates/HVCAENx527.tpl > ../O.Common/PS1014001.db
 
-##HVCAENx527ch.tpl:
-
-### Gee, I think I need to start using sub files
-##../O.Common/PS1014001.db: ../HVCAENx527.tpl ../HVCAENx527ch.tpl ../HVCAENx527ch.sub ../HVCAENx527chItLk.tpl ##../HVCAENx527chItLk.sub
-##	msi -I.. -M "PSNAME=PS1014001,CHADDR=0.00.000" HVCAENx527.tpl > ../O.Common/PS1014001.db
-##	msi -I.. -S ../HVCAENx527ch.sub > ../O.Common/PS1014001ch.db
-##	msi -I.. -S ../HVCAENx527chItLk.sub >> ../O.Common/PS1014001ch.db
-##$(MSI) -M "P=$(MYPVPREFIX)CAEN:" -o $@ $<
+../O.Common/PS1014001ch.db: $(TOP)/templates/HVCAENx527ch.tpl $(TOP)/templates/HVCAENx527chItLk.tpl ../PS1014001ch.sub ../PS1014001chItLk.sub
+	msi -I $(TOP)/templates -S ../PS1014001ch.sub > ../O.Common/PS1014001ch.db
+	msi -I $(TOP)/templates -S ../PS1014001chItLk.sub >> ../O.Common/PS1014001ch.db

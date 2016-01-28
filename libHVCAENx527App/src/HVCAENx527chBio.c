@@ -1,31 +1,33 @@
-/* $Header: HVCAENx527/HVCAENx527App/src/HVCAENx527chLongio.c 1.13 2007/06/01 13:32:58CST Ru Igarashi (igarasr) Exp Ru Igarashi (igarasr)(2007/06/01 13:32:58CST) $
- * 
+/* $Header: HVCAENx527/libHVCAENx527App/src/HVCAENx527chBio.c 1.16.1.1 2014/04/30 15:37:21CST Ru Igarashi (igarasr) Exp  $
+ *
  * Copyright Canadian Light Source, Inc.  All rights reserved.
  *    - see licence.txt and licence_CAEN.txt for limitations on use.
  */
 /*
- * HVCAENx527chLongio.c:
- * Long input record and long output record device support routines.
+ * HVCAENx527chBio.c:
+ * Binary input record and binary output record device support routines.
  */
 
-#include <longinRecord.h>
-#include <longoutRecord.h>
+#include <biRecord.h>
+#include <boRecord.h>
+#include <errlog.h>
 
 #include <epicsExport.h>
 #include "HVCAENx527.h"
+
 /*
- * devCAENx527chLongin
+ * devCAENx527chBi
  */
 
 static long
-init_record_longin( longinRecord *pior)
+init_record_bi( biRecord *pior)
 {
 	struct instio *pinstio;
 	PARPROP *pp = NULL;
 
 	if( pior->inp.type != INST_IO)
 	{
-		errlogPrintf( "%s: longin INP field type should be INST_IO\n", pior->name);
+		errlogPrintf( "%s: bi INP field type should be INST_IO\n", pior->name);
 		return( S_db_badField);
 	}
 
@@ -48,7 +50,7 @@ init_record_longin( longinRecord *pior)
 }
 
 static long
-read_longin( longinRecord *pior)
+read_bi( biRecord *pior)
 {
 #if SCAN_SERVER == 0
 	void *pval;
@@ -65,11 +67,11 @@ read_longin( longinRecord *pior)
 		return( 3);
 #endif
 
-	pior->val = (long)(pp->pval.l);
+	pior->val = (short)(pp->pval.l);
 	pior->udf = FALSE;
-PDEBUG(10) printf( "DEBUG: get %s = %ld\n", pp->pname, (long)(pior->val));
+PDEBUG(5) printf( "DEBUG: get %s = %hd\n", pp->pname, pior->val);
 
-	return( 0);
+	return( 2);
 }
 
 struct
@@ -79,23 +81,23 @@ struct
         DEVSUPFUN       init;
         DEVSUPFUN       init_record;
         DEVSUPFUN       get_ioint_info;
-        DEVSUPFUN       read_longin;
-} devCAENx527chLongin = 
+        DEVSUPFUN       read_bi;
+} devCAENx527chBi = 
         {
                 5,
                 NULL,
                 NULL,
-                init_record_longin,
+                init_record_bi,
                 NULL,
-                read_longin
+                read_bi
         };
 
 /*
- * devCAENx527chLongout
+ * devCAENx527chBi
  */
 
 static long
-init_record_longout( longoutRecord *pior)
+init_record_bo( boRecord *pior)
 {
 	struct instio *pinstio;
 	PARPROP *pp = NULL;
@@ -103,7 +105,7 @@ init_record_longout( longoutRecord *pior)
 
 	if( pior->out.type != INST_IO)
 	{
-		errlogPrintf( "%s: longout INP field type should be INST_IO\n", pior->name);
+		errlogPrintf( "%s: bi INP field type should be INST_IO\n", pior->name);
 		return( S_db_badField);
 	}
 
@@ -122,7 +124,8 @@ init_record_longout( longoutRecord *pior)
 	pval = CAENx527GetChParVal( pp);
 	if( pval == NULL)
 		return( 3);
-	pior->val = (long)(pp->pval.l);
+	pior->val = (short)(pp->pval.l);
+	pior->rval = (short)(pp->pval.l);
 
 	pp->hvchan->epicsenabled = 1;
 
@@ -130,15 +133,15 @@ init_record_longout( longoutRecord *pior)
 }
 
 static long
-write_longout( longoutRecord *pior)
+write_bo( boRecord *pior)
 {
 	PARPROP *pp;
 
 	pp = (PARPROP *)(pior->dpvt);
 	if( pp == NULL || pp->hvchan->epicsenabled == 0)
 		return(3);
-	pp->pvalset.l = (long)(pior->val);
-PDEBUG(10) printf( "DEBUG: put %s = %ld\n", pp->pname, (long)(pior->val));
+	pp->pvalset.l = (int)(pior->val);
+PDEBUG(4) printf( "DEBUG: put %s = %d\n", pp->pname, (int)(pior->val));
 	if( CAENx527SetChParVal( pp) != 0)
 		return( 3);
 
@@ -154,21 +157,28 @@ struct
         DEVSUPFUN       init;
         DEVSUPFUN       init_record;
         DEVSUPFUN       get_ioint_info;
-        DEVSUPFUN       write_longout;
-} devCAENx527chLongout =
+        DEVSUPFUN       write_bo;
+} devCAENx527chBo =
         {
                 5,
                 NULL,
                 NULL,
-                init_record_longout,
+                init_record_bo,
                 NULL,
-                write_longout
+                write_bo
         };
-epicsExportAddress(dset,devCAENx527chLongin);
-epicsExportAddress(dset,devCAENx527chLongout);
+epicsExportAddress(dset,devCAENx527chBi);
+epicsExportAddress(dset,devCAENx527chBo);
 
-/* 
- * $Log: HVCAENx527/HVCAENx527App/src/HVCAENx527chLongio.c  $
- * Revision 1.13 2007/06/01 13:32:58CST Ru Igarashi (igarasr) 
- * Member moved from EPICS/HVCAENx527App/src/HVCAENx527chLongio.c in project e:/MKS_Home/archive/cs/epics_local/drivers/CAENx527HV/project.pj to HVCAENx527/HVCAENx527App/src/HVCAENx527chLongio.c in project e:/MKS_Home/archive/cs/epics_local/drivers/CAENx527HV/project.pj.
+/*
+ * $Log: HVCAENx527/libHVCAENx527App/src/HVCAENx527chBio.c  $
+ * Revision 1.16.1.1 2014/04/30 15:37:21CST Ru Igarashi (igarasr) 
+ * fixed type error
+ * Revision 1.16 2014/04/29 23:04:40CST Ru Igarashi (igarasr) 
+ * Member moved from HVCAENx527/HVCAENx527App/src/HVCAENx527chBio.c in project e:/MKS_Home/archive/cs/epics_local/drivers/CAENx527HV/project.pj to HVCAENx527/libHVCAENx527App/src/HVCAENx527chBio.c in project e:/MKS_Home/archive/cs/epics_local/drivers/CAENx527HV/project.pj.
+ * Revision 1.15 2014/04/28 20:05:42CST Ru Igarashi (igarasr) 
+ * harmonized debug level usage (as per HVCAENx527.h)
+ * Revision 1.14 2007/06/01 13:32:58CST Ru Igarashi (igarasr) 
+ * Member moved from EPICS/HVCAENx527App/src/HVCAENx527chBio.c in project e:/MKS_Home/archive/cs/epics_local/drivers/CAENx527HV/project.pj to HVCAENx527/HVCAENx527App/src/HVCAENx527chBio.c in project e:/MKS_Home/archive/cs/epics_local/drivers/CAENx527HV/project.pj.
  */
+

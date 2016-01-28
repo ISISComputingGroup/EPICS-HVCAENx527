@@ -1,33 +1,31 @@
-/* $Header: HVCAENx527/HVCAENx527App/src/HVCAENx527chBio.c 1.14 2007/06/01 13:32:58CST Ru Igarashi (igarasr) Exp Ru Igarashi (igarasr)(2007/06/01 13:32:58CST) $
+/* $Header: HVCAENx527/libHVCAENx527App/src/HVCAENx527chMBBio.c 1.16.1.1 2014/04/30 15:37:14CST Ru Igarashi (igarasr) Exp  $ 
  *
  * Copyright Canadian Light Source, Inc.  All rights reserved.
  *    - see licence.txt and licence_CAEN.txt for limitations on use.
  */
 /*
- * HVCAENx527chBio.c:
- * Binary input record and binary output record device support routines.
+ * HVCAENx527chMBBio.c:
+ * MultiBit Binary input record and output record device support routines.
  */
 
-#include <biRecord.h>
-#include <boRecord.h>
-#include <errlog.h>
+#include <mbbiRecord.h>
+#include <mbboRecord.h>
 
 #include <epicsExport.h>
 #include "HVCAENx527.h"
-
 /*
- * devCAENx527chBi
+ * devCAENx527chMBBi
  */
 
 static long
-init_record_bi( biRecord *pior)
+init_record_mbbi( mbbiRecord *pior)
 {
 	struct instio *pinstio;
 	PARPROP *pp = NULL;
 
 	if( pior->inp.type != INST_IO)
 	{
-		errlogPrintf( "%s: bi INP field type should be INST_IO\n", pior->name);
+		errlogPrintf( "%s: mbbi INP field type should be INST_IO\n", pior->name);
 		return( S_db_badField);
 	}
 
@@ -50,12 +48,12 @@ init_record_bi( biRecord *pior)
 }
 
 static long
-read_bi( biRecord *pior)
+read_mbbi( mbbiRecord *pior)
 {
 #if SCAN_SERVER == 0
 	void *pval;
 #endif
-	PARPROP *pp;
+	PARPROP *pp = NULL;
 
 	pp = (PARPROP *)pior->dpvt;
 	if( pp == NULL || pp->hvchan->epicsenabled == 0 || pp->hvchan->hvcrate->connected == 0)
@@ -67,9 +65,9 @@ read_bi( biRecord *pior)
 		return( 3);
 #endif
 
-	pior->val = (short)(pp->pval.l);
+	pior->val = CAENx527mbbi2state( pp);
 	pior->udf = FALSE;
-PDEBUG(10) printf( "DEBUG: get %s = %hd\n", pp->pname, pior->val);
+PDEBUG(5) printf( "DEBUG: get %s = %o %hd\n", pp->pname, (short)(pp->pval.l), pior->val);
 
 	return( 2);
 }
@@ -81,23 +79,23 @@ struct
         DEVSUPFUN       init;
         DEVSUPFUN       init_record;
         DEVSUPFUN       get_ioint_info;
-        DEVSUPFUN       read_bi;
-} devCAENx527chBi = 
+        DEVSUPFUN       read_mbbi;
+} devCAENx527chMBBi = 
         {
                 5,
                 NULL,
                 NULL,
-                init_record_bi,
+                init_record_mbbi,
                 NULL,
-                read_bi
+                read_mbbi
         };
 
 /*
- * devCAENx527chBi
+ * devCAENx527chMBBo
  */
 
 static long
-init_record_bo( boRecord *pior)
+init_record_mbbo( mbboRecord *pior)
 {
 	struct instio *pinstio;
 	PARPROP *pp = NULL;
@@ -105,7 +103,7 @@ init_record_bo( boRecord *pior)
 
 	if( pior->out.type != INST_IO)
 	{
-		errlogPrintf( "%s: bi INP field type should be INST_IO\n", pior->name);
+		errlogPrintf( "%s: mbbo INP field type should be INST_IO\n", pior->name);
 		return( S_db_badField);
 	}
 
@@ -124,8 +122,8 @@ init_record_bo( boRecord *pior)
 	pval = CAENx527GetChParVal( pp);
 	if( pval == NULL)
 		return( 3);
-	pior->val = (short)(pp->pval.l);
-	pior->rval = (short)(pp->pval.l);
+	pior->val = CAENx527mbbi2state( pp);
+	pior->rval = CAENx527mbbi2state( pp);
 
 	pp->hvchan->epicsenabled = 1;
 
@@ -133,15 +131,15 @@ init_record_bo( boRecord *pior)
 }
 
 static long
-write_bo( boRecord *pior)
+write_mbbo( mbboRecord *pior)
 {
 	PARPROP *pp;
 
 	pp = (PARPROP *)(pior->dpvt);
 	if( pp == NULL || pp->hvchan->epicsenabled == 0)
 		return(3);
-	pp->pvalset.l = (long)(pior->val);
-PDEBUG(10) printf( "DEBUG: put %s = %d\n", pp->pname, pior->val);
+	pp->pvalset.l = (int)(pior->val);
+PDEBUG(4) printf( "DEBUG: put %s = %d\n", pp->pname, (int)(pior->val));
 	if( CAENx527SetChParVal( pp) != 0)
 		return( 3);
 
@@ -157,22 +155,27 @@ struct
         DEVSUPFUN       init;
         DEVSUPFUN       init_record;
         DEVSUPFUN       get_ioint_info;
-        DEVSUPFUN       write_bo;
-} devCAENx527chBo =
+        DEVSUPFUN       write_mbbo;
+} devCAENx527chMBBo =
         {
                 5,
                 NULL,
                 NULL,
-                init_record_bo,
+                init_record_mbbo,
                 NULL,
-                write_bo
+                write_mbbo
         };
-epicsExportAddress(dset,devCAENx527chBi);
-epicsExportAddress(dset,devCAENx527chBo);
+epicsExportAddress(dset,devCAENx527chMBBi);
+epicsExportAddress(dset,devCAENx527chMBBo);
 
 /*
- * $Log: HVCAENx527/HVCAENx527App/src/HVCAENx527chBio.c  $
- * Revision 1.14 2007/06/01 13:32:58CST Ru Igarashi (igarasr) 
- * Member moved from EPICS/HVCAENx527App/src/HVCAENx527chBio.c in project e:/MKS_Home/archive/cs/epics_local/drivers/CAENx527HV/project.pj to HVCAENx527/HVCAENx527App/src/HVCAENx527chBio.c in project e:/MKS_Home/archive/cs/epics_local/drivers/CAENx527HV/project.pj.
+ *  $Log: HVCAENx527/libHVCAENx527App/src/HVCAENx527chMBBio.c  $
+ *  Revision 1.16.1.1 2014/04/30 15:37:14CST Ru Igarashi (igarasr) 
+ *  fixed type error
+ *  Revision 1.16 2014/04/29 23:04:40CST Ru Igarashi (igarasr) 
+ *  Member moved from HVCAENx527/HVCAENx527App/src/HVCAENx527chMBBio.c in project e:/MKS_Home/archive/cs/epics_local/drivers/CAENx527HV/project.pj to HVCAENx527/libHVCAENx527App/src/HVCAENx527chMBBio.c in project e:/MKS_Home/archive/cs/epics_local/drivers/CAENx527HV/project.pj.
+ *  Revision 1.15 2014/04/28 20:05:42CST Ru Igarashi (igarasr) 
+ *  harmonized debug level usage (as per HVCAENx527.h)
+ *  Revision 1.14 2007/06/01 13:32:58CST Ru Igarashi (igarasr) 
+ *  Member moved from EPICS/HVCAENx527App/src/HVCAENx527chMBBio.c in project e:/MKS_Home/archive/cs/epics_local/drivers/CAENx527HV/project.pj to HVCAENx527/HVCAENx527App/src/HVCAENx527chMBBio.c in project e:/MKS_Home/archive/cs/epics_local/drivers/CAENx527HV/project.pj.
  */
-

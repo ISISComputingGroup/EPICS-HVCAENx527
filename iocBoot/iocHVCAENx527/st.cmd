@@ -22,6 +22,8 @@ CAENx527ConfigureCreate "hv0", "130.246.39.47"
 #CAENx527ConfigureCreate "hv1", "halldcaenhv1"
 
 
+HVCAENx527Connect( "SY1527", "10.51.10.11")
+
 ## Load record instances
 #dbLoadTemplate "db/userHost.substitutions"
 #dbLoadRecords "db/dbSubExample.db", "user=nersesHost"

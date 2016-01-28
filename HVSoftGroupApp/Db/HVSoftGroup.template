@@ -1,0 +1,192 @@
+#
+# Copyright Canadian Light Source, Inc.  All rights reserved.
+#    - see licence.txt and licence_CAEN.txt for limitations on use.
+#
+# The number of inputs WAS limited to 6 because the CALC fields cannot
+# handle much more than this many variables.  There have been changes
+# in the algorithm and that limit MIGHT have increased to 16.  You
+# could try modifying records accordingly if you need more than
+# 6 channels per group.  Regardless, to cover more than the "per group"
+# limit of inputs, cascade this db (i.e. you can cover 36 inputs with
+# a top level db that uses 6 other implementations of this db for input.
+#
+# The following are for setting parameters for groups of channels
+# in user space
+#
+# Define group by Enabling/Disabling channels.  Creates a mask
+# which is then used by dfanouts.
+record( mbboDirect, "$(PSNAME):$(GRP):enable:calc")
+{
+	field( VAL, "0")
+}
+# Power on/off setpoint
+record( bo, "$(PSNAME):$(GRP):pwonoff")
+{
+	field( DESC, "HV group Power on/off")
+	field( ZNAM, "Off")
+	field( ONAM, "On")
+	field( OUT, "$(PSNAME):$(GRP):pwr:out PP")
+}
+record( seq, "$(PSNAME):$(GRP):pwr:out")
+{
+	field( SELM, "Mask")
+	field( SELL, "$(PSNAME):$(GRP):enable:calc")
+	field( DOL1, "$(PSNAME):$(GRP):pwonoff")
+	field( LNK1, "$(PSNAME):$(CHA):pwonoff PP")
+	field( DOL2, "$(PSNAME):$(GRP):pwonoff")
+	field( LNK2, "$(PSNAME):$(CHB):pwonoff PP")
+	field( DOL3, "$(PSNAME):$(GRP):pwonoff")
+	field( LNK3, "$(PSNAME):$(CHC):pwonoff PP")
+	field( DOL4, "$(PSNAME):$(GRP):pwonoff")
+	field( LNK4, "$(PSNAME):$(CHD):pwonoff PP")
+	field( DOL5, "$(PSNAME):$(GRP):pwonoff")
+	field( LNK5, "$(PSNAME):$(CHE):pwonoff PP")
+	field( DOL6, "$(PSNAME):$(GRP):pwonoff")
+	field( LNK6, "$(PSNAME):$(CHF):pwonoff PP")
+}
+# Power on/off feedback
+record( sel, "$(PSNAME):$(GRP):pwr:in")
+{
+	field( SELM, "High Signal")
+	field( INPA, "$(PSNAME):$(GRP):calc0:1.B")
+	field( INPB, "$(PSNAME):$(GRP):calc1:1.B")
+	field( INPC, "$(PSNAME):$(GRP):calc2:1.B")
+	field( INPD, "$(PSNAME):$(GRP):calc3:1.B")
+	field( INPE, "$(PSNAME):$(GRP):calc4:1.B")
+	field( INPF, "$(PSNAME):$(GRP):calc5:1.B")
+	field( FLNK, "$(PSNAME):$(GRP):pwonoff:fbk")
+}
+record( bi, "$(PSNAME):$(GRP):pwonoff:fbk")
+{
+	field( DESC, "HV group Power on/off fbk")
+	field( INP, "$(PSNAME):$(GRP):pwr:in")
+	field( ZNAM, "Off")
+	field( ONAM, "On")
+}
+
+# status
+record( sel, "$(PSNAME):$(GRP):status:in")
+{
+	field( SELM, "High Signal")
+	field( INPA, "$(PSNAME):$(GRP):calc0:1.D")
+	field( INPB, "$(PSNAME):$(GRP):calc1:1.D")
+	field( INPC, "$(PSNAME):$(GRP):calc2:1.D")
+	field( INPD, "$(PSNAME):$(GRP):calc3:1.D")
+	field( INPE, "$(PSNAME):$(GRP):calc4:1.D")
+	field( INPF, "$(PSNAME):$(GRP):calc5:1.D")
+	field( FLNK, "$(PSNAME):$(GRP):status")
+}
+record( mbbi, "$(PSNAME):$(GRP):status")
+{
+	field( DESC, "HV group Status")
+	field( INP, "$(PSNAME):$(GRP):status:in")
+	field( ZRVL, "0")	field( ZRST, "Off")
+	field( ONVL, "1")	field( ONST, "On")
+	field( TWVL, "2")	field( TWST, "Ramping Up")
+	field( THVL, "3")	field( THST, "Ramping Down")
+	field( FRVL, "4")	field( FRST, "Over-Current")
+	field( FVVL, "5")	field( FVST, "Over-Voltage")
+	field( SXVL, "6")	field( SXST, "Under-Voltage")
+	field( SVVL, "7")	field( SVST, "External Trip")
+	field( EIVL, "8")	field( EIST, "Max V")
+	field( NIVL, "9")	field( NIST, "Ext. Disable")
+	field( TEVL, "10")	field( TEST, "Internal Trip")
+	field( ELVL, "11")	field( ELST, "Calib. Error")
+	field( TVVL, "12")	field( TVST, "Unplugged")
+	field( ZRSV, "NO_ALARM")
+	field( ONSV, "MINOR")
+	field( TWSV, "MINOR")
+	field( THSV, "MINOR")
+	field( FRSV, "MAJOR")
+	field( FVSV, "MAJOR")
+	field( SXSV, "MAJOR")
+	field( SVSV, "MAJOR")
+	field( EISV, "MAJOR")
+	field( NISV, "MAJOR")
+	field( TESV, "MAJOR")
+	field( ELSV, "MAJOR")
+	field( TVSV, "MAJOR")
+}
+
+# measured current
+record( sel, "$(PSNAME):$(GRP):imon:in")
+{
+	field( SELM, "High Signal")
+	field( INPA, "$(PSNAME):$(GRP):calc0:1.F")
+	field( INPB, "$(PSNAME):$(GRP):calc1:1.F")
+	field( INPC, "$(PSNAME):$(GRP):calc2:1.F")
+	field( INPD, "$(PSNAME):$(GRP):calc3:1.F")
+	field( INPE, "$(PSNAME):$(GRP):calc4:1.F")
+	field( INPF, "$(PSNAME):$(GRP):calc5:1.F")
+	field( FLNK, "$(PSNAME):$(GRP):imon")
+}
+record( ai, "$(PSNAME):$(GRP):imon")
+{
+	field( DESC, "HV group measured current")
+	field( INP, "$(PSNAME):$(GRP):imon:in CP")
+	field( HSV, "MINOR")
+	field( HHSV, "MAJOR")
+	field( PREC, "2")
+	field( EGU, "uA")
+}
+
+# max current setpoint
+record( sel, "$(PSNAME):$(GRP):i0set:in")
+{
+	field( SELM, "High Signal")
+	field( INPA, "$(PSNAME):$(GRP):calc0:1.H")
+	field( INPB, "$(PSNAME):$(GRP):calc1:1.H")
+	field( INPC, "$(PSNAME):$(GRP):calc2:1.H")
+	field( INPD, "$(PSNAME):$(GRP):calc3:1.H")
+	field( INPE, "$(PSNAME):$(GRP):calc4:1.H")
+	field( INPF, "$(PSNAME):$(GRP):calc5:1.H")
+	field( FLNK, "$(PSNAME):$(GRP):i0set:fbk")
+}
+record( ai, "$(PSNAME):$(GRP):i0set:fbk")
+{
+	field( DESC, "HV group measured current")
+	field( INP, "$(PSNAME):$(GRP):i0set:in")
+	field( PREC, "2")
+	field( EGU, "uA")
+}
+# alarm threshold for current
+record( sel, "$(PSNAME):$(GRP):isevr:in")
+{
+	field( SELM, "Low Signal")
+	field( INPA, "$(PSNAME):$(GRP):calc0:1.J")
+	field( INPB, "$(PSNAME):$(GRP):calc1:1.J")
+	field( INPC, "$(PSNAME):$(GRP):calc2:1.J")
+	field( INPD, "$(PSNAME):$(GRP):calc3:1.J")
+	field( INPE, "$(PSNAME):$(GRP):calc4:1.J")
+	field( INPF, "$(PSNAME):$(GRP):calc5:1.J")
+	field( FLNK, "$(PSNAME):$(GRP):isevr")
+}
+record( ai, "$(PSNAME):$(GRP):isevr")
+{
+	field( DESC, "HV group alarm I threshold")
+	field( INP, "$(PSNAME):$(GRP):isevr:in")
+	field( PREC, "2")
+	field( EGU, "uA")
+}
+# set the HIHI severity threshold on imon
+# if there is an active alarm, use the corresponding i0set,
+# otherwise use the largest i0set in the group.
+record( calcout, "$(PSNAME):$(GRP):imon:alarm")
+{
+	field( INPA, "$(PSNAME):$(GRP):i0set:in CP")
+	field( INPB, "$(PSNAME):$(GRP):isevr:in CP")
+	field( INPC, "1")
+	field( CALC, "A>0?(A>B?B:A):1e9")
+	field( PREC, "2")
+	field( OUT, "$(PSNAME):$(GRP):imon.HIHI PP")
+}
+# set the HIGH severity threshold on imon
+record( calcout, "$(PSNAME):$(GRP):imon:warn")
+{
+	field( INPA, "$(PSNAME):$(GRP):i0set:in CP")
+	field( INPB, "$(PSNAME):$(GRP):isevr:in CP")
+	field( INPC, "0.9")
+	field( CALC, "A>0?(A>B?B*C:A*C):1e9")
+	field( PREC, "2")
+	field( OUT, "$(PSNAME):$(GRP):imon.HIGH PP")
+}

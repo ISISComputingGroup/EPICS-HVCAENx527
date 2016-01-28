@@ -1,4 +1,4 @@
-/* $Header: HVCAENx527/HVCAENx527App/src/HVCAENx527.h 1.13 2007/06/01 13:32:57CST Ru Igarashi (igarasr) Exp Ru Igarashi (igarasr)(2007/06/01 13:32:58CST) $ 
+/* $Header: HVCAENx527/libHVCAENx527App/src/HVCAENx527.h 1.13.1.2 2014/04/29 23:04:40CST Ru Igarashi (igarasr) Exp  $ 
  */
 #include <stdio.h>
 #include <string.h>
@@ -13,8 +13,19 @@
 #include <sys/time.h>
 #endif
 
+#include <epicsVersion.h>
+#if (EPICS_VERSION == 3) && (EPICS_REVISION == 14) && (EPICS_MODIFICATION > 6)
+#include <errlog.h>
+#endif
 #include <CAENHVWrapper.h>
 #include <callback.h>
+
+#if (CAENHVWrapperVERSION / 100 > 2)
+/* max length of string values was arbitrarily chosen.
+ * If there is a need for longer strings, there should
+ * not be any problem in increasing this. */
+#define MAX_VAL_STRING	64
+#endif
 
 #define EVNTNO_UPDATE	10
 #define EVNTNO_T1	11
@@ -31,23 +42,32 @@
 typedef struct ParProp
 {
 	char pname[16];
+	/* Note: these unions must NOT be used directly in argument lists
+		of any of the wrapper interfaces */
 	union
 	{
 		float f;
-		long l;
+		int l;
 		double d;
+		short s;
+		char *c;
 	} pval;
 	union
 	{
 		float f;
-		long l;
+		int l;
 		double d;
+		short s;
+		char *c;
 	} pvalset;
 	unsigned long Type, Mode;
 	float Minval, Maxval;
 	unsigned short Unit;	/* engineering unit */
 	short Exp;		/* exponent of numbers, e.g. +3 = kilo */
 	char Onstate[32], Offstate[32];	/* Labels associated with state */
+#if (CAENHVWrapperVERSION / 100 > 2)
+	float *Enum;		/* array of enum values */
+#endif /* CAENHVWrapperVERSION */
 	struct HVChan *hvchan;
 	/* EPICS-related variables */
 	char PVname[61];
@@ -105,6 +125,10 @@ typedef struct HVCrate
 	HVSLOT *hvchmap;	/* slot X chan lookup table of *hvchan */
 	CRATESCANLIST *csl;
 	short connected;
+#if (CAENHVWrapperVERSION / 100 > 2)
+	int handle;	/* handle or ID code for this crate */
+	CAENHV_SYSTEM_TYPE_t type;	/* type of system or crate */
+#endif /* CAENHVWrapperVERSION */
 } HVCRATE;
 extern HVCRATE Crate[MAX_CRATES];
 epicsShareExtern short DEBUG;
@@ -126,9 +150,15 @@ epicsShareExtern short DEBUG;
 
 float ScanChannelsPeriod;
 
-epicsShareFunc int ConnectCrate( char *name);
-epicsShareFunc void CAENx527ConfigureCreate(char *name, char *addr, char *username, char* password);
-
+#if (CAENHVWrapperVERSION / 100 == 2)
+epicsShareFunc int ConnectCrate( char *name, char *linkaddr);
+#else
+epicsShareFunc int ConnectCrate( char *name, char *linkaddr, CAENHV_SYSTEM_TYPE_t type);
+#endif /* CAENHVWrapperVERSION */
+epicsShareFunc void ParseCrateAddr( char (*straddr)[], short naddr);
+#if (CAENHVWrapperVERSION / 100 > 2)
+epicsShareFunc int ParseSystemType( char *strtype);
+#endif /* CAENHVWrapperVERSION */
 epicsShareFunc void Shutdown();
 #if 0
 void iCallback( CALLBACK *pcallback);
@@ -144,7 +174,11 @@ void CAENx527mbbi2bits( PARPROP *pp, char *bits, short nbits);
 char *CAENx527GetParUnit( PARPROP *pp, char *fieldval);
 
 /* 
- * $Log: HVCAENx527/HVCAENx527App/src/HVCAENx527.h  $ 
+ * $Log: HVCAENx527/libHVCAENx527App/src/HVCAENx527.h  $ 
+ * Revision 1.13.1.2 2014/04/29 23:04:40CST Ru Igarashi (igarasr)  
+ * Member moved from HVCAENx527/HVCAENx527App/src/HVCAENx527.h in project e:/MKS_Home/archive/cs/epics_local/drivers/CAENx527HV/project.pj to HVCAENx527/libHVCAENx527App/src/HVCAENx527.h in project e:/MKS_Home/archive/cs/epics_local/drivers/CAENx527HV/project.pj. 
+ * Revision 1.13.1.1 2014/04/29 19:24:23CST Ru Igarashi (igarasr)  
+ * implemented support of new CAEN wrapper API 
  * Revision 1.13 2007/06/01 13:32:57CST Ru Igarashi (igarasr)  
  * Member moved from EPICS/HVCAENx527App/src/HVCAENx527.h in project e:/MKS_Home/archive/cs/epics_local/drivers/CAENx527HV/project.pj to HVCAENx527/HVCAENx527App/src/HVCAENx527.h in project e:/MKS_Home/archive/cs/epics_local/drivers/CAENx527HV/project.pj. 
  */
