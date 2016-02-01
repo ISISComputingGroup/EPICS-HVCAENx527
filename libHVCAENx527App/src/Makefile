@@ -9,10 +9,11 @@ VERSION_NUM=$(shell sh ../../version.sh $(VERSION_STRING) -n )
 VERSION_DOT=$(shell sh ../../version.sh $(VERSION_STRING) -d )
 
 #=============================
-SHRLIB_LDFLAGS += -Wl,-soname=lib$(LIBRARY_DEFAULT).so.$(VERSION) -Wl,--no-undefined
+#SHRLIB_LDFLAGS += -Wl,-soname=lib$(LIBRARY_DEFAULT).so.$(VERSION) -Wl,--no-undefined
+SHRLIB_LDFLAGS += -Wl,--no-undefined
 
 # Build libHVCAENx527 as a library for an IOC:
-LIBRARY_DEFAULT = HVCAENx527
+LIBRARY_DEFAULT += HVCAENx527
 SHRLIB_VERSION = $(VERSION_DOT)
 
 USR_CFLAGS += -DCAENHVWrapperVERSION=$(CAENHVWrapperVERSION)
@@ -58,6 +59,15 @@ HVCAENx527_LIBS += $(EPICS_BASE_IOC_LIBS)
 HVCAENx527_LIBS_WIN32 += caenhvwrapper # hscaenetlib
 HVCAENx527_SYS_LIBS_Linux += caenhvwrapper # hscaenetlib
 
+LIBRARY_DEFAULT += CAENHVWrapperSim
+CAENHVWrapperSim_SRCS += CAENHVWrapper_sim.cpp
+CAENHVWrapperSim_LIBS += $(EPICS_BASE_IOC_LIBS)
+CAENHVWrapperSim_SYS_LIBS_WIN32 += ws2_32
+
+LIBRARY_DEFAULT += HVCAENx527Sim
+HVCAENx527Sim_SRCS += $(HVCAENx527_SRCS)
+HVCAENx527Sim_LIBS += CAENHVWrapperSim
+HVCAENx527Sim_LIBS += $(EPICS_BASE_IOC_LIBS)
 
 #NOTES:
 #      1)It is not possible to build sncExample both as a component of libHVCAENx527

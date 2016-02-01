@@ -9,6 +9,8 @@ include $(TOP)/configure/CONFIG
 # Build an ioc application
 
 PROD_IOC = HVCAENx527
+HVCAEN_BUILD_SHARED_YES = HVCAENx527Sim
+PROD_IOC += $(HVCAEN_BUILD_SHARED_$(SHARED_LIBRARIES))
 
 USR_CFLAGS += -DCAENHVWrapperVERSION=$(CAENHVWrapperVERSION)
 ifneq ($(findstring linux,$(EPICS_HOST_ARCH)),) 
@@ -54,6 +56,9 @@ HVCAENx527_SRCS += HVCAENx527_registerRecordDeviceDriver.cpp
 HVCAENx527_SRCS_DEFAULT += HVCAENx527Main.cpp
 HVCAENx527_SRCS_vxWorks += -nil-
 
+HVCAENx527Sim_SRCS_DEFAULT += $(HVCAENx527_SRCS_DEFAULT)
+HVCAENx527Sim_LIBS += HVCAENx527Sim
+
 # Add support from base/src/vxWorks if needed
 HVCAENx527_OBJS_vxWorks += $(EPICS_BASE_BIN)/vxComLibrary
 
@@ -69,6 +74,9 @@ HVCAENx527_OBJS_vxWorks += $(EPICS_BASE_BIN)/vxComLibrary
 # Finally link to the EPICS Base libraries
 HVCAENx527_LIBS += asubFunctions
 
+CAENHVWrapperSim_LIBS += $(EPICS_BASE_IOC_LIBS)
+CAENHVWrapperSim_SYS_LIBS_WIN32 += ws2_32
+
 #The following builds sncExample as a standalone application
 #PROD_HOST += sncExample
 #sncExample_SNCFLAGS += +m
@@ -83,8 +91,8 @@ ifneq ($(SNCSEQ),)
     HVCAENx527_SRCS += sncSummary.stt # also does SimSupport_SRCS
     HVCAENx527_DBD += sncSummary.dbd
     HVCAENx527_LIBS +=  seq pv
-    HVCAENx527SimSupport_DBD += sncSummary.dbd
-    HVCAENx527SimSupport_LIBS += seq pv
+    HVCAENx527Sim_DBD += sncSummary.dbd
+    HVCAENx527Sim_LIBS += seq pv
 
     # Build sncProgram as a standalone program
     PROD_HOST += sncProgram
@@ -93,6 +101,9 @@ ifneq ($(SNCSEQ),)
     sncProgram_LIBS += seq pv
     sncProgram_LIBS += $(EPICS_BASE_HOST_LIBS)
 endif
+
+HVCAENx527Sim_LIBS += CAENHVWrapperSim
+HVCAENx527Sim_LIBS += $(EPICS_BASE_IOC_LIBS)
 
 HVCAENx527_LIBS += $(EPICS_BASE_IOC_LIBS)
 
