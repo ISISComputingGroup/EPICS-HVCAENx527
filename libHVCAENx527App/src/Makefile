@@ -9,7 +9,7 @@ VERSION_NUM=$(shell sh ../../version.sh $(VERSION_STRING) -n )
 VERSION_DOT=$(shell sh ../../version.sh $(VERSION_STRING) -d )
 
 #=============================
-SHRLIB_LDFLAGS += -Wl,-soname=lib$(LIBRARY_DEFAULT).so.$(VERSION)
+SHRLIB_LDFLAGS += -Wl,-soname=lib$(LIBRARY_DEFAULT).so.$(VERSION) -Wl,--no-undefined
 
 # Build libHVCAENx527 as a library for an IOC:
 LIBRARY_DEFAULT = HVCAENx527
@@ -17,6 +17,29 @@ SHRLIB_VERSION = $(VERSION_DOT)
 
 USR_CFLAGS += -DCAENHVWrapperVERSION=$(CAENHVWrapperVERSION)
 USR_INCLUDES += -I$(CAENHVWRAPPER)/include
+
+ifneq ($(findstring linux,$(EPICS_HOST_ARCH)),) 
+USR_LDFLAGS += -L$(CAENHVWRAPPER)/lib/$(EPICS_HOST_ARCH)
+endif
+
+ifneq ($(findstring win32-x86,$(EPICS_HOST_ARCH)),)
+CAEN_ARCH=win32
+endif
+
+ifneq ($(findstring windows-x64,$(EPICS_HOST_ARCH)),)
+CAEN_ARCH=win64
+endif
+
+BIN_INSTALLS_Linux += $(wildcard $(CAENHVWRAPPER)/lib/$(EPICS_HOST_ARCH)/*.so.*)
+LIB_INSTALLS_Linux += $(wildcard $(CAENHVWRAPPER)/lib/$(EPICS_HOST_ARCH)/*.so)
+
+BIN_INSTALLS_WIN32 += $(wildcard $(CAENHVWRAPPER)/dll/$(CAEN_ARCH)/*.dll)
+LIB_INSTALLS_WIN32 += $(wildcard $(CAENHVWRAPPER)/lib/$(CAEN_ARCH)/*.lib)
+
+caenhvwrapper_DIR = $(CAENHVWRAPPER)/lib/$(CAEN_ARCH)
+hscaenetlib_DIR = $(CAENHVWRAPPER)/lib/$(CAEN_ARCH)
+
+
 
 #USR_CFLAGS_Linux += -std=gnu99		# for RH7 compatibility only
 #USR_LDFLAGS_Linux += -ldl		# for RH7 compatibility only
@@ -32,6 +55,8 @@ DBD += HVCAENx527Support.dbd
 
 # Link with base and other libraries
 HVCAENx527_LIBS += $(EPICS_BASE_IOC_LIBS)
+HVCAENx527_LIBS_WIN32 += caenhvwrapper # hscaenetlib
+HVCAENx527_SYS_LIBS_Linux += caenhvwrapper # hscaenetlib
 
 
 #NOTES:

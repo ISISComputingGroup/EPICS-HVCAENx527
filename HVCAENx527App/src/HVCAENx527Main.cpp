@@ -19,7 +19,8 @@
 #include "iocsh.h"
 
 extern "C" {
-//    epicsShareFunc int ConnectCrate( char *name);
+    epicsShareFunc int ConnectCrate( char *name, char *linkaddr);
+    epicsShareFunc void ParseCrateAddr( char (*straddr)[255], short naddr);
     epicsShareFunc void Shutdown();
     epicsShareFunc void SetSigShutdownHandler();
 
@@ -31,6 +32,11 @@ int main(int argc,char *argv[])
 	int i, j;
 	short daemon;
 	char stcmd[256];
+	short naddr;    
+	char straddr[32][255];	/* MAX_BOARDS = 32 */    
+	/* Need to catch hangup signal to make sure semaphores are    
+	   cleaned up properly */ 
+
 	SetSigShutdownHandler();
 
 	daemon = 0;

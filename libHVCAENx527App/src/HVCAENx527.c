@@ -634,21 +634,6 @@ PDEBUG(1) printf( "DEBUG: resolve %s -> %s (%s,%s,%d)\n", craddr, crip, hostip->
 	return;
 }
 
-/* Information needed by iocsh */
-static const iocshArg     CAENx527DbLoadRecordsCreateArg0 = {"Macros",     iocshArgString};
-static const iocshArg    *CAENx527DbLoadRecordsCreateArgs[] = {
-  &CAENx527DbLoadRecordsCreateArg0};
-static const iocshFuncDef CAENx527DbLoadRecordsFuncDef = {"CAENx527DbLoadRecords", 1, CAENx527DbLoadRecordsCreateArgs};
-
-/* Wrapper called by iocsh, selects the argument types that function needs */
-static void CAENx527DbLoadRecordsCallFunc(const iocshArgBuf *args) {
-  CAENx527DbLoadRecords(args[0].sval);
-}
-
-/* Registration routine, runs at startup */
-static void CAENx527DbLoadRecordsRegister(void) {
-    iocshRegister(&CAENx527DbLoadRecordsFuncDef, CAENx527DbLoadRecordsCallFunc);
-}
 
 #if CAENHVWrapperVERSION / 100 > 2 || ! defined( CAENHVWrapperVERSION)
 int
@@ -1931,7 +1916,6 @@ epicsRegisterFunction( InitScanChannels);
 epicsRegisterFunction( ScanChannels);
 #endif
 
-epicsExportRegistrar(CAENx527DbLoadRecordsRegister);
 
 
 /*

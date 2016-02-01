@@ -8,8 +8,8 @@ include $(TOP)/../../../configure/MASTER_RELEASE
 
 # Set CAENHVWrapperVersion to the version you are using,
 # format is Mmm (1 or 2 digit major, 2 digits minor):
-#CAENHVWrapperVERSION=211
-CAENHVWrapperVERSION=552
+CAENHVWrapperVERSION=211
+#CAENHVWrapperVERSION=552
 
 # Assumes the wrapper libs are in $(TOP)/../CAENHVWrapper/CAENHVWrapper_<version>/lib/linux*.
 # Change to directory where you installed the libs (sans lib/<arch>)).
