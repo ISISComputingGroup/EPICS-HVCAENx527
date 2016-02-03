@@ -1084,6 +1084,10 @@ CAENx527SetAllChParVal( HVCRATE *cr, char *pname, void *val)
 			printf( "SetAllChParVal: Failed to calloc channel list.\n");
 			return( 3);
 		}
+		hvch = cr->hvchmap[i].hvchan[0];
+		for( j = 0; j < hvch->npar && strcmp( hvch->pplist[j].pname, pname) != 0; j++);
+		pnum = j;
+		type = hvch->pplist[pnum].Type;
 #if CAENHVWrapperVERSION / 100 == 2
 		pval = (union pval *)calloc( sizeof(union pval), cr->nchan);
 		if( pval == NULL)
@@ -1092,10 +1096,6 @@ CAENx527SetAllChParVal( HVCRATE *cr, char *pname, void *val)
 			return( 3);
 		}
 #else	/* CAENHVWrapperVERSION */
-		hvch = cr->hvchmap[i].hvchan[0];
-		for( j = 0; j < hvch->npar && strcmp( hvch->pplist[j].pname, pname) != 0; j++);
-		pnum = j;
-		type = hvch->pplist[pnum].Type;
 		if( type == PARAM_TYPE_STRING)
 		{
 			pvala = (union pvala *)calloc( sizeof(union pvala), cr->nchan);

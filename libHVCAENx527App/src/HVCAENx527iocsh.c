@@ -7,9 +7,11 @@
  * HVCAENx527iocsh.c:
  * iocsh interfaces to provide runtime configuration and diagnostics
  */
-#include "HVCAENx527.h"
 #include <iocsh.h>
+#include <epicsStdio.h>
+#include <epicsString.h>
 #include <epicsExport.h>
+#include "HVCAENx527.h"
 
 static const iocshArg HVCAENx527Connect0 = { "system", iocshArgString};
 static const iocshArg HVCAENx527Connect1 = { "host", iocshArgString};
@@ -24,7 +26,7 @@ HVCAENx527ConnectCallFunc( const iocshArgBuf *args)
 
 	if( args[1].sval)
 	{
-		snprintf( straddr[0], 256, "%s@%s", args[0].sval, args[1].sval);
+		epicsSnprintf( straddr[0], 256, "%s@%s", args[0].sval, args[1].sval);
 	}
 	else
 	{

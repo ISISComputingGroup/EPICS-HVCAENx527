@@ -58,6 +58,7 @@ DBD += HVCAENx527Support.dbd
 HVCAENx527_LIBS += $(EPICS_BASE_IOC_LIBS)
 HVCAENx527_LIBS_WIN32 += caenhvwrapper # hscaenetlib
 HVCAENx527_SYS_LIBS_Linux += caenhvwrapper # hscaenetlib
+HVCAENx527_SYS_LIBS_WIN32 += ws2_32
 
 LIBRARY_DEFAULT += CAENHVWrapperSim
 CAENHVWrapperSim_SRCS += CAENHVWrapper_sim.cpp
@@ -68,6 +69,7 @@ LIBRARY_DEFAULT += HVCAENx527Sim
 HVCAENx527Sim_SRCS += $(HVCAENx527_SRCS)
 HVCAENx527Sim_LIBS += CAENHVWrapperSim
 HVCAENx527Sim_LIBS += $(EPICS_BASE_IOC_LIBS)
+HVCAENx527Sim_SYS_LIBS_WIN32 += ws2_32
 
 #NOTES:
 #      1)It is not possible to build sncExample both as a component of libHVCAENx527

@@ -18,17 +18,17 @@ HVCAENx527_registerRecordDeviceDriver pdbbase
 
 ## arguments to CAENx527ConfigureCreate are: name, ip_address, username, password
 ## username, password are optional and the crate factory default is used if these are not specified
-CAENx527ConfigureCreate "hv0", "130.246.39.47"
+#CAENx527ConfigureCreate "hv0", "130.246.39.47"
 #CAENx527ConfigureCreate "hv1", "halldcaenhv1"
 
 
-HVCAENx527Connect( "SY1527", "10.51.10.11")
+HVCAENx527Connect( "SY1527", "127.0.0.1")
 
 ## Load record instances
 #dbLoadTemplate "db/userHost.substitutions"
 #dbLoadRecords "db/dbSubExample.db", "user=nersesHost"
 
-CAENx527DbLoadRecords("P=$(MYPVPREFIX)")
+#CAENx527DbLoadRecords("P=$(MYPVPREFIX)")
 
 
 ## Set this to see messages from mySub
