@@ -28,6 +28,25 @@ record( ai, "$(PSNAME):connected")
 #	field( INP, "@$(CHADDR) connected")
 #	field( SCAN, "10 second")
 }
+
+record(bo, "$(PSNAME):SIM") 
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+    field(ZNAM, "NO")
+    field(ONAM, "YES")
+}
+
+record( bo, "$(PSNAME):DISABLE") 
+{
+  field(DESC, "Disable comms")
+  field(PINI, "YES")
+  field(VAL, "0")
+  field(OMSL, "supervisory")
+  field(ZNAM, "Comms Enabled")
+  field(ONAM, "Comms Disabled")
+}
+
 #record( ao, "$(PSNAME):v0set")
 #{
 #	field( DESC, "V setting, all Ch.")

@@ -87,13 +87,18 @@ CAENHVWrapperSim_SYS_LIBS_WIN32 += ws2_32
 #===========================
 #Addition of a sequence for summary information
 ifneq ($(SNCSEQ),)
-    sncSummary_SNCFLAGS += +r
-    HVCAENx527_SRCS += sncSummary.stt # also does SimSupport_SRCS
-    HVCAENx527_DBD += sncSummary.dbd
-    HVCAENx527_LIBS +=  seq pv
-    HVCAENx527Sim_DBD += sncSummary.dbd
-    HVCAENx527Sim_LIBS += seq pv
+    LIBRARY_IOC += HVCAENx527Summary
+#	DBD += sncSummary.dbd
 
+    sncSummary_SNCFLAGS += +r
+    HVCAENx527Summary_SRCS += sncSummary.stt
+    HVCAENx527Summary_DBD += sncSummary.dbd
+    HVCAENx527Summary_LIBS += seq pv
+
+    HVCAENx527_LIBS += HVCAENx527Summary
+    HVCAENx527Sim_LIBS += HVCAENx527Summary
+
+    HVCAENx527Sim_LIBS += CAENHVWrapperSim
     # Build sncProgram as a standalone program
     PROD_HOST += sncProgram
     sncProgram_SNCFLAGS += +m

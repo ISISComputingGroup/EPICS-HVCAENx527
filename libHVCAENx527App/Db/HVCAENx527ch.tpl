@@ -555,6 +555,24 @@ record( mbbi, "$(PSNAME):SIM:$(CHANNUM):status")
 	field( TVVL, "12")	field( TVST, "Unplugged")
 }
 
+record(bo, "$(PSNAME):SIM") 
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+    field(ZNAM, "NO")
+    field(ONAM, "YES")
+}
+
+record(bo, "$(PSNAME):DISABLE") 
+{
+  field(DESC, "Disable comms")
+  field(PINI, "YES")
+  field(VAL, "0")
+  field(OMSL, "supervisory")
+  field(ZNAM, "Comms Enabled")
+  field(ONAM, "Comms Disabled")
+}
+
 alias("$(PSNAME):SIM:$(CHANNUM):name","$(PSNAME):SIM:$(CHANNUM):name:fbk")
 alias("$(PSNAME):SIM:$(CHANNUM):v0set","$(PSNAME):SIM:$(CHANNUM):vmon")
 alias("$(PSNAME):SIM:$(CHANNUM):v0set","$(PSNAME):SIM:$(CHANNUM):v0set:fbk")
