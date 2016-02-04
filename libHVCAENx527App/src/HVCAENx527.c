@@ -663,6 +663,176 @@ ParseSystemType( char *strtype)
 }
 #endif	/* CAENHVWrapperVERSION */
 
+ /*                                                                                                                          
+  *       Get ip from domain name
+  */                                                                                                                         
+int hostname_to_ip(char *hostname , char *ip) {
+  struct addrinfo hints, *servinfo, *p;
+  struct sockaddr_in *h;
+  int rv;
+  
+  memset(&hints, 0, sizeof hints);
+  hints.ai_family = AF_UNSPEC; // use AF_INET6 to force IPv6
+  hints.ai_socktype = SOCK_STREAM;
+
+  if ( (rv = getaddrinfo( hostname , "http" , &hints , &servinfo)) != 0)
+         {
+                 fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(rv));
+                 return 1;
+         }
+
+         // loop through all the results and connect to the first we can
+         for(p = servinfo; p != NULL; p = p->ai_next)
+         {
+                 h = (struct sockaddr_in *) p->ai_addr;
+                 strcpy(ip , inet_ntoa( h->sin_addr ) );
+         }
+
+         freeaddrinfo(servinfo); // all done with this structure
+         return 0;
+ }
+
+
+void CAENx527ConfigureCreate(char *name, char *addr, char *username, char* password){
+  char ip[32];
+  int i;
+
+  PDEBUG(1) errlogPrintf("%s::%s::%d will connect to the crate %s(%s) with user=%s password=%s",
+		  __FILE__,__FUNCTION__,__LINE__, name,addr,username,password);
+  /* Check the name */
+  if (strlen(name) == 0) {
+    fprintf(stderr,"ERROR in %s:%d: name = NULL\n",__FUNCTION__,__LINE__);
+    return;
+  }
+  /* Check the address */
+  if (strlen(addr) == 0) {
+    fprintf(stderr,"ERROR in %s:%d: addr = NULL\n",__FUNCTION__,__LINE__);
+    return;
+  }
+  /* Check if address is belonging to the IPv4 address space */
+  hostname_to_ip(addr, ip);
+  printf("For address = %s\nThe IP is = %s\n",addr, ip);
+  /* Check user name and password */
+  if (username == NULL) {
+    username = "admin";
+    if (password == NULL) password = "admin";
+  }
+  /* Configure the crate */
+  i = 0;
+  while( i < MAX_CRATES && Crate[i].hvchan != NULL) i++;
+  if (i < MAX_CRATES) {
+	  Crate[i].crate = i;
+	  strncpy(Crate[i].name,     name,     sizeof(Crate[i].name)-1);
+	  strncpy(Crate[i].IPaddr,   ip,       sizeof(Crate[i].IPaddr)-1);
+	  strncpy(Crate[i].username, username, sizeof(Crate[i].username)-1);
+	  strncpy(Crate[i].password, password, sizeof(Crate[i].password)-1);
+
+/*	Replaced by Nerses
+	  snprintf( Crate[i].name, 63, "%s", name);
+	  snprintf( Crate[i].IPaddr, 63, "%s", ip);
+	  snprintf( Crate[i].username, 63, "%s", username);
+	  snprintf( Crate[i].password, 63, "%s", password);*/
+  }
+  /* Connect to the crate */
+  PDEBUG(1) errlogPrintf("%s::%s::%d will connect to the crate %s(%s) with user=%s password=%s",
+		  __FILE__,__FUNCTION__,__LINE__, name,ip,username,password);
+  if( ConnectCrate(name, ip) == 0){
+    printf( "Successfully connected to %s @ %s\n", name, ip);
+  }
+  return;
+}
+
+/* Information needed by iocsh */
+static const iocshArg     CAENx527ConfigureCreateArg0 = {"Name",     iocshArgString};
+static const iocshArg     CAENx527ConfigureCreateArg1 = {"Address",  iocshArgString};
+static const iocshArg     CAENx527ConfigureCreateArg2 = {"Username", iocshArgString};
+static const iocshArg     CAENx527ConfigureCreateArg3 = {"Password", iocshArgString};
+static const iocshArg    *CAENx527ConfigureCreateArgs[] = {
+  &CAENx527ConfigureCreateArg0, 
+  &CAENx527ConfigureCreateArg1, 
+  &CAENx527ConfigureCreateArg2,
+  &CAENx527ConfigureCreateArg3};
+static const iocshFuncDef CAENx527ConfigureCreateFuncDef = {"CAENx527ConfigureCreate", 4, CAENx527ConfigureCreateArgs};
+
+/* Wrapper called by iocsh, selects the argument types that function needs */
+static void CAENx527ConfigureCreateCallFunc(const iocshArgBuf *args) {
+  CAENx527ConfigureCreate(args[0].sval, args[1].sval, args[2].sval, args[3].sval);
+}
+
+/* Registration routine, runs at startup */
+static void CAENx527ConfigureCreateRegister(void) {
+    iocshRegister(&CAENx527ConfigureCreateFuncDef, CAENx527ConfigureCreateCallFunc);
+}
+
+/* Will dynamically load DBes according to the boards discovered on the create */
+/* Rob Nelson: Added the macros argument so it can expand $(P) at run time rather than compile time */
+void CAENx527DbLoadRecords(const char *macros){
+	/* Prevent calling this twice */
+	int i,j,k;
+	char* boardname;
+	unsigned int boardnumber;
+	char args[256];
+	static int isCAENx527DbLoadRecordsCalled = 0;
+	PDEBUG(1) printf("%s:%d: The function called\n",__FUNCTION__,__LINE__);
+	if (isCAENx527DbLoadRecordsCalled>0) return;
+	isCAENx527DbLoadRecordsCalled = 1;
+	PDEBUG(1) printf("%s:%d: The function executed\n",__FUNCTION__,__LINE__);
+	dbLoadRecords("db/HVCAENx527gbl.db", macros);
+	for(i=0; i<MAX_CRATES; i++) {
+		if (Crate[i].connected == 1) {
+			snprintf(args,256,"%s,PSNAME=%s,CHADDR=0.00.000",macros,Crate[i].name);
+			PDEBUG(1) errlogPrintf("%s:%d: Load the db 'db/HVCAENx527.db' with args = %s\n",__FUNCTION__,__LINE__,args);
+			dbLoadRecords("db/HVCAENx527.db", args);	/* The mainframe related PVs definitions */
+			for(j=0; j<Crate[i].nsl; j++) {
+				boardname = Crate[i].hvchmap[j].slname;
+				sscanf((boardname+1), "%4d", &boardnumber);
+				if (strlen(boardname)>0) {
+					PDEBUG(1) errlogPrintf("%s:%d: Crate = %2d Slot = %2d Board name = %d\n",__FUNCTION__,__LINE__,i,j,boardnumber);
+					switch (boardnumber) {
+						case 1535:
+						case 1550:
+						case 1733:
+							for (k = 0; k < Crate[i].hvchmap[j].nchan; k++) {
+								snprintf(args,256,"%s,PSNAME=%s,SLOT=%d,CHANNUM=%d,CHADDR=%01d.%02d.%03d",macros,Crate[i].name,j,k,i,j,k);
+								PDEBUG(1) errlogPrintf("%s:%d: Load the db 'db/HVCAENx527ch.db' with args = %s\n",__FUNCTION__,__LINE__,args);
+								dbLoadRecords("db/HVCAENx527ch.db", args);	/* The channel related PVs definitions */
+								dbLoadRecords("db/HVCAENx527chItLk.db", args);	/* The software inter locks for channels */
+							}
+							break;
+
+						default:
+                            errlogPrintf("%s:%d: Crate = %2d Slot = %2d UNKNOWN Board name = %d\n",__FUNCTION__,__LINE__,i,j,boardnumber);
+							break;
+					}
+				}
+			}
+		}
+	}
+	/* dbLoadRecords return 0 if success failure otherwise, usually -1 */
+	/*dbLoadRecords("db/PS1014001.db","");
+	dbLoadRecords("db/PS1014001ch.db","");
+	dbLoadTemplate("db/userHost.substitutions");
+	dbLoadRecords("db/dbSubExample.db", "user=nersesHost");*/
+
+	return;
+}
+
+/* Information needed by iocsh */
+static const iocshArg     CAENx527DbLoadRecordsCreateArg0 = {"Macros",     iocshArgString};
+static const iocshArg    *CAENx527DbLoadRecordsCreateArgs[] = {
+  &CAENx527DbLoadRecordsCreateArg0};
+static const iocshFuncDef CAENx527DbLoadRecordsFuncDef = {"CAENx527DbLoadRecords", 1, CAENx527DbLoadRecordsCreateArgs};
+
+/* Wrapper called by iocsh, selects the argument types that function needs */
+static void CAENx527DbLoadRecordsCallFunc(const iocshArgBuf *args) {
+  CAENx527DbLoadRecords(args[0].sval);
+}
+
+/* Registration routine, runs at startup */
+static void CAENx527DbLoadRecordsRegister(void) {
+    iocshRegister(&CAENx527DbLoadRecordsFuncDef, CAENx527DbLoadRecordsCallFunc);
+}
+
 short
 CAENx527GetConnectionStatus( short cr)
 {
@@ -1916,6 +2086,8 @@ epicsRegisterFunction( InitScanChannels);
 epicsRegisterFunction( ScanChannels);
 #endif
 
+epicsExportRegistrar(CAENx527ConfigureCreateRegister);
+epicsExportRegistrar(CAENx527DbLoadRecordsRegister);
 
 
 /*

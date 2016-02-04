@@ -7,7 +7,7 @@
 record( mbbi, "$(P):crates")
 {
     field(DESC, "List of crates")
-	field(DTYP, "CAEN x527 generic HV Mainframe")
+	field(DTYP, "CAEN x527 generic HV Channel")
 	field( INP,  "@crateList")
 #	field( VAL,  "0")
 	field( ZRVL, "0")

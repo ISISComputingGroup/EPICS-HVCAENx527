@@ -15,3 +15,5 @@ device( stringin, INST_IO, devCAENx527chStringin, "CAEN x527 generic HV Channel"
 device( stringout, INST_IO, devCAENx527chStringout, "CAEN x527 generic HV Channel")
 driver( drvCAENx527)
 registrar( HVCAENx527IocshRegistrar)
+registrar( CAENx527ConfigureCreateRegister)
+registrar( CAENx527DbLoadRecordsRegister)

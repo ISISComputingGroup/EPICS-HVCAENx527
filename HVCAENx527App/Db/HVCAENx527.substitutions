@@ -1,0 +1,4 @@
+file "$(TOP)/templates/HVCAENx527.tpl" {
+	pattern {PSNAME}
+	{ "\$(P):\$(PSNAME)" }
+}

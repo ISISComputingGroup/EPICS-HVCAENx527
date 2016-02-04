@@ -11,6 +11,7 @@ define DIR_template
 endef
 $(foreach dir, $(filter-out configure,$(DIRS)),$(eval $(call DIR_template,$(dir))))
 
+HVCAENx527App_DEPEND_DIRS += HVSoftGroupApp
 iocBoot_DEPEND_DIRS += $(filter %App,$(DIRS))
 
 include $(TOP)/configure/RULES_TOP

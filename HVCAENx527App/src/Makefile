@@ -56,7 +56,6 @@ HVCAENx527_SRCS += HVCAENx527_registerRecordDeviceDriver.cpp
 HVCAENx527_SRCS_DEFAULT += HVCAENx527Main.cpp
 HVCAENx527_SRCS_vxWorks += -nil-
 
-HVCAENx527Sim_SRCS_DEFAULT += $(HVCAENx527_SRCS_DEFAULT)
 HVCAENx527Sim_LIBS += HVCAENx527Sim
 
 # Add support from base/src/vxWorks if needed
@@ -73,6 +72,7 @@ HVCAENx527_OBJS_vxWorks += $(EPICS_BASE_BIN)/vxComLibrary
 
 # Finally link to the EPICS Base libraries
 HVCAENx527_LIBS += asubFunctions
+HVCAENx527Sim_LIBS += asubFunctions
 
 CAENHVWrapperSim_LIBS += $(EPICS_BASE_IOC_LIBS)
 CAENHVWrapperSim_SYS_LIBS_WIN32 += ws2_32
@@ -101,6 +101,9 @@ ifneq ($(SNCSEQ),)
     sncProgram_LIBS += seq pv
     sncProgram_LIBS += $(EPICS_BASE_HOST_LIBS)
 endif
+
+HVCAENx527Sim_SRCS += $(HVCAENx527_SRCS)
+HVCAENx527Sim_SRCS_DEFAULT += $(HVCAENx527_SRCS_DEFAULT)
 
 HVCAENx527Sim_LIBS += CAENHVWrapperSim
 HVCAENx527Sim_LIBS += $(EPICS_BASE_IOC_LIBS)

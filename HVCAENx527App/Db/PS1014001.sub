@@ -1,5 +1,0 @@
-file HVCAENx527.tpl {
-	pattern
-	{ PSNAME	CHADDR   }
-	{ PS1014001	0.01.000 }
-}

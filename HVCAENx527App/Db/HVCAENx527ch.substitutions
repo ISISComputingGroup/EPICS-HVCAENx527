@@ -1,0 +1,4 @@
+file "$(TOP)/templates/HVCAENx527ch.tpl" {
+	pattern {PSNAME,CHANNUM,CHADDR}
+	{"\$(P):\$(PSNAME):\$(SLOT)","\$(CHANNUM)","\$(CHADDR)"}
+}
