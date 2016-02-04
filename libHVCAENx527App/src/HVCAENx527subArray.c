@@ -58,10 +58,10 @@ static long init_record_subArray( subArrayRecord *pior) {
 static long read_subArray( subArrayRecord *pior) {
 
 	waveformRecord *pwf;
+	size_t size;
 
 	pwf = (waveformRecord*) pior->dpvt;
 
-	uint size;
 	switch (pior->ftvl) {
 		case DBF_STRING:
 			size = MAX_STRING_SIZE;

@@ -95,7 +95,7 @@ read_waveform( waveformRecord *pior)
 	for (i=0; i<pior->nelm; i++) {
 		sl = &cr->hvchmap[i];
 		PDEBUG(2) printf("%d %s\n", i, sl->slname);
-		strncpy((pior->bptr+i*MAX_STRING_SIZE), (char*)sl->slname, MAX_STRING_SIZE);
+		strncpy(((char*)pior->bptr+i*MAX_STRING_SIZE), (char*)sl->slname, MAX_STRING_SIZE);
 	}
 	pior->nord = pior->nelm;
 
