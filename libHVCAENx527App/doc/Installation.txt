@@ -1,0 +1,380 @@
+LICENSE
+-------
+See license.txt for CLSI licensing info and licence_CAEN_*.txt for
+licensing info for the wrapper CAEN supplied.
+
+Introduction
+------------
+This library and application controls the CAEN "Universal Multichannel
+Power Supplies", particularly models 1527, 2527, and SY3527 high
+voltage power supplies, which will be referred as the "x527" series.
+These units are mainframes into which modules with the actual high
+voltage supplies plug in. Since there are a variety of modules, with
+multiple outputs, this system can accommodate a variety of
+applications from just one crate.
+
+CAEN high voltage modules for this line typically have 6
+to 12 channels of outputs. The CAEN 2527 crate has 6 slots
+for modules. Each channel typically has upwards of a dozen
+parameters that can be monitored, and each parameter has at
+least a couple of configuration settings that can be read. Thus,
+there is potentially a very large number of quantities that must
+somehow be organized and presented to the user.
+
+There are multiple means of accessing the controls for
+individual channels of high voltage in the x527 line.  This
+EPICS interface uses the wrapper interface provided by CAEN,
+specifically via network interface.
+
+Requirements
+------------
+
+The HVCAENx527 EPICS driver requires the CAEN wrapper development files
+which you must get from CAEN directly (registration is free and seems
+benign).  Currently, both version 2 and 5 of the libraries are supported
+with the appropriate settings documented below.
+
+Note: version 1.x of this EPICS application does not support
+event mode of the wrapper.  It is hoped that version 2.x will.
+
+This application has been compiled and runs with EPICS base 3.14.6
+and 3.14.12 on both linux-x86 and linux-x86_64 architectures,
+with the appropriate settings documented below.
+
+The CAEN wrapper files must be installed where the EPICS build tools
+can find them, but the default installation rules do not quite work.
+The following had to be done, either by the corresponding changes to
+the Makefiles, or manually.  Note, this example chooses to install
+the development files one directory level up from the EPICS
+application's top directory.
+
+INSTALLDIR = $(TOP)/../CAENHVWrapper/5.52
+INSTALLDIRINC=$(INSTALLDIR)/include
+install -d $(INSTALLDIRINC)
+install include/caenhvoslib.h  include/CAENHVWrapper.h $(INSTALLDIRINC)
+
+INSTALLDIRLIB=$(INSTALLDIR)/lib/linux-x86
+install -d $(INSTALLDIRLIB)
+install lib/libcaenhvwrapper.so.5.52 lib/libcaenhvwrapper.5.52.a lib/hscaenetlib.so.1.7  $(INSTALLDIRLIB)
+ln -sf $(INSTALLDIRLIB)/libcaenhvwrapper.so.5.52 $(INSTALLDIRLIB)/libcaenhvwrapper.so
+ln -sf $(INSTALLDIRLIB)/libcaenhvwrapper.5.52.a $(INSTALLDIRLIB)/libcaenhvwrapper.a
+# note the name change in the following command
+ln -sf $(INSTALLDIRLIB)/hscaenetlib.so.1.7 $(INSTALLDIRLIB)/libhscaenet.so
+
+INSTALLDIRLIB=$(INSTALLDIR)/lib/linux-x86_64
+install -d $(INSTALLDIRLIB)
+install lib/x64/libcaenhvwrapper.so.5.52 lib/x64/libcaenhvwrapper.5.52.a lib/x64/hscaenetlib.so.1.7  $(INSTALLDIRLIB)
+ln -sf $(INSTALLDIRLIB)/libcaenhvwrapper.so.5.52 $(INSTALLDIRLIB)/libcaenhvwrapper.so
+ln -sf $(INSTALLDIRLIB)/libcaenhvwrapper.5.52.a $(INSTALLDIRLIB)/libcaenhvwrapper.a
+# note the name change in the following command
+ln -sf $(INSTALLDIRLIB)/hscaenetlib.so.1.7 $(INSTALLDIRLIB)/libhscaenet.so
+
+Some compilers require that the header files use the traditional
+"/* */" comment delimiters instead of the C++ style comment markers
+"//".  The following command could be used on each file instead of
+'install':
+	awk '/\/\//{gsub( /\/\/.*/,"/* & */");}{print $0}' ../CAENHVWrapper/CAENHVWrapper_2_11/include/caenhvoslib.h > $(INSTALLDIRINC)/caenhvoslib.h
+
+Also included are templates for software grouping of channels,
+in source directory HVSoftGroupApps.  This is not included in the
+default build.  It requires the synApps "calc" module.
+
+Building the Library and Standalone App
+---------------------------------------
+
+Get a copy of the gzipped tar file, "HVCAENx527_<version>.tgz",
+where <version> is the version of the driver.
+
+Create and change to a working directory for building the driver.
+Unpack the source:
+   tar -z -x -f HVCAENx527_<version>.tgz
+
+This should build a standard EPICS 3.14.6 build directory named "HVCAENx527".
+
+Change directory:
+   cd HVCAENx527
+
+In configure:
+- edit RELEASE
+   - modify the following line with the version of the wrapper with
+      the numeric form (1 or 2 digits for major number with NO zero padding
+      and 2 digits for minor numbers WITH zero padding,
+      e.g. for 5.52, set to 552; for 2.05, set to 205):
+         CAENHVWrapperVERSION=552
+   - modify the following lines with the path to where you put the wrapper
+      libraries and header files:
+         CAENHVWRAPPER=$(TOP)/../CAENHVWrapper/5.52
+         HSCAENET=$(TOP)/../CAENHVWrapper/5.52
+   - set EPICS_BASE appropriately
+- edit CONFIG_SITE (or CONFIG for older EPICS base)
+   - set CROSS_COMPILER_TARGET_ARCHS with one or both of
+      linux-x86 and linux-x86_64
+
+The account name and password for crate access is hardcoded, so
+you will have to change all instances of them. Assuming you are
+still in directory "HVCAENx527",
+- change to directory "libHVCAENx527App/src".
+- Edit the file HVCAENx527.c
+- Look for calls to function "CAENHVInitSystem" and change all
+   instances of "admin" to the respective account name and
+   passwords on the crate you want to connect to. 
+
+   Note: If you have multiple crates with different 
+   passwords you will have to either make them the 
+   same or run different instances of this IOC. That's 
+   an oversight to be dealt with in later versions.
+
+Build:
+   make clean uninstall
+   make
+
+This will generate some libraries and template files for
+subsequent inclusion in an EPICS IOC application.
+
+Building an Application from this Library
+-----------------------------------------
+If you are building the HV controls into another application,
+you will need to perform the steps below for configure/RELEASE
+and <APP>App/src.  Otherwise, skip to instructions for <APP>App/Db
+and do not bother using the subsequent bin and dbd files.  For
+an example, look at the source for the standalone app included
+in this module.
+
+Use EPICS' makeBaseApp.pl to generate the build tree.
+
+In configure:
+- edit RELEASE
+   - add and modify the lines
+      HVCAENX527=<DRIVER>
+- edit CONFIG_SITE
+   - set CROSS_COMPILER_TARGET_ARCHS with one or both of
+      linux-x86 and linux-x86_64
+
+In <APP>App/src;
+- edit Makefile
+   - comment out anything regarding vxWorks
+   - if you want to build a statically linked executable, near the top add:
+      STATIC_BUILD = YES
+   - in the "DBD += ..." section, add
+
+
+Next, the db records have to be configured. 
+- Copy the contents of the templates subdirectory
+   to "HVCAENx527/Db".
+- Change to directory "HVCAENx527/Db" You should see
+   files with names suffixed with ".sub". These are
+   "msi" substitution files.
+   - If you do not have "msi" or prefer to hand build 
+      your db files, you should at least use the 
+      template files (".tpl" suffix) as the basis.
+   - you should rename the ".sub" files according to
+      the name of the target .db file.
+- Edit the substitution files and change entries 
+   corresponding to "PSNAME" to the basename you need. 
+   - In file that used to be "HVCAENx527ch.sub", add or
+      delete entries for channels you want to provide
+      support for.  
+   - File "HVCAENx527chItLk.sub" is for interlocking HV 
+      channels to external EPICS PVs. Add or delete 
+      entries as needed.
+- Change directories back to "HVCAENx527".
+- run 'make'
+- Change directory to "iocBoot/iocHVCAENx527", and edit st.cmd.
+   - Change the entries for dbLoadRecords() to point to 
+      the "db" files that were built above.
+   - You may also have to change the top line ("#!../../bin...")
+      to match how your EPICS system is layed out.
+
+If you want to use the HVSoftGroup records, which provides higher
+level controls over a pre-defined selection of channels, you will
+have to modify the above instructions a little.
+- in configure/RELEASE add a line similar to:
+      CALC=$(EPICS_BASE)/../modules/support/calc/2-8
+   (i.e., set it to the path of your deployment of the calc module)
+- in your application's Db directory:
+   - copy all files named "HVSoftGroup*.template" and
+     "HVSoftGroup*.substitution"
+   - you will have to cook your own build rules because you may not
+      want to use all of the templates.  You can use copies of 
+      HVSoftGroup*.substitution to prototype your build.
+      - HVSoftGroup.template, HVSoftGroupCh.template, and
+	HVSoftGroup.substitution provides the minimum implementation
+	of HVSoftGroup.  It provides:
+	 - concerted on/off 
+	 - aggregated monitoring of status, current, overcurrent
+	    setpoint, and alarms, where aggregation is by the
+	    highest value or most severe state.
+         - inclusion or exclusion of channels within the pre-defined
+	    group by a switch for each channel
+      - HVSoftGroupRamp.template, HVSoftGroupChRamp.template, and
+         HVSoftGroupRamp.substitution are only used when a
+	 collection of channels requires concerted controls of
+	 ramp rates
+
+Installations tend to be quite different, so an installation
+script has not been provided.  The files to install are the
+standard EPICS ones: lib, db, dbd, and iocBoot.
+
+Running the Standalone App
+--------------------------
+The recommended method of running the standalone application
+is to treat it as any other IOC application.  
+
+   hvcontrol <st.cmd> [-d] [-D <debuglevel>]
+
+where
+   -d = run in daemon mode
+   <debuglevel> = 0 for no messages to 10 for all available messages
+
+However, old versions of this application required specifiying
+up to 32 crates on the command line using the following syntax:
+
+   hvcontrol <st.cmd> [-c <system>@<hostname>] [-d] [-D <debuglevel>]
+
+where
+   <system> = system type (e.g. SY1527) for wrapper version 5.x,
+              or a unique name for crate for wrapper version 2.x
+
+The recommended way of establishing connections is to use the
+iocsh command 
+
+   HVCAENx527Connect <system> <hostname>
+
+This can be executed up to 32 times for different crates,
+and can be used with any application that links in the
+support library form of this application.
+
+Assuming that the command line form is NOT used, the st.cmd
+file should contain at least the following commands (with
+appropriate argument replacements):
+
+   dbLoadDatabase("dbd/$(DBDFILE)",0,0)
+   HVCAENx527_registerRecordDeviceDriver(pdbbase)
+
+   HVCAENx527Connect( "SY1527", "192.168.0.2")
+
+   ## Load record instances
+   dbLoadRecords("db/$(DBFILE).db")
+   dbLoadRecords("db/$(DBFILE)ch.db")
+
+   iocInit
+
+Troubleshooting
+---------------
+If you find that you cannot restart the application, check the
+output and see if it complains about a semaphore already in
+use.  If so, run the 'ipcs' command to find the semaphore
+ID and Key (you only need the ID, but the key is often more
+convenient IF your version of 'ipcs' and 'ipcrm' supports it).
+Then use the 'ipcrm' command to delete the semaphore.  One
+of these days, I'll add code to manage this automatically.
+
+Acknowledgements
+----------------
+Thanks to Burkhard Kolb (GSI) for testing, and debugging the multiple
+crate aspect of version 1.2 of this IOC application, and for debugging
+and patching the device parser code.
+
+PV List
+-------
+The following lists of PVs are provided in this EPICS software.
+$(PSNAME) typically is set to the crate name and $(CHANNUM) is
+typically set to the channel address.
+
+Settable EPICS Records
+----------------------
+Process Variable Name             Record    Description
+                                  Type
+$(PSNAME):$(CHANNUM):name         stringout Set name of channel, set in
+                                            the crate.
+$(PSNAME):$(CHANNUM):name.DESC    char[29]  Set name of channel in
+                                            EPICS only.
+$(PSNAME):$(CHANNUM):v0set        ao        Set voltage setpoint.
+$(PSNAME):$(CHANNUM):v0set:up     bo        Increase Voltage setpoint by
+                                            “deltav”
+$(PSNAME):$(CHANNUM):v0set:dn     bo        Decrease Voltage setpoint
+                                            by “deltav”
+$(PSNAME):$(CHANNUM):v0set:deltav ao        Step size of incremental
+                                            voltage changes.
+$(PSNAME):$(CHANNUM):v1set        ao        Set voltage setpoint,
+                                            secondary value.
+$(PSNAME):$(CHANNUM):i0set        ao        Set software current limit.
+$(PSNAME):$(CHANNUM):i1set        ao        Set software current limit,
+                                            for secondary voltage.
+$(PSNAME):$(CHANNUM):rampup       ao        Set voltage increase ramp rate.
+$(PSNAME):$(CHANNUM):rampdn       ao        Set voltage decrease ramp rate.
+$(PSNAME):$(CHANNUM):trip         ao        Set over-current condition
+                                            trip period.
+$(PSNAME):$(CHANNUM):svmax        ao        Set software maximum voltage.
+$(PSNAME):$(CHANNUM):pwonoff      bo        Turn on/off channel output.
+$(PSNAME):$(CHANNUM):pwupmode     bo        Set power-up mode (automatically
+                                            energize output or leave
+                                            un-energized).
+$(PSNAME):$(CHANNUM):pwdnmode     bo        Set power-down mode (kill
+                                            or ramp-down output).
+$(PSNAME):$(CHANNUM):tripint      longout   Set internal trip connections.
+$(PSNAME):$(CHANNUM):tripext      longout   Set external trip connections.
+
+Read-Only EPICS Records
+-----------------------
+Process Variable Name             Record    Description
+                                  Type
+$(PSNAME):$(CHANNUM):name:fbk     stringin Name of channel set in the
+                                           crate.
+$(PSNAME):$(CHANNUM):v0set:fbk    ai       Voltage setpoint.
+$(PSNAME):$(CHANNUM):v1set:fbk    ai       Voltage setpoint, secondary
+                                           value.
+$(PSNAME):$(CHANNUM):i0set:fbk    ai       Software current limit.
+$(PSNAME):$(CHANNUM):i1set:fbk    ai       Software current limit, sec-
+                                           ondary value.
+$(PSNAME):$(CHANNUM):rampup:fbk   ai       Voltage increase ramp rate.
+$(PSNAME):$(CHANNUM):rampdn:fbk   ai       Voltage decrease ramp rate.
+$(PSNAME):$(CHANNUM):trip:fbk     ai       Over-current condition trip
+                                           period.
+$(PSNAME):$(CHANNUM):svmax:fbk    ai       Software maximum voltage.
+$(PSNAME):$(CHANNUM):vmon         ai       Measured output voltage.
+$(PSNAME):$(CHANNUM):imon         ai       Measured output current.
+$(PSNAME):$(CHANNUM):status       mbbi     Channel status message.
+$(PSNAME):$(CHANNUM):pwonoff:fbk  bi       Output on/off state.
+$(PSNAME):$(CHANNUM):pwupmode:fbk bi       Power-up mode (automatically
+                                           energize output or
+                                           leave un-energized).
+$(PSNAME):$(CHANNUM):pwdnmode:fbk bi       Power-down mode (kill or
+                                           ramp-down output).
+$(PSNAME):$(CHANNUM):tripint:fbk  longin   Internal trip connections.
+$(PSNAME):$(CHANNUM):tripext:fbk  longin   External trip connections.
+
+Interlocks
+----------
+The following are provided for interlocking specific channels to
+an external PV.
+
+Process Variable Name             Record    Description
+                                  Type
+$(PSNAME):$(CHANNUM):ilock:in.INP ai        Set name of PV to monitor
+                                            for software trip condition.
+$(PSNAME):$(CHANNUM):ilock:thresh ao        Threshold at which software
+                                            trip will be triggered.
+$(PSNAME):$(CHANNUM):ilock:cond   mbbo      Logic operator between threshold
+                                            and monitored PV.
+
+HVSoftGroup
+-----------
+The following are provided in the optional software group databases.
+$(PSNAME) typically is set to the crate name, $(GRP) is typically
+set to the group name, $(MEM) is the member sequence number within
+group $(GRP), and $(CHANNUM) is typically set to the channel address.
+
+Process Variable Name             Record    Description
+                                  Type
+$(PSNAME):$(GRP):pwonoff          bo       Turn on/off all channel output.
+$(PSNAME):$(GRP):pwonoff:fbk      bi       All output on/off state.
+$(PSNAME):$(GRP):status           mbbi     All channel status message.
+$(PSNAME):$(GRP):imon             ai       Highest measured output current.
+$(PSNAME):$(GRP):i0set:fbk        ai       Highest software current limit.
+$(PSNAME):$(GRP):isevr            ai       Current threshold.
+$(PSNAME):$(GRP):enable$(MEM)     bo       Bypass/Enable this channel in group.
+$(PSNAME):$(GRP):rampup           ao       All voltage increase ramp rate.
+$(PSNAME):$(GRP):rampup:fbk       ai       All voltage increase ramp rate.
+$(PSNAME):$(GRP):rampdn           ao       All voltage decrease ramp rate.
+$(PSNAME):$(GRP):rampdn:fbk       ai       All voltage decrease ramp rate.

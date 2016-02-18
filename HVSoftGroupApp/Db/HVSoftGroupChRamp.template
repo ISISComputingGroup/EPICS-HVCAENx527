@@ -1,0 +1,39 @@
+#
+# Copyright Canadian Light Source, Inc.  All rights reserved.
+#    - see licence.txt and licence_CAEN.txt for limitations on use.
+#
+# The following are used as inputs from a member of the group
+# to the grouped equivalent.
+#
+# isolation PVs: see note in HVGroupCh.template
+#
+# ramp up rate
+record( ai, "$(PSNAME):$(GRP):rpup:in$(MEM)")
+{
+	field( INP, "$(PSNAME):$(CH):rampup:fbk CP")
+}
+# ramp down rate
+record( ai, "$(PSNAME):$(GRP):rpdn:in$(MEM)")
+{
+	field( INP, "$(PSNAME):$(CH):rampdn:fbk CP")
+}
+#
+# generate output
+#
+record( transform, "$(PSNAME):$(GRP):calc$(MEM):2")
+{
+	field( INPA, "$(PSNAME):$(GRP):rpup:in$(MEM) CP")
+	field( CLCB, "P=0?0:A")		# for ceiling
+	field( OUTB, "$(PSNAME):$(GRP):rpup:max.PROC")
+	field( CLCC, "P=0?1e9:A")	# for floor
+	field( OUTC, "$(PSNAME):$(GRP):rpup:min.PROC")
+
+	field( INPD, "$(PSNAME):$(GRP):rpdn:in$(MEM) CP")
+	field( CLCE, "P=0?0:D")		# for ceiling
+	field( OUTE, "$(PSNAME):$(GRP):rpdn:max.PROC")
+	field( CLCF, "P=0?1e9:D")	# for floor
+	field( OUTF, "$(PSNAME):$(GRP):rpdn:min.PROC")
+
+	# state of enable
+	field( INPP, "$(PSNAME):$(GRP):enable$(MEM) CP")
+}

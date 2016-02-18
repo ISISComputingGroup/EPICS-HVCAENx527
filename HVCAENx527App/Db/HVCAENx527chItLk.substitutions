@@ -1,0 +1,6 @@
+file "$(TOP)/templates/HVCAENx527chItLk.tpl" {
+	pattern {PSNAME,CHANNUM,INPPV,COND,THRESH,OUTVAL}
+	{"\$(P):\$(PSNAME):\$(SLOT)","\$(CHANNUM)","\$(P):\$(PSNAME):\$(SLOT):\$(CHANNUM):vmon","0","400","0"}
+}
+# COND: ">"(0), "="(1), "<"(2), "!="(3)
+#	pattern {"\$(P):\$(PSNAME):\$(SLOT)","\$(CHANNUM)","\$(INPPV)","\$(COND)","\$(THRESH)","\$(OUTVAL)"}

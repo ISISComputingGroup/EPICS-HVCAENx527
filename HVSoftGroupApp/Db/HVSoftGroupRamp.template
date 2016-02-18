@@ -1,0 +1,136 @@
+#
+# Copyright Canadian Light Source, Inc.  All rights reserved.
+#    - see licence.txt and licence_CAEN.txt for limitations on use.
+#
+# The following are for setting parameters for groups of channels
+# in user space.
+#
+# ramp up rate
+record( ao, "$(PSNAME):$(GRP):rampup")
+{
+	field( DESC, "HV group ramp-up rate")
+	field( OUT, "$(PSNAME):$(GRP):rpup:out PP")
+	field( VAL, "50")
+	field( EGU, "V/s")
+}
+record( seq, "$(PSNAME):$(GRP):rpup:out")
+{
+	field( SELM, "Mask")
+	field( SELL, "$(PSNAME):$(GRP):enable:calc")
+	field( DOL1, "$(PSNAME):$(GRP):rampup")
+	field( LNK1, "$(PSNAME):$(CHA):rampup PP")
+	field( DOL2, "$(PSNAME):$(GRP):rampup")
+	field( LNK2, "$(PSNAME):$(CHB):rampup PP")
+	field( DOL3, "$(PSNAME):$(GRP):rampup")
+	field( LNK3, "$(PSNAME):$(CHC):rampup PP")
+	field( DOL4, "$(PSNAME):$(GRP):rampup")
+	field( LNK4, "$(PSNAME):$(CHD):rampup PP")
+	field( DOL5, "$(PSNAME):$(GRP):rampup")
+	field( LNK5, "$(PSNAME):$(CHE):rampup PP")
+	field( DOL6, "$(PSNAME):$(GRP):rampup")
+	field( LNK6, "$(PSNAME):$(CHF):rampup PP")
+}
+record( sel, "$(PSNAME):$(GRP):rpup:max")
+{
+	field( SELM, "High Signal")
+	field( INPA, "$(PSNAME):$(GRP):calc0:2.B")
+	field( INPB, "$(PSNAME):$(GRP):calc1:2.B")
+	field( INPC, "$(PSNAME):$(GRP):calc2:2.B")
+	field( INPD, "$(PSNAME):$(GRP):calc3:2.B")
+	field( INPE, "$(PSNAME):$(GRP):calc4:2.B")
+	field( INPF, "$(PSNAME):$(GRP):calc5:2.B")
+	field( FLNK, "$(PSNAME):$(GRP):rpup:min")
+}
+record( sel, "$(PSNAME):$(GRP):rpup:min")
+{
+	field( SELM, "Low Signal")
+	field( INPA, "$(PSNAME):$(GRP):calc0:2.C")
+	field( INPB, "$(PSNAME):$(GRP):calc1:2.C")
+	field( INPC, "$(PSNAME):$(GRP):calc2:2.C")
+	field( INPD, "$(PSNAME):$(GRP):calc3:2.C")
+	field( INPE, "$(PSNAME):$(GRP):calc4:2.C")
+	field( INPF, "$(PSNAME):$(GRP):calc5:2.C")
+	field( FLNK, "$(PSNAME):$(GRP):rpup:in")
+}
+# highest rate is generally of most concern (i.e. fast is not good),
+# but just in case make other options available
+record( sel, "$(PSNAME):$(GRP):rpup:in")
+{
+	field( SELM, "Specified")
+	field( VAL, "0")
+	field( INPA, "$(PSNAME):$(GRP):rpup:max")
+	field( INPB, "$(PSNAME):$(GRP):rpup:min")
+	field( INPC, "$(PSNAME):$(GRP):rampup")
+	field( FLNK, "$(PSNAME):$(GRP):rampup:fbk")
+}
+record( ai, "$(PSNAME):$(GRP):rampup:fbk")
+{
+	field( DESC, "HV group ramp-up rate rdbk")
+	field( INP, "$(PSNAME):$(GRP):rpup:in CP")
+	field( EGU, "V/s")
+}
+
+# ramp down rate
+record( ao, "$(PSNAME):$(GRP):rampdn")
+{
+	field( DESC, "HV group ramp-down rate")
+	field( OUT, "$(PSNAME):$(GRP):rpdn:out PP")
+	field( VAL, "50")
+	field( EGU, "V/s")
+}
+record( seq, "$(PSNAME):$(GRP):rpdn:out")
+{
+	field( SELM, "Mask")
+	field( SELL, "$(PSNAME):$(GRP):enable:calc")
+	field( DOL1, "$(PSNAME):$(GRP):rampdn")
+	field( LNK1, "$(PSNAME):$(CHA):rampdn PP")
+	field( DOL2, "$(PSNAME):$(GRP):rampdn")
+	field( LNK2, "$(PSNAME):$(CHB):rampdn PP")
+	field( DOL3, "$(PSNAME):$(GRP):rampdn")
+	field( LNK3, "$(PSNAME):$(CHC):rampdn PP")
+	field( DOL4, "$(PSNAME):$(GRP):rampdn")
+	field( LNK4, "$(PSNAME):$(CHD):rampdn PP")
+	field( DOL5, "$(PSNAME):$(GRP):rampdn")
+	field( LNK5, "$(PSNAME):$(CHE):rampdn PP")
+	field( DOL6, "$(PSNAME):$(GRP):rampdn")
+	field( LNK6, "$(PSNAME):$(CHF):rampdn PP")
+}
+record( sel, "$(PSNAME):$(GRP):rpdn:max")
+{
+	field( SELM, "High Signal")
+	field( INPA, "$(PSNAME):$(GRP):calc0:2.E")
+	field( INPB, "$(PSNAME):$(GRP):calc1:2.E")
+	field( INPC, "$(PSNAME):$(GRP):calc2:2.E")
+	field( INPD, "$(PSNAME):$(GRP):calc3:2.E")
+	field( INPE, "$(PSNAME):$(GRP):calc4:2.E")
+	field( INPF, "$(PSNAME):$(GRP):calc5:2.E")
+	field( FLNK, "$(PSNAME):$(GRP):rpdn:min")
+}
+record( sel, "$(PSNAME):$(GRP):rpdn:min")
+{
+	field( SELM, "Low Signal")
+	field( INPA, "$(PSNAME):$(GRP):calc0:2.F")
+	field( INPB, "$(PSNAME):$(GRP):calc1:2.F")
+	field( INPC, "$(PSNAME):$(GRP):calc2:2.F")
+	field( INPD, "$(PSNAME):$(GRP):calc3:2.F")
+	field( INPE, "$(PSNAME):$(GRP):calc4:2.F")
+	field( INPF, "$(PSNAME):$(GRP):calc5:2.F")
+	field( FLNK, "$(PSNAME):$(GRP):rpdn:in")
+}
+# highest rate is generally of most concern (i.e. fast is not good),
+# but just in case make other options available
+record( sel, "$(PSNAME):$(GRP):rpdn:in")
+{
+	field( SELM, "Specified")
+	field( VAL, "0")
+	field( INPA, "$(PSNAME):$(GRP):rpdn:max")
+	field( INPB, "$(PSNAME):$(GRP):rpdn:min")
+	field( INPC, "$(PSNAME):$(GRP):rampdn")
+	field( FLNK, "$(PSNAME):$(GRP):rampdn:fbk")
+}
+record( ai, "$(PSNAME):$(GRP):rampdn:fbk")
+{
+	field( DESC, "HV group ramp-dn rate rdbk")
+	field( INP, "$(PSNAME):$(GRP):rpdn:in CP")
+	field( EGU, "V/s")
+}

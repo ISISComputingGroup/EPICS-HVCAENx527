@@ -4,7 +4,26 @@ include $(TOP)/../../../configure/MASTER_RELEASE
 -include $(TOP)/../../../configure/MASTER_RELEASE.private
 -include $(TOP)/../../../configure/MASTER_RELEASE.private.$(EPICS_HOST_ARCH)
 
-# optional extra local definitions here
 -include $(TOP)/configure/RELEASE.private
+
+# Set CAENHVWrapperVersion to the version you are using,
+# format is Mmm (1 or 2 digit major, 2 digits minor):
+CAENHVWrapperVERSION=211
+#CAENHVWrapperVERSION=552
+
+# Assumes the wrapper libs are in $(TOP)/../CAENHVWrapper/CAENHVWrapper_<version>/lib/linux*.
+# Change to directory where you installed the libs (sans lib/<arch>)).
+#ifeq ($(CAENHVWrapperVERSION),211)
+#CAENHVWRAPPER=$(TOP)/../CAENHVWrapper/2.11
+#HSCAENET=$(TOP)/../CAENHVWrapper/2.11
+#else
+#CAENHVWRAPPER=$(TOP)/../CAENHVWrapper/5.52
+#HSCAENET=$(TOP)/../CAENHVWrapper/5.52
+#endif
+
+CAENHVWRAPPER=$(TOP)/HVCAENx527App/src/CAENHVWrapper
+
+VERSION=1.3
+REVISION=0
 
 include $(TOP)/../../../ISIS_CONFIG.$(EPICS_HOST_ARCH)

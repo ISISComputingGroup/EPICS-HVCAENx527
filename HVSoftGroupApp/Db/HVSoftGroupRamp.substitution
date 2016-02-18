@@ -1,0 +1,8 @@
+file HVGroup_ToFCh.template {
+	pattern
+	{ GRP,  MEM,  CH }
+}
+file HVGroup_ToF.template {
+	pattern
+	{ GRP,  CHA, CHB, CHC, CHD, CHE, CHF }
+}

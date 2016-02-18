@@ -1,3 +1,4 @@
+*.bak
 O.*/
 /db
 /bin
@@ -11,3 +12,4 @@ dllPath.bat
 runIOC.bat
 runIOC.sh
 relPaths.sh
+/doc/Installation.txt

@@ -6,15 +6,13 @@ include $(TOP)/configure/CONFIG
 #=============================
 
 #=============================
-# build an ioc application
+# Build an ioc application
 
-#FILE_TYPE += pdb
-#INSTALL_pdb = $(INSTALL_BIN)
-#USR_CXXFLAGS += /Zi
-#USR_CFLAGS += /Zi
-#USR_LDFLAGS += /DEBUG
-#pdb += HVCAENx527Support.pdb HVCAENx527.pdb
+PROD_IOC = HVCAENx527
+HVCAEN_BUILD_SHARED_YES = HVCAENx527Sim
+PROD_IOC += $(HVCAEN_BUILD_SHARED_$(SHARED_LIBRARIES))
 
+USR_CFLAGS += -DCAENHVWrapperVERSION=$(CAENHVWrapperVERSION)
 ifneq ($(findstring linux,$(EPICS_HOST_ARCH)),) 
 USR_LDFLAGS += -L$(CAENHVWRAPPER)/lib/$(EPICS_HOST_ARCH)
 endif
@@ -33,47 +31,35 @@ LIB_INSTALLS_Linux += $(wildcard $(CAENHVWRAPPER)/lib/$(EPICS_HOST_ARCH)/*.so)
 BIN_INSTALLS_WIN32 += $(wildcard $(CAENHVWRAPPER)/dll/$(CAEN_ARCH)/*.dll)
 LIB_INSTALLS_WIN32 += $(wildcard $(CAENHVWRAPPER)/lib/$(CAEN_ARCH)/*.lib)
 
-LIBRARY_IOC =  CAENHVWrapperSim HVCAENx527SimSupport
-
-HVCAEN_BUILD_SHARED_YES = HVCAENx527Sim 
-PROD_IOC +=  $(HVCAEN_BUILD_SHARED_$(SHARED_LIBRARIES)) 
-
-PROD_IOC += HVCAENx527
-LIBRARY_IOC += HVCAENx527Support
- 
-# <name>.dbd will be created from <name>Include.dbd
-DBD += HVCAENx527.dbd
-
-CAENHVWRAPPER=../CAENHVWrapper
-
-USR_INCLUDES += -I$(CAENHVWRAPPER)/include
-
 caenhvwrapper_DIR = $(CAENHVWRAPPER)/lib/$(CAEN_ARCH)
 hscaenetlib_DIR = $(CAENHVWRAPPER)/lib/$(CAEN_ARCH)
 
+#USR_CFLAGS_Linux += -std=gnu99		# for RH7 compatibility only
+#USR_LDFLAGS_Linux += -ldl		# for RH7 compatibility only
+
+# <name>.dbd will be created from <name>Include.dbd
+DBD += HVCAENx527.dbd
+
+# Alternatively, include dbd files from all support applications:
+#HVCAENx527_DBD += xxx.dbd
+
+# Add all the support libraries needed by this IOC
+#HVCAENx527_LIBS += xxx
+HVCAENx527_LIBS += HVCAENx527
+HVCAENx527_LIBS_WIN32 += caenhvwrapper
+HVCAENx527_SYS_LIBS_Linux += caenhvwrapper hscaenetlib
+
 # <name>_registerRecordDeviceDriver.cpp will be created from <name>.dbd
-HVCAENx527_SRCS_DEFAULT += HVCAENx527Main.cpp HVCAENx527_registerRecordDeviceDriver.cpp
+HVCAENx527_SRCS += HVCAENx527_registerRecordDeviceDriver.cpp
+
+# Build the main IOC entry point on workstation OSs.
+HVCAENx527_SRCS_DEFAULT += HVCAENx527Main.cpp
 HVCAENx527_SRCS_vxWorks += -nil-
 
-HVCAENx527Support_SRCS += HVCAENx527.c
-HVCAENx527Support_SRCS += HVCAENx527chAio.c HVCAENx527chBio.c HVCAENx527chLongio.c HVCAENx527chMBBio.c 
-HVCAENx527Support_SRCS += HVCAENx527chStringio.c HVCAENx527Stringio.c HVCAENx527MBBi.c
+HVCAENx527Sim_LIBS += HVCAENx527Sim
 
-HVCAENx527SimSupport_SRCS += $(HVCAENx527Support_SRCS)
-
-CAENHVWrapperSim_SRCS += CAENHVWrapper_sim.cpp
-
-HVCAENx527Sim_SRCS_DEFAULT += $(HVCAENx527_SRCS_DEFAULT)
-
-#add a definition for each support application used by this application
-#HVCAENx527_LIBS += xxx
-#HVCAENx527_LDFLAGS_Linux += -L$(EPICS_LOCAL)/lib/linux-x86 -lhscaenet -lcaenhvwrapper
-
-#INCLUDES += -g -I$(EPICS_LOCAL)/include/CAENHVwrapper
-# the following line does not work
-#HVCAENx527_INCLUDES_linux-x86 += -I$(EPICS_LOCAL)/include/CAENHVwrapper
-# nor
-#HVCAENx527_INCLUDES += -I$(EPICS_LOCAL)/include/CAENHVwrapper
+# Add support from base/src/vxWorks if needed
+HVCAENx527_OBJS_vxWorks += $(EPICS_BASE_BIN)/vxComLibrary
 
 #NOTES:
 #      1)It is not possible to build sncExample both as a component of HVCAENx527
@@ -84,38 +70,12 @@ HVCAENx527Sim_SRCS_DEFAULT += $(HVCAENx527_SRCS_DEFAULT)
 #HVCAENx527_SRCS += sncExample.stt
 #HVCAENx527_LIBS += seq pv
 
+# Finally link to the EPICS Base libraries
+HVCAENx527_LIBS += asubFunctions
+HVCAENx527Sim_LIBS += asubFunctions
+
 CAENHVWrapperSim_LIBS += $(EPICS_BASE_IOC_LIBS)
 CAENHVWrapperSim_SYS_LIBS_WIN32 += ws2_32
-
-HVCAENx527Support_LIBS += $(EPICS_BASE_IOC_LIBS)
-HVCAENx527Support_LIBS_WIN32 += caenhvwrapper # hscaenetlib 
-HVCAENx527Support_SYS_LIBS_WIN32 += ws2_32
-
-HVCAENx527SimSupport_LIBS += CAENHVWrapperSim $(EPICS_BASE_IOC_LIBS)
-HVCAENx527SimSupport_SYS_LIBS_WIN32 += ws2_32
-
-HVCAENx527_LIBS += HVCAENx527Support asubFunctions seq pv $(EPICS_BASE_IOC_LIBS)
-HVCAENx527_LIBS_WIN32 += caenhvwrapper # hscaenetlib
-HVCAENx527_SYS_LIBS_Linux += caenhvwrapper hscaenetlib
-
-HVCAENx527Sim_LIBS += HVCAENx527SimSupport asubFunctions CAENHVWrapperSim seq pv $(EPICS_BASE_IOC_LIBS)
-
-#Addition of a sequence for summary information
-ifneq ($(SNCSEQ),)
-    sncSummary_SNCFLAGS += +r
-    HVCAENx527Support_SRCS += sncSummary.stt # also does SimSupport_SRCS
-    HVCAENx527Support_DBD += sncSummary.dbd
-    HVCAENx527Support_LIBS +=  seq pv
-    HVCAENx527SimSupport_DBD += sncSummary.dbd
-    HVCAENx527SimSupport_LIBS += seq pv
-
-    # Build sncProgram as a standalone program
-    PROD_HOST += sncProgram
-    sncProgram_SNCFLAGS += +m
-    sncProgram_SRCS += sncProgram.st
-    sncProgram_LIBS += seq pv
-    sncProgram_LIBS += $(EPICS_BASE_HOST_LIBS)
-endif
 
 #The following builds sncExample as a standalone application
 #PROD_HOST += sncExample
@@ -125,6 +85,35 @@ endif
 #sncExample_LIBS += $(EPICS_BASE_HOST_LIBS)
 
 #===========================
+#Addition of a sequence for summary information
+ifneq ($(SNCSEQ),)
+    LIBRARY_IOC += HVCAENx527Summary
+#	DBD += sncSummary.dbd
+
+    sncSummary_SNCFLAGS += +r
+    HVCAENx527Summary_SRCS += sncSummary.stt
+    HVCAENx527Summary_DBD += sncSummary.dbd
+    HVCAENx527Summary_LIBS += seq pv
+
+    HVCAENx527_LIBS += HVCAENx527Summary
+    HVCAENx527Sim_LIBS += HVCAENx527Summary
+
+    HVCAENx527Sim_LIBS += CAENHVWrapperSim
+    # Build sncProgram as a standalone program
+    PROD_HOST += sncProgram
+    sncProgram_SNCFLAGS += +m
+    sncProgram_SRCS += sncProgram.st
+    sncProgram_LIBS += seq pv
+    sncProgram_LIBS += $(EPICS_BASE_HOST_LIBS)
+endif
+
+HVCAENx527Sim_SRCS += $(HVCAENx527_SRCS)
+HVCAENx527Sim_SRCS_DEFAULT += $(HVCAENx527_SRCS_DEFAULT)
+
+HVCAENx527Sim_LIBS += CAENHVWrapperSim
+HVCAENx527Sim_LIBS += $(EPICS_BASE_IOC_LIBS)
+
+HVCAENx527_LIBS += $(EPICS_BASE_IOC_LIBS)
 
 include $(TOP)/configure/RULES
 #----------------------------------------

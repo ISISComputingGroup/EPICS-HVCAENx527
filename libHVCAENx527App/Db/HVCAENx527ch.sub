@@ -1,0 +1,3 @@
+file HVCAENx527ch.tpl {
+	pattern {PSNAME,CHANNUM,CHADDR}
+}

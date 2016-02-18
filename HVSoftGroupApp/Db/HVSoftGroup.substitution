@@ -1,0 +1,11 @@
+file HVSoftGroupCh.template
+{
+	pattern
+	{ GRP,     MEM, CH }
+}
+
+file HVSoftGroup.template
+{
+	pattern
+	{ GRP,     CHA, CHB, CHC, CHD, CHE, CHF }
+}
