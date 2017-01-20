@@ -26,4 +26,5 @@ CAENHVWRAPPER=$(TOP)/HVCAENx527App/src/CAENHVWrapper
 VERSION=1.3
 REVISION=0
 
-include $(TOP)/../../../ISIS_CONFIG.$(EPICS_HOST_ARCH)
+include $(TOP)/../../../ISIS_CONFIG
+-include $(TOP)/../../../ISIS_CONFIG.$(EPICS_HOST_ARCH)
