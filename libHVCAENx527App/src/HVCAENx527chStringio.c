@@ -42,7 +42,14 @@ init_record_stringin( stringinRecord *pior)
 	}
 
 	if( (hvch->chname_evntno > 0) && ( sscanf( pinstio->string, "%*s %s", str) == 1) && ( strncmp( str, "ChName", 255) == 0))
+        {
+/* evnt changed in 3.15 */
+#if defined(VERSION_INT)
+		pior->evnt[0] = hvch->chname_evntno;
+#else
 		pior->evnt = hvch->chname_evntno;
+#endif
+        }
 
 	pior->dpvt = hvch;
 	hvch->epicsenabled = 1;

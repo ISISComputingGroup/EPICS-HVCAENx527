@@ -38,8 +38,14 @@ init_record_ai( aiRecord *pior)
 	}
 
 	if( pp->evntno > 0)
+        {
+/* evnt changed in 3.15 */
+#if defined(VERSION_INT)
+		pior->evnt[0] = pp->evntno;
+#else
 		pior->evnt = pp->evntno;
-
+#endif
+        }
 	pior->dpvt = pp;
 	strcpy( pp->PVname, pior->name);
 	if( pp->Unit)
