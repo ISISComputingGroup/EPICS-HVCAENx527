@@ -40,11 +40,11 @@
 static long init_record_subArray( subArrayRecord *pior) {
 
 	/* parse device dependent option string and set data pointer */
-	struct dbAddr *pWfDbAddr;
+	struct dbAddr WfDbAddr;
 	waveformRecord *pwf;
 
-	dbNameToAddr(pior->inp.value.constantStr, pWfDbAddr);
-	pwf = (waveformRecord*) pWfDbAddr->precord;
+	dbNameToAddr(pior->inp.value.constantStr, &WfDbAddr);
+	pwf = (waveformRecord*) WfDbAddr.precord;
 	if( pwf == 0 ) {
 	    printf(__FILE__":%d: Error Can't find %s \n", __LINE__, pior->inp.value.constantStr);
 	    exit(1);

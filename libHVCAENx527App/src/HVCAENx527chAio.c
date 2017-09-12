@@ -10,6 +10,7 @@
 #include <dbScan.h>
 #include <aiRecord.h>
 #include <aoRecord.h>
+#include <epicsStdio.h>
 
 #include <epicsExport.h>
 #include "HVCAENx527.h"
@@ -41,7 +42,7 @@ init_record_ai( aiRecord *pior)
         {
 /* evnt changed in 3.15 */
 #if defined(VERSION_INT)
-		pior->evnt[0] = pp->evntno;
+		epicsSnprintf(pior->evnt, sizeof(pior->evnt), "%d", pp->evntno);
 #else
 		pior->evnt = pp->evntno;
 #endif
@@ -54,8 +55,12 @@ init_record_ai( aiRecord *pior)
 	}
 
 	pp->hvchan->epicsenabled = 1;
+/* evnt changed in 3.15 */
+#if defined(VERSION_INT)
+PDEBUG(4) printf( "DEBUG: set %s EVNT: %s\n", pp->pname, pior->evnt);
+#else
 PDEBUG(4) printf( "DEBUG: set %s EVNT: %d\n", pp->pname, pior->evnt);
-
+#endif
 	return( 0);
 }
 

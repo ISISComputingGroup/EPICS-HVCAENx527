@@ -11,6 +11,7 @@
 #include <biRecord.h>
 #include <boRecord.h>
 #include <errlog.h>
+#include <epicsStdio.h>
 
 #include <epicsExport.h>
 #include "HVCAENx527.h"
@@ -43,7 +44,7 @@ init_record_bi( biRecord *pior)
         {
 /* evnt changed in 3.15 */
 #if defined(VERSION_INT)
-		pior->evnt[0] = pp->evntno;
+		epicsSnprintf(pior->evnt, sizeof(pior->evnt), "%d", pp->evntno);
 #else
 		pior->evnt = pp->evntno;
 #endif

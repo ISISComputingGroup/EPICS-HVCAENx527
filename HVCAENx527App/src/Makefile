@@ -88,7 +88,7 @@ CAENHVWrapperSim_SYS_LIBS_WIN32 += ws2_32
 #Addition of a sequence for summary information
 ifneq ($(SNCSEQ),)
     LIBRARY_IOC += HVCAENx527Summary
-#	DBD += sncSummary.dbd
+	DBD += sncSummary.dbd
 
     sncSummary_SNCFLAGS += +r
     HVCAENx527Summary_SRCS += sncSummary.stt

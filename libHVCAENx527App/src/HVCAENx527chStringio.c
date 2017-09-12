@@ -45,7 +45,7 @@ init_record_stringin( stringinRecord *pior)
         {
 /* evnt changed in 3.15 */
 #if defined(VERSION_INT)
-		pior->evnt[0] = hvch->chname_evntno;
+		epicsSnprintf(pior->evnt, sizeof(pior->evnt), "%d", hvch->chname_evntno);
 #else
 		pior->evnt = hvch->chname_evntno;
 #endif
