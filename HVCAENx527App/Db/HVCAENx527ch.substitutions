@@ -1,4 +1,4 @@
 file "$(TOP)/templates/HVCAENx527ch.tpl" {
-	pattern {PSNAME,CHANNUM,CHADDR}
-	{"\$(P):\$(PSNAME):\$(SLOT)","\$(CHANNUM)","\$(CHADDR)"}
+	pattern {PSNAME,CHANNUM,CHADDR,ALARM_WHEN_ON,ALARM_WHEN_RAMPING}
+	{"\$(P):\$(PSNAME):\$(SLOT)","\$(CHANNUM)","\$(CHADDR)","\$(ALARM_WHEN_ON)","\$(ALARM_WHEN_RAMPING)"}
 }
