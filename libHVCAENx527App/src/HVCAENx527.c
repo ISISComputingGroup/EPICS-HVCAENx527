@@ -878,8 +878,10 @@ CAENx527GetChParVal( PARPROP *pp)
 #else
 		retval = CAENHV_GetChParam( hvch->hvcrate->handle, hvch->slot, pp->pname, 1, (unsigned short *)&(hvch->chan), &(value.f));
 #endif	/* CAENHVWrapperVERSION */
-		if( retval != CAENHV_OK)
+		if( retval != CAENHV_OK) {
+            Busy[*(hvch->crate)] = 0;            
 			return NULL;
+        }
 		pp->pval.f = value.f;
 	}
 #if CAENHVWrapperVERSION / 100 > 2 || ! defined( CAENHVWrapperVERSION)
@@ -895,8 +897,10 @@ CAENx527GetChParVal( PARPROP *pp)
 	else if( pp->Type == PARAM_TYPE_STRING)
 	{
 		retval = CAENHV_GetChParam( hvch->hvcrate->handle, hvch->slot, pp->pname, 1, (unsigned short *)&(hvch->chan), &(value.c));
-		if( retval != CAENHV_OK)
+		if( retval != CAENHV_OK) {
+            Busy[*(hvch->crate)] = 0;            
 			return NULL;
+        }
 		pp->pval.c = strndup( value.c, MAX_VAL_STRING);
 	}
 #endif	/* CAENHVWrapperVERSION */
@@ -907,12 +911,13 @@ CAENx527GetChParVal( PARPROP *pp)
 #else
 		retval = CAENHV_GetChParam( hvch->hvcrate->handle, hvch->slot, pp->pname, 1, (unsigned short *)&(hvch->chan), &(value.l));
 #endif	/* CAENHVWrapperVERSION */
-		if( retval != CAENHV_OK)
+		if( retval != CAENHV_OK) {
+            Busy[*(hvch->crate)] = 0;            
 			return NULL;
+        }
 		pp->pval.l = value.l;
 	}
 	Busy[*(hvch->crate)] = 0;
-
 	/* We also pass the value to the calling routine because the final 
 	   type and value often depends on the EPICS PV definition */
 	return( &(pp->pval));
@@ -1038,6 +1043,7 @@ CAENx527GetAllChParVal( HVCRATE *cr, char *pname)
 			chlist = (short *)calloc( sizeof(short), cr->nchan);
 			if( chlist == NULL)
 			{
+		        Busy[cr->crate] = 0;
 				printf( "GetAllChParVal: Failed to calloc channel list.\n");
 				return( 3);
 			}
@@ -1069,6 +1075,7 @@ CAENx527GetAllChParVal( HVCRATE *cr, char *pname)
 				pval = (union pval *)calloc( sizeof(union pval), cr->nchan);
 				if( pval == NULL)
 				{
+		            Busy[cr->crate] = 0;
 					printf( "GetAllChParVal: Failed to calloc value list.\n");
 					return( 3);
 				}
@@ -1082,6 +1089,7 @@ CAENx527GetAllChParVal( HVCRATE *cr, char *pname)
 					pvala = (union pvala *)calloc( sizeof(union pvala), cr->nchan);
 					if( pvala == NULL)
 					{
+		                Busy[cr->crate] = 0;
 						printf( "GetAllChParVal: Failed to calloc value list.\n");
 						return( 3);
 					}
@@ -1104,6 +1112,7 @@ CAENx527GetAllChParVal( HVCRATE *cr, char *pname)
 					pval = (union pval *)calloc( sizeof(union pval), cr->nchan);
 					if( pval == NULL)
 					{
+		                Busy[cr->crate] = 0;
 						printf( "GetAllChParVal: Failed to calloc value list.\n");
 						return( 3);
 					}
@@ -1350,6 +1359,12 @@ CAENx527SetAllChParVal( HVCRATE *cr, char *pname, void *val)
 		if( retval != CAENHV_OK)
 		{
 			cr->connected = 0;
+            printf( "Dropped connection to %s@%s\n", cr->name, cr->IPaddr);
+#if CAENHVWrapperVERSION / 100 == 2
+			CAENHVDeinitSystem( cr->name);
+#else
+			CAENHV_DeinitSystem( cr->handle);
+#endif	/* CAENHVWrapperVERSION */
 			return( 3);
 		}
 	}
