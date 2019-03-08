@@ -2,6 +2,156 @@
 # Copyright Canadian Light Source, Inc.  All rights reserved.
 #    - see licence.txt and licence_CAEN.txt for limitations on use.
 #
+
+#
+# define ai before ao as the ao init record reads a default value
+# and this will fail if "epics_enabled" is not set, which is done
+# by the ai init
+#
+
+#
+# The following are for monitoring channel parameters (e.g. feedback)
+# in user space
+#
+record( stringin, "$(PSNAME):$(CHANNUM):name:fbk")
+{
+	field( DTYP, "CAEN x527 generic HV Channel")
+	field( INP, "@$(CHADDR) ChName")
+	field( SCAN, "Event")
+	field( PINI, "1")
+	field( VAL, "$(PSNAME):$(CHANNUM)")
+}
+record( ai, "$(PSNAME):$(CHANNUM):v0set:fbk")
+{
+	field( DESC, "Primary voltage setting")
+	field( DTYP, "CAEN x527 generic HV Channel")
+	field( INP, "@$(CHADDR) V0Set")
+	field( SCAN, "Event")
+	field( PREC, "2")
+	field(SIML, "$(PSNAME):SIM")
+	field(SIOL, "$(PSNAME):SIM:$(CHANNUM):v0set:fbk")
+	field(SDIS, "$(PSNAME):DISABLE")
+	field(EGU, "V")
+    info(archive, "VAL")
+    info(INTEREST, "HIGH")
+}
+record( ai, "$(PSNAME):$(CHANNUM):v1set:fbk")
+{
+	field( DESC, "Secondary voltage setting")
+	field( DTYP, "CAEN x527 generic HV Channel")
+	field( INP, "@$(CHADDR) V1Set")
+	field( SCAN, "Event")
+	field( PREC, "2")
+	field(SIML, "$(PSNAME):SIM")
+	field(SIOL, "$(PSNAME):SIM:$(CHANNUM):v1set:fbk")
+	field(SDIS, "$(PSNAME):DISABLE")
+	field(EGU, "V")
+    info(archive, "VAL")
+    info(INTEREST, "HIGH")
+}
+record( ai, "$(PSNAME):$(CHANNUM):i0set:fbk")
+{
+	field( DESC, "Primary current limit")
+	field( DTYP, "CAEN x527 generic HV Channel")
+	field( INP, "@$(CHADDR) I0Set")
+	field( SCAN, "Event")
+	field(SIML, "$(PSNAME):SIM")
+	field(SIOL, "$(PSNAME):SIM:$(CHANNUM):i0set:fbk")
+	field(SDIS, "$(PSNAME):DISABLE")
+	field(EGU, "A")
+    info(archive, "VAL")
+    info(INTEREST, "HIGH")
+}
+record( ai, "$(PSNAME):$(CHANNUM):i1set:fbk")
+{
+	field( DESC, "Secondary current limit")
+	field( DTYP, "CAEN x527 generic HV Channel")
+	field( INP, "@$(CHADDR) I1Set")
+	field( SCAN, "Event")
+	field(SIML, "$(PSNAME):SIM")
+	field(SIOL, "$(PSNAME):SIM:$(CHANNUM):i1set:fbk")
+	field(SDIS, "$(PSNAME):DISABLE")
+	field(EGU, "A")
+    info(archive, "VAL")
+    info(INTEREST, "HIGH")
+}
+record( ai, "$(PSNAME):$(CHANNUM):rampup:fbk")
+{
+	field( DESC, "Voltage ramp-up rate")
+	field( DTYP, "CAEN x527 generic HV Channel")
+	field( INP, "@$(CHADDR) RUp")
+	field( SCAN, "Event")
+	field(SIML, "$(PSNAME):SIM")
+	field(SIOL, "$(PSNAME):SIM:$(CHANNUM):rampup:fbk")
+	field(SDIS, "$(PSNAME):DISABLE")
+	field(EGU, "V/s")
+}
+record( ai, "$(PSNAME):$(CHANNUM):rampdn:fbk")
+{
+	field( DESC, "Voltage ramp-down rate")
+	field( DTYP, "CAEN x527 generic HV Channel")
+	field( INP, "@$(CHADDR) RDWn")
+	field( SCAN, "Event")
+	field(SIML, "$(PSNAME):SIM")
+	field(SIOL, "$(PSNAME):SIM:$(CHANNUM):rampdn:fbk")
+	field(SDIS, "$(PSNAME):DISABLE")
+	field(EGU, "V/s")
+}
+record( ai, "$(PSNAME):$(CHANNUM):trip:fbk")
+{
+	field( DESC, "Trip timeout")
+	field( DTYP, "CAEN x527 generic HV Channel")
+	field( INP, "@$(CHADDR) Trip")
+	field( SCAN, "Event")
+	field(SIML, "$(PSNAME):SIM")
+	field(SIOL, "$(PSNAME):SIM:$(CHANNUM):trip:fbk")
+	field(SDIS, "$(PSNAME):DISABLE")
+	field(EGU, "s")
+}
+record( ai, "$(PSNAME):$(CHANNUM):svmax:fbk")
+{
+	field( DESC, "Software voltage limit")
+	field( DTYP, "CAEN x527 generic HV Channel")
+	field( INP, "@$(CHADDR) SVMax")
+	field( SCAN, "Event")
+	field(SIML, "$(PSNAME):SIM")
+	field(SIOL, "$(PSNAME):SIM:$(CHANNUM):svmax:fbk")
+	field(SDIS, "$(PSNAME):DISABLE")
+	field(EGU, "V")
+}
+record( ai, "$(PSNAME):$(CHANNUM):vmon")
+{
+	field( DESC, "Measured voltage")
+	field( DTYP, "CAEN x527 generic HV Channel")
+	field( INP, "@$(CHADDR) VMon")
+	field( SCAN, "Event")
+	field( PREC, "2")
+	field(SIML, "$(PSNAME):SIM")
+	field(SIOL, "$(PSNAME):SIM:$(CHANNUM):vmon")
+	field(SDIS, "$(PSNAME):DISABLE")
+	field(EGU, "V")
+    info(archive, "VAL")
+    info(INTEREST, "HIGH")
+}
+record( ai, "$(PSNAME):$(CHANNUM):imon")
+{
+	field( DESC, "Measured current")
+	field( DTYP, "CAEN x527 generic HV Channel")
+	field( INP, "@$(CHADDR) IMon")
+	field( SCAN, "Event")
+	field( HIGH, "90")
+	field( HIHI, "100")
+	field( HSV, "MINOR")
+	field( HHSV, "MAJOR")
+	field( PREC, "2")
+	field(SIML, "$(PSNAME):SIM")
+	field(SIOL, "$(PSNAME):SIM:$(CHANNUM):imon")
+	field(SDIS, "$(PSNAME):DISABLE")
+	field(EGU, "A")
+    info(archive, "VAL")
+    info(INTEREST, "HIGH")
+}
+
 # The following are for setting channel parameters
 # in user space
 #
@@ -153,148 +303,6 @@ record( longout, "$(PSNAME):$(CHANNUM):tripext")
 	field(SIML, "$(PSNAME):SIM")
 	field(SIOL, "$(PSNAME):SIM:$(CHANNUM):tripext")
 	field(SDIS, "$(PSNAME):DISABLE")
-}
-#
-# The following are for monitoring channel parameters (e.g. feedback)
-# in user space
-#
-record( stringin, "$(PSNAME):$(CHANNUM):name:fbk")
-{
-	field( DTYP, "CAEN x527 generic HV Channel")
-	field( INP, "@$(CHADDR) ChName")
-	field( SCAN, "Event")
-	field( PINI, "1")
-	field( VAL, "$(PSNAME):$(CHANNUM)")
-}
-record( ai, "$(PSNAME):$(CHANNUM):v0set:fbk")
-{
-	field( DESC, "Primary voltage setting")
-	field( DTYP, "CAEN x527 generic HV Channel")
-	field( INP, "@$(CHADDR) V0Set")
-	field( SCAN, "Event")
-	field( PREC, "2")
-	field(SIML, "$(PSNAME):SIM")
-	field(SIOL, "$(PSNAME):SIM:$(CHANNUM):v0set:fbk")
-	field(SDIS, "$(PSNAME):DISABLE")
-	field(EGU, "V")
-    info(archive, "VAL")
-    info(INTEREST, "HIGH")
-}
-record( ai, "$(PSNAME):$(CHANNUM):v1set:fbk")
-{
-	field( DESC, "Secondary voltage setting")
-	field( DTYP, "CAEN x527 generic HV Channel")
-	field( INP, "@$(CHADDR) V1Set")
-	field( SCAN, "Event")
-	field( PREC, "2")
-	field(SIML, "$(PSNAME):SIM")
-	field(SIOL, "$(PSNAME):SIM:$(CHANNUM):v1set:fbk")
-	field(SDIS, "$(PSNAME):DISABLE")
-	field(EGU, "V")
-    info(archive, "VAL")
-    info(INTEREST, "HIGH")
-}
-record( ai, "$(PSNAME):$(CHANNUM):i0set:fbk")
-{
-	field( DESC, "Primary current limit")
-	field( DTYP, "CAEN x527 generic HV Channel")
-	field( INP, "@$(CHADDR) I0Set")
-	field( SCAN, "Event")
-	field(SIML, "$(PSNAME):SIM")
-	field(SIOL, "$(PSNAME):SIM:$(CHANNUM):i0set:fbk")
-	field(SDIS, "$(PSNAME):DISABLE")
-	field(EGU, "A")
-    info(archive, "VAL")
-    info(INTEREST, "HIGH")
-}
-record( ai, "$(PSNAME):$(CHANNUM):i1set:fbk")
-{
-	field( DESC, "Secondary current limit")
-	field( DTYP, "CAEN x527 generic HV Channel")
-	field( INP, "@$(CHADDR) I1Set")
-	field( SCAN, "Event")
-	field(SIML, "$(PSNAME):SIM")
-	field(SIOL, "$(PSNAME):SIM:$(CHANNUM):i1set:fbk")
-	field(SDIS, "$(PSNAME):DISABLE")
-	field(EGU, "A")
-    info(archive, "VAL")
-    info(INTEREST, "HIGH")
-}
-record( ai, "$(PSNAME):$(CHANNUM):rampup:fbk")
-{
-	field( DESC, "Voltage ramp-up rate")
-	field( DTYP, "CAEN x527 generic HV Channel")
-	field( INP, "@$(CHADDR) RUp")
-	field( SCAN, "Event")
-	field(SIML, "$(PSNAME):SIM")
-	field(SIOL, "$(PSNAME):SIM:$(CHANNUM):rampup:fbk")
-	field(SDIS, "$(PSNAME):DISABLE")
-	field(EGU, "V/s")
-}
-record( ai, "$(PSNAME):$(CHANNUM):rampdn:fbk")
-{
-	field( DESC, "Voltage ramp-down rate")
-	field( DTYP, "CAEN x527 generic HV Channel")
-	field( INP, "@$(CHADDR) RDWn")
-	field( SCAN, "Event")
-	field(SIML, "$(PSNAME):SIM")
-	field(SIOL, "$(PSNAME):SIM:$(CHANNUM):rampdn:fbk")
-	field(SDIS, "$(PSNAME):DISABLE")
-	field(EGU, "V/s")
-}
-record( ai, "$(PSNAME):$(CHANNUM):trip:fbk")
-{
-	field( DESC, "Trip timeout")
-	field( DTYP, "CAEN x527 generic HV Channel")
-	field( INP, "@$(CHADDR) Trip")
-	field( SCAN, "Event")
-	field(SIML, "$(PSNAME):SIM")
-	field(SIOL, "$(PSNAME):SIM:$(CHANNUM):trip:fbk")
-	field(SDIS, "$(PSNAME):DISABLE")
-	field(EGU, "s")
-}
-record( ai, "$(PSNAME):$(CHANNUM):svmax:fbk")
-{
-	field( DESC, "Software voltage limit")
-	field( DTYP, "CAEN x527 generic HV Channel")
-	field( INP, "@$(CHADDR) SVMax")
-	field( SCAN, "Event")
-	field(SIML, "$(PSNAME):SIM")
-	field(SIOL, "$(PSNAME):SIM:$(CHANNUM):svmax:fbk")
-	field(SDIS, "$(PSNAME):DISABLE")
-	field(EGU, "V")
-}
-record( ai, "$(PSNAME):$(CHANNUM):vmon")
-{
-	field( DESC, "Measured voltage")
-	field( DTYP, "CAEN x527 generic HV Channel")
-	field( INP, "@$(CHADDR) VMon")
-	field( SCAN, "Event")
-	field( PREC, "2")
-	field(SIML, "$(PSNAME):SIM")
-	field(SIOL, "$(PSNAME):SIM:$(CHANNUM):vmon")
-	field(SDIS, "$(PSNAME):DISABLE")
-	field(EGU, "V")
-    info(archive, "VAL")
-    info(INTEREST, "HIGH")
-}
-record( ai, "$(PSNAME):$(CHANNUM):imon")
-{
-	field( DESC, "Measured current")
-	field( DTYP, "CAEN x527 generic HV Channel")
-	field( INP, "@$(CHADDR) IMon")
-	field( SCAN, "Event")
-	field( HIGH, "90")
-	field( HIHI, "100")
-	field( HSV, "MINOR")
-	field( HHSV, "MAJOR")
-	field( PREC, "2")
-	field(SIML, "$(PSNAME):SIM")
-	field(SIOL, "$(PSNAME):SIM:$(CHANNUM):imon")
-	field(SDIS, "$(PSNAME):DISABLE")
-	field(EGU, "A")
-    info(archive, "VAL")
-    info(INTEREST, "HIGH")
 }
 record( ao, "$(PSNAME):$(CHANNUM):imon:warn")
 {
