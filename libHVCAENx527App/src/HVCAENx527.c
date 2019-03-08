@@ -15,6 +15,7 @@
 #include <math.h>
 #include <string.h>
 #include <epicsThread.h>
+#include <epicsMutex.h>
 #include <dbDefs.h>
 #include <dbAccess.h>
 #include <dbLoadTemplate.h>
@@ -60,6 +61,45 @@ short Busy[MAX_CRATES];
 epicsThreadId scanThread;
 
 HVCRATE Crate[MAX_CRATES];
+
+static epicsMutexId busyMutexId;
+static int busyInitDone = 0;
+
+static void busyLock(int crate)
+{
+    int done = 0;
+    if (crate < 0 || crate >= MAX_CRATES)
+    {
+        printf("busyLock: create %d out of range \n", crate);
+        return;
+    }
+    while(!done) {
+        epicsMutexMustLock(busyMutexId);
+        if (Busy[crate] == 0) {
+            Busy[crate] = 1;
+            epicsMutexUnlock(busyMutexId);
+            done = 1;
+        } else {
+            epicsMutexUnlock(busyMutexId);
+            epicsThreadSleep(0.01);
+        }
+    }
+}
+
+static void busyUnlock(int crate)
+{
+    if (crate < 0 || crate >= MAX_CRATES)
+    {
+        printf("busyUnlock: create %d out of range \n", crate);
+        return;
+    }
+    epicsMutexMustLock(busyMutexId);
+    if (Busy[crate] != 1) {
+        printf("busyUnlock: Strange - unlocking when not busy\n");
+    }
+    Busy[crate] = 0;
+    epicsMutexUnlock(busyMutexId);
+}
 
 /* 
  * always allocate at least 16 slots - some of our crates have less slots than this, but the 
@@ -761,6 +801,10 @@ static void CAENx527ConfigureCreateCallFunc(const iocshArgBuf *args) {
 
 /* Registration routine, runs at startup */
 static void CAENx527ConfigureCreateRegister(void) {
+    if (!busyInitDone) {
+        busyMutexId = epicsMutexMustCreate();
+        busyInitDone = 1;
+    }
     iocshRegister(&CAENx527ConfigureCreateFuncDef, CAENx527ConfigureCreateCallFunc);
 }
 
@@ -866,11 +910,9 @@ CAENx527GetChParVal( PARPROP *pp)
 
 	hvch = pp->hvchan;
 
-	while( Busy[*(hvch->crate)])
-		epicsThreadSleep(0.01);
+	busyLock(*(hvch->crate));
 
 	/* get value of one parameter */
-	Busy[*(hvch->crate)] = 1;
 	if( pp->Type == PARAM_TYPE_NUMERIC)
 	{
 #if CAENHVWrapperVERSION / 100 == 2
@@ -879,7 +921,7 @@ CAENx527GetChParVal( PARPROP *pp)
 		retval = CAENHV_GetChParam( hvch->hvcrate->handle, hvch->slot, pp->pname, 1, (unsigned short *)&(hvch->chan), &(value.f));
 #endif	/* CAENHVWrapperVERSION */
 		if( retval != CAENHV_OK) {
-            Busy[*(hvch->crate)] = 0;            
+            busyUnlock(*(hvch->crate));
 			return NULL;
         }
 		pp->pval.f = value.f;
@@ -898,7 +940,7 @@ CAENx527GetChParVal( PARPROP *pp)
 	{
 		retval = CAENHV_GetChParam( hvch->hvcrate->handle, hvch->slot, pp->pname, 1, (unsigned short *)&(hvch->chan), &(value.c));
 		if( retval != CAENHV_OK) {
-            Busy[*(hvch->crate)] = 0;            
+            busyUnlock(*(hvch->crate));
 			return NULL;
         }
 		pp->pval.c = strndup( value.c, MAX_VAL_STRING);
@@ -912,12 +954,12 @@ CAENx527GetChParVal( PARPROP *pp)
 		retval = CAENHV_GetChParam( hvch->hvcrate->handle, hvch->slot, pp->pname, 1, (unsigned short *)&(hvch->chan), &(value.l));
 #endif	/* CAENHVWrapperVERSION */
 		if( retval != CAENHV_OK) {
-            Busy[*(hvch->crate)] = 0;            
+            busyUnlock(*(hvch->crate));            
 			return NULL;
         }
 		pp->pval.l = value.l;
 	}
-	Busy[*(hvch->crate)] = 0;
+	busyUnlock(*(hvch->crate));
 	/* We also pass the value to the calling routine because the final 
 	   type and value often depends on the EPICS PV definition */
 	return( &(pp->pval));
@@ -934,11 +976,9 @@ CAENx527SetChParVal( PARPROP *pp)
 
 	hvch = pp->hvchan;
 
-	while( Busy[*(hvch->crate)])
-		epicsThreadSleep( 0.01);
+	busyLock(*(hvch->crate));
 
 	/* set value of one parameter */
-	Busy[*(hvch->crate)] = 1;
 #if CAENHVWrapperVERSION / 100 == 2
 	if( pp->Type == PARAM_TYPE_NUMERIC)
 	{
@@ -968,7 +1008,7 @@ CAENx527SetChParVal( PARPROP *pp)
 		retval = CAENHV_SetChParam( hvch->hvcrate->handle, hvch->slot, pp->pname, 1, (unsigned short *)&(hvch->chan), &(pp->pvalset.l));
 	}
 #endif	/* CAENHVWrapperVERSION */
-	Busy[*(hvch->crate)] = 0;
+    busyUnlock(*(hvch->crate));
 
 	if( retval != CAENHV_OK)
 		return( 3);
@@ -1027,10 +1067,8 @@ CAENx527GetAllChParVal( HVCRATE *cr, char *pname)
 	/* We have to do this one slot at a time since modules may vary */
 	for( i = 0; i < cr->nsl; i++)
 	{
-		while( Busy[cr->crate])
-			epicsThreadSleep( 0.01);
+		busyLock(cr->crate);
 
-		Busy[cr->crate] = 1;
 		/* Build the list of channels to change in this slot */
 		nset = 0;
 		pnum = 9999;
@@ -1043,7 +1081,7 @@ CAENx527GetAllChParVal( HVCRATE *cr, char *pname)
 			chlist = (short *)calloc( sizeof(short), cr->nchan);
 			if( chlist == NULL)
 			{
-		        Busy[cr->crate] = 0;
+		        busyUnlock(cr->crate);
 				printf( "GetAllChParVal: Failed to calloc channel list.\n");
 				return( 3);
 			}
@@ -1075,7 +1113,7 @@ CAENx527GetAllChParVal( HVCRATE *cr, char *pname)
 				pval = (union pval *)calloc( sizeof(union pval), cr->nchan);
 				if( pval == NULL)
 				{
-		            Busy[cr->crate] = 0;
+		            busyUnlock(cr->crate);
 					printf( "GetAllChParVal: Failed to calloc value list.\n");
 					return( 3);
 				}
@@ -1089,7 +1127,7 @@ CAENx527GetAllChParVal( HVCRATE *cr, char *pname)
 					pvala = (union pvala *)calloc( sizeof(union pvala), cr->nchan);
 					if( pvala == NULL)
 					{
-		                Busy[cr->crate] = 0;
+		                busyUnlock(cr->crate);
 						printf( "GetAllChParVal: Failed to calloc value list.\n");
 						return( 3);
 					}
@@ -1112,7 +1150,7 @@ CAENx527GetAllChParVal( HVCRATE *cr, char *pname)
 					pval = (union pval *)calloc( sizeof(union pval), cr->nchan);
 					if( pval == NULL)
 					{
-		                Busy[cr->crate] = 0;
+		                busyUnlock(cr->crate);
 						printf( "GetAllChParVal: Failed to calloc value list.\n");
 						return( 3);
 					}
@@ -1197,7 +1235,7 @@ CAENx527GetAllChParVal( HVCRATE *cr, char *pname)
 		{
 			rval = 3;
 		}
-		Busy[cr->crate] = 0;
+		busyUnlock(cr->crate);
 	}
 	return( rval);
 }
@@ -1244,10 +1282,7 @@ CAENx527SetAllChParVal( HVCRATE *cr, char *pname, void *val)
 	/* We have to do this one slot at a time since modules may vary */
 	for( i = 0; i < cr->nsl; i++)
 	{
-		while( Busy[cr->crate])
-			epicsThreadSleep( 0.01);
-
-		Busy[cr->crate] = 1;
+		busyLock(cr->crate);
 
 /* Note: allocating and building these lists repeatedly is not efficient.
    This should really be done once at init_record. */
@@ -1354,7 +1389,7 @@ CAENx527SetAllChParVal( HVCRATE *cr, char *pname, void *val)
 			free( pval);
 		}
 #endif	/* CAENHVWrapperVERSION */
-		Busy[cr->crate] = 0;
+		busyUnlock(cr->crate);
 		free( chlist);
 		if( retval != CAENHV_OK)
 		{
@@ -1391,10 +1426,7 @@ CAENx527GetAllChName( HVCRATE *cr)
 	/* We have to do this one slot at a time since modules may vary */
 	for( i = 0; i < cr->nsl; i++)
 	{
-		while( Busy[cr->crate])
-			epicsThreadSleep( 0.01);
-
-		Busy[cr->crate] = 1;
+		busyLock(cr->crate);
 
 /* Note: allocating and building these lists repeatedly is not efficient.
    This should really be done once at init_record. */
@@ -1445,7 +1477,7 @@ CAENx527GetAllChName( HVCRATE *cr)
 #endif
 			}
 		}
-		Busy[cr->crate] = 0;
+		busyUnlock(cr->crate);
 		free( chlist);
 		free( chname);
 		if( retval != CAENHV_OK)
@@ -1537,16 +1569,14 @@ CAENx527GetChName( HVCHAN *hvch)
 	if( hvch == NULL || hvch->hvcrate == NULL || hvch->epicsenabled == 0)
 		return( NULL);
 
-	while( Busy[*(hvch->crate)])
-		epicsThreadSleep( 0.01);
+	busyLock(*(hvch->crate));
 
-	Busy[*(hvch->crate)] = 1;
-#if CAENHVWrapperVERSION / 100 == 2
+    #if CAENHVWrapperVERSION / 100 == 2
 	retval = CAENHVGetChName( hvch->hvcrate->name, hvch->slot, 1, &(hvch->chan), &chname);
 #else
 	retval = CAENHV_GetChName( hvch->hvcrate->handle, hvch->slot, 1, &(hvch->chan), &chname);
 #endif /* CAENHVWrapperVERSION */
-	Busy[*(hvch->crate)] = 0;
+	busyUnlock(*(hvch->crate));
 
 	if( retval != CAENHV_OK)
 		return( NULL);
@@ -1564,17 +1594,15 @@ CAENx527SetChName( HVCHAN *hvch, char *chname)
 	if( hvch == NULL || hvch->hvcrate == NULL || hvch->epicsenabled == 0)
 		return( 3);
 
-	while( Busy[*(hvch->crate)])
-		epicsThreadSleep( 0.01);
+	busyLock(*(hvch->crate));
 
-	Busy[*(hvch->crate)] = 1;
 	snprintf( hvch->chname, MAX_CH_NAME, "%s", chname);
 #if CAENHVWrapperVERSION / 100 == 2
 	retval = CAENHVSetChName( hvch->hvcrate->name, hvch->slot, 1, &(hvch->chan), hvch->chname);
 #else
 	retval = CAENHV_SetChName( hvch->hvcrate->handle, hvch->slot, 1, &(hvch->chan), hvch->chname);
 #endif	/* CAENHVWrapperVERSION */
-	Busy[*(hvch->crate)] = 0;
+	busyUnlock(*(hvch->crate));
 
 	if( retval != CAENHV_OK)
 		return( 3);
@@ -1835,16 +1863,14 @@ PDEBUG(10) printf( "DEBUG: scanning crate %d\n", i);
 		{
 			if( lapsed1)
 			{
-				while( Busy[Crate[i].crate])
-					epicsThreadSleep( 0.01);
+				busyLock(Crate[i].crate);
 
-				Busy[Crate[i].crate] = 1;
 #if CAENHVWrapperVERSION / 100 == 2
 				retval = CAENHVGetSysProp( Crate[i].name, "HvPwSM", HvPwSM);
 #else
 				retval = CAENHV_GetSysProp( Crate[i].handle, "HvPwSM", HvPwSM);
 #endif /* CAENHVWrapperVERSION */
-				Busy[Crate[i].crate] = 0;
+				busyUnlock(Crate[i].crate);
 				/* If we lose the connection, the crate will
 				   log us out, but if we misinterpreted we
 				   have to force a logout. */
@@ -2068,7 +2094,6 @@ static long
 init()
 {
 	errlogPrintf("Starting CAEN x527 driver\n");
-
 	ScanChannelsPeriod = 0.2f;
 	InitScanChannels();
 	scanThread = epicsThreadCreate( "HVCAENx527Thread", epicsThreadPriorityMedium + 5, epicsThreadGetStackSize(epicsThreadStackBig), ScanChannels_Thread, NULL);
