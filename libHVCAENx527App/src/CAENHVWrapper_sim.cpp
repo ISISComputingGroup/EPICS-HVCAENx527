@@ -40,11 +40,10 @@ CAENHVLIB_API CAENHVRESULT  CAENHVDeinitSystem(const char *SystemName)
 CAENHVLIB_API CAENHVRESULT  CAENHVGetChName(const char *SystemName, ushort slot, 
  ushort ChNum, const ushort *ChList, char (*ChNameList)[MAX_CH_NAME])
 {
-    // ChNum should be 1
-	*(reinterpret_cast<void**>(ChNameList)) = malloc(MAX_CH_NAME * ChNum);
+    // ChNum should be 1 in our case
 	for(int i=0; i<ChNum; ++i)
 	{
-		std::string& name = crate_info[SystemName][slot][*ChList].name;
+		std::string& name = crate_info[SystemName][slot][ChList[i]].name;
 		if (name.size() == 0)
 		{
 			sprintf(ChNameList[i], "s1535");			
