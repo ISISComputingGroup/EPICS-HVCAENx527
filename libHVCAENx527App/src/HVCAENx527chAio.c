@@ -11,6 +11,8 @@
 #include <aiRecord.h>
 #include <aoRecord.h>
 #include <epicsStdio.h>
+#include <recGbl.h>
+#include <alarm.h>
 
 #include <epicsExport.h>
 #include "HVCAENx527.h"
@@ -74,7 +76,10 @@ read_ai( aiRecord *pior)
 
 	pp = (PARPROP *)pior->dpvt;
 	if( pp == NULL || pp->hvchan->epicsenabled == 0 || pp->hvchan->hvcrate->connected == 0)
+    {
+        recGblSetSevr(pior, READ_ALARM, INVALID_ALARM);
 		return( 3);
+    }
 
 #if SCAN_SERVER == 0
 	pval = CAENx527GetChParVal( pp);
@@ -159,8 +164,11 @@ write_ao( aoRecord *pior)
 	PARPROP *pp;
 
 	pp = (PARPROP *)(pior->dpvt);
-	if( pp == NULL || pp->hvchan->epicsenabled == 0)
-		return(3);
+	if( pp == NULL || pp->hvchan->epicsenabled == 0 || pp->hvchan->hvcrate->connected == 0)
+    {
+        recGblSetSevr(pior, WRITE_ALARM, INVALID_ALARM);
+		return( 3);
+    }
 	if( pior->val < pp->Minval)
 	{
 		pp->pvalset.f = pp->Minval;
@@ -173,8 +181,10 @@ write_ao( aoRecord *pior)
 		pp->pvalset.f = (float)(pior->val);
 PDEBUG(4) printf( "DEBUG: put %s = %lf (%f)\n", pp->pname, pior->val, pp->pvalset.f);
 	if( CAENx527SetChParVal( pp) != 0)
+    {
+        recGblSetSevr(pior, WRITE_ALARM, INVALID_ALARM);
 		return( 3);
-
+    }
 	pior->udf = FALSE;
 
 	return( 0);

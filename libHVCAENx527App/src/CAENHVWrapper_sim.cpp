@@ -11,6 +11,9 @@
 #define NUM_CH 2
 #define BOARDNAME "s1535s"
 
+static unsigned g_call_out = 0;
+static unsigned g_error_on_call = 1000;
+
 // note: must use malloc() not new[] to allocate memory as client will use free()
 
 struct chan_t
@@ -40,6 +43,10 @@ CAENHVLIB_API CAENHVRESULT  CAENHVDeinitSystem(const char *SystemName)
 CAENHVLIB_API CAENHVRESULT  CAENHVGetChName(const char *SystemName, ushort slot, 
  ushort ChNum, const ushort *ChList, char (*ChNameList)[MAX_CH_NAME])
 {
+    if (++g_call_out % g_error_on_call == 0) {
+	    return CAENHV_TIMEERR;
+	}	
+	
     // ChNum should be 1 in our case
 	for(int i=0; i<ChNum; ++i)
 	{
@@ -59,6 +66,10 @@ CAENHVLIB_API CAENHVRESULT  CAENHVGetChName(const char *SystemName, ushort slot,
 CAENHVLIB_API CAENHVRESULT  CAENHVSetChName(const char *SystemName, ushort slot, 
  ushort ChNum, const ushort *ChList, const char *ChName)
 {
+    if (++g_call_out % g_error_on_call == 0) {
+	    return CAENHV_TIMEERR;
+	}	
+
 	for(int i=0; i< ChNum; ++i)
 	{
 		crate_info[SystemName][slot][ChList[i]].name = ChName;
@@ -71,6 +82,9 @@ CAENHVLIB_API CAENHVRESULT  CAENHVGetChParamInfo(const char *SystemName,
  ushort slot, ushort Ch, char **ParNameList)
 {
 	int j=0;
+    if (++g_call_out % g_error_on_call == 0) {
+	    return CAENHV_TIMEERR;
+	}	
     *ParNameList = static_cast<char*>(malloc(MAX_PARAM * MAX_PARAM_NAME));
 	char (*par)[MAX_PARAM_NAME] = reinterpret_cast<char (*)[MAX_PARAM_NAME]>(*ParNameList);
 	strcpy(par[j++], "ChName");
@@ -97,6 +111,9 @@ CAENHVLIB_API CAENHVRESULT  CAENHVGetChParamInfo(const char *SystemName,
 CAENHVLIB_API CAENHVRESULT  CAENHVGetChParamProp(const char *SystemName, 
  ushort slot, ushort Ch, const char *ParName, const char *PropName, void *retval)
 {
+    if (++g_call_out % g_error_on_call == 0) {
+	    return CAENHV_TIMEERR;
+	}	
     if (!strcmp(ParName, "Mode"))
 	{
 	    *(static_cast<unsigned long*>(retval)) = PARAM_MODE_RDWR;
@@ -116,6 +133,9 @@ CAENHVLIB_API CAENHVRESULT  CAENHVGetChParamProp(const char *SystemName,
 CAENHVLIB_API CAENHVRESULT  CAENHVGetChParam(const char *SystemName, ushort slot, 
  const char *ParName, ushort ChNum, const ushort *ChList, void *ParValList)
 {
+    if (++g_call_out % g_error_on_call == 0) {
+	    return CAENHV_TIMEERR;
+	}	
 	 *(static_cast<unsigned long*>(ParValList)) = 0;
      return CAENHV_OK;
 }
@@ -124,6 +144,9 @@ CAENHVLIB_API CAENHVRESULT  CAENHVGetChParam(const char *SystemName, ushort slot
 CAENHVLIB_API CAENHVRESULT  CAENHVSetChParam(const char *SystemName, ushort slot, 
  const char *ParName, ushort ChNum, const ushort *ChList, void *ParValue)
 {
+    if (++g_call_out % g_error_on_call == 0) {
+	    return CAENHV_TIMEERR;
+	}	
     return CAENHV_OK;
 }
 
@@ -131,6 +154,9 @@ CAENHVLIB_API CAENHVRESULT  CAENHVSetChParam(const char *SystemName, ushort slot
 CAENHVLIB_API CAENHVRESULT  CAENHVGetSysProp(const char *SystemName, 
  const char *PropName, void *Result)
 {
+    if (++g_call_out % g_error_on_call == 0) {
+	    return CAENHV_TIMEERR;
+	}	
 	if ( !strcmp(PropName, "HvPwSM") )
 	{
 		strcpy(static_cast<char*>(Result), "HvPwSM value");
@@ -146,6 +172,9 @@ CAENHVLIB_API CAENHVRESULT  CAENHVGetCrateMap(const char *SystemName,
  ushort *NrOfSlot, ushort **NrofChList, char **ModelList, char **DescriptionList,
  ushort **SerNumList, uchar **FmwRelMinList, uchar **FmwRelMaxList)
 {
+    if (++g_call_out % g_error_on_call == 0) {
+	    return CAENHV_TIMEERR;
+	}	
     *NrOfSlot = NUM_SLOTS;
 	*NrofChList = static_cast<ushort*>(malloc(NUM_SLOTS * sizeof(ushort)));
 	*SerNumList = static_cast<ushort*>(malloc(NUM_SLOTS * sizeof(ushort)));
@@ -168,6 +197,9 @@ CAENHVLIB_API CAENHVRESULT  CAENHVGetCrateMap(const char *SystemName,
 CAENHVLIB_API CAENHVRESULT  CAENHVGetBdParam(const char *SystemName, 
  ushort slotNum, const ushort *slotList, const char *ParName, void *ParValList)
 {
+    if (++g_call_out % g_error_on_call == 0) {
+	    return CAENHV_TIMEERR;
+	}	
     if ( !strcmp(ParName, "HVMax") )
     {
         *(float*)ParValList = 10.0f * slotNum;

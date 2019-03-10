@@ -62,7 +62,7 @@ epicsThreadId scanThread;
 
 HVCRATE Crate[MAX_CRATES];
 
-static epicsMutexId busyMutexId;
+static epicsMutexId busyMutexId; /* to protect access to Busy[] */
 static int busyInitDone = 0;
 
 static void busyLock(int crate)
@@ -70,7 +70,7 @@ static void busyLock(int crate)
     int done = 0;
     if (crate < 0 || crate >= MAX_CRATES)
     {
-        printf("busyLock: create %d out of range \n", crate);
+        printf("busyLock: crate %d out of range \n", crate);
         return;
     }
     while(!done) {
@@ -90,7 +90,7 @@ static void busyUnlock(int crate)
 {
     if (crate < 0 || crate >= MAX_CRATES)
     {
-        printf("busyUnlock: create %d out of range \n", crate);
+        printf("busyUnlock: crate %d out of range \n", crate);
         return;
     }
     epicsMutexMustLock(busyMutexId);
@@ -569,12 +569,12 @@ epicsShareFunc ConnectCrate( char *name, char *linkaddr, CAENHV_SYSTEM_TYPE_t ty
 	}
 #endif	/* CAENHVWrapperVERSION */
 
+	printf("Connecting to crate %s@%s\n", name, linkaddr);
 #if CAENHVWrapperVERSION / 100 == 2
 	retval = CAENHVInitSystem( name, LINKTYPE_TCPIP, (void *)linkaddr, "admin", "admin");
 #else
 	retval = CAENHV_InitSystem( type, LINKTYPE_TCPIP, (void *)linkaddr, "admin", "admin", &handle);
 #endif	/* CAENHVWrapperVERSION */
-	printf( "Connected to crate %s@%s\n", name, linkaddr);
 	if( retval == CAENHV_OK)
 	{
 		i = 0;
@@ -931,8 +931,10 @@ CAENx527GetChParVal( PARPROP *pp)
 	else if( pp->Type == PARAM_TYPE_ENUM)
 	{
 		retval = CAENHV_GetChParam( hvch->hvcrate->handle, hvch->slot, pp->pname, 1, (unsigned short *)&(hvch->chan), &(value.s));
-		if( retval != CAENHV_OK)
+		if( retval != CAENHV_OK) {
+			busyUnlock(*(hvch->crate));
 			return NULL;
+		}
 		pp->pval.s = value.s;
 	}
 */
@@ -1065,7 +1067,7 @@ CAENx527GetAllChParVal( HVCRATE *cr, char *pname)
 
 	rval = 0;
 	/* We have to do this one slot at a time since modules may vary */
-	for( i = 0; i < cr->nsl; i++)
+	for( i = 0; i < cr->nsl && cr->connected; i++)
 	{
 		busyLock(cr->crate);
 
@@ -1139,6 +1141,7 @@ CAENx527GetAllChParVal( HVCRATE *cr, char *pname)
 					pval2 = (union pval2 *)calloc( sizeof(union pval2), cr->nchan);
 					if( pval2 == NULL)
 					{
+						busyUnlock(cr->crate);
 						printf( "GetAllChParVal: Failed to calloc value list.\n");
 						return( 3);
 					}
@@ -1205,13 +1208,16 @@ CAENx527GetAllChParVal( HVCRATE *cr, char *pname)
 						}
 					}
 				}
-				else if( retval == CAENHV_TIMEERR)
+				/* this is only called from main scan loop - should we disconnect on all errors, or just use fact
+				   that CAENHV_GetSysProp() will fail and disconnect for us? */
+				else if(retval != CAENHV_OK /*retval == CAENHV_TIMEERR*/ )
 				{
 					cr->connected = 0;
-					printf( "Lost connection to %s@%s\n", Crate[i].name, Crate[i].IPaddr);
 #if CAENHVWrapperVERSION / 100 == 2
+					printf("Lost connection to %s@%s: %s (%d)\n", Crate[i].name, Crate[i].IPaddr, CAENHVGetError(Crate[i].name), retval);
 					CAENHVDeinitSystem( cr->name);
 #else
+					printf("Lost connection to %s@%s: %s (%d)\n", Crate[i].name, Crate[i].IPaddr, CAENHVGetError(Crate[i].handle), retval);
 					CAENHV_DeinitSystem( cr->handle);
 #endif	/* CAENHVWrapperVERSION */
 					rval = 4;
@@ -1296,6 +1302,7 @@ CAENx527SetAllChParVal( HVCRATE *cr, char *pname, void *val)
 		if( chlist == NULL)
 		{
 			printf( "SetAllChParVal: Failed to calloc channel list.\n");
+            busyUnlock(cr->crate);
 			return( 3);
 		}
 		hvch = cr->hvchmap[i].hvchan[0];
@@ -1307,6 +1314,7 @@ CAENx527SetAllChParVal( HVCRATE *cr, char *pname, void *val)
 		if( pval == NULL)
 		{
 			printf( "SetAllChParVal: Failed to calloc value list.\n");
+            busyUnlock(cr->crate);
 			return( 3);
 		}
 #else	/* CAENHVWrapperVERSION */
@@ -1316,6 +1324,7 @@ CAENx527SetAllChParVal( HVCRATE *cr, char *pname, void *val)
 			if( pvala == NULL)
 			{
 				printf( "SetAllChParVal: Failed to calloc value list.\n");
+                busyUnlock(cr->crate);
 				return( 3);
 			}
 		}
@@ -1336,6 +1345,7 @@ CAENx527SetAllChParVal( HVCRATE *cr, char *pname, void *val)
 			if( pval == NULL)
 			{
 				printf( "SetAllChParVal: Failed to calloc value list.\n");
+                busyUnlock(cr->crate);
 				return( 3);
 			}
 		}
@@ -1389,19 +1399,21 @@ CAENx527SetAllChParVal( HVCRATE *cr, char *pname, void *val)
 			free( pval);
 		}
 #endif	/* CAENHVWrapperVERSION */
-		busyUnlock(cr->crate);
 		free( chlist);
 		if( retval != CAENHV_OK)
 		{
 			cr->connected = 0;
-            printf( "Dropped connection to %s@%s\n", cr->name, cr->IPaddr);
 #if CAENHVWrapperVERSION / 100 == 2
+			printf("Lost connection to %s@%s: %s (%d)\n", cr->name, cr->IPaddr, CAENHVGetError(cr->name), retval);
 			CAENHVDeinitSystem( cr->name);
 #else
+			printf("Lost connection to %s@%s: %s (%d)\n", cr->name, cr->IPaddr, CAENHVGetError(cr->handle), retval);
 			CAENHV_DeinitSystem( cr->handle);
 #endif	/* CAENHVWrapperVERSION */
+		    busyUnlock(cr->crate);
 			return( 3);
 		}
+		busyUnlock(cr->crate);
 	}
 	return( 0);
 }
@@ -1571,7 +1583,7 @@ CAENx527GetChName( HVCHAN *hvch)
 
 	busyLock(*(hvch->crate));
 
-    #if CAENHVWrapperVERSION / 100 == 2
+#if CAENHVWrapperVERSION / 100 == 2
 	retval = CAENHVGetChName( hvch->hvcrate->name, hvch->slot, 1, &(hvch->chan), &chname);
 #else
 	retval = CAENHV_GetChName( hvch->hvcrate->handle, hvch->slot, 1, &(hvch->chan), &chname);
@@ -1870,20 +1882,21 @@ PDEBUG(10) printf( "DEBUG: scanning crate %d\n", i);
 #else
 				retval = CAENHV_GetSysProp( Crate[i].handle, "HvPwSM", HvPwSM);
 #endif /* CAENHVWrapperVERSION */
-				busyUnlock(Crate[i].crate);
 				/* If we lose the connection, the crate will
 				   log us out, but if we misinterpreted we
 				   have to force a logout. */
-				if( retval == CAENHV_TIMEERR)
+				if( retval != CAENHV_OK /*retval == CAENHV_TIMEERR*/ )
 				{
 					Crate[i].connected = 0;
-					printf( "Lost connection to %s@%s\n", Crate[i].name, Crate[i].IPaddr);
 #if CAENHVWrapperVERSION / 100 == 2
+					printf("Lost connection to %s@%s: %s (%d)\n", Crate[i].name, Crate[i].IPaddr, CAENHVGetError(Crate[i].name), retval);
 					CAENHVDeinitSystem( Crate[i].name);
 #else
+					printf("Lost connection to %s@%s: %s (%d)\n", Crate[i].name, Crate[i].IPaddr, CAENHVGetError(Crate[i].handle), retval);
 					CAENHV_DeinitSystem( Crate[i].handle);
 #endif	/* CAENHVWrapperVERSION */
 				}
+				busyUnlock(Crate[i].crate);
 			}
 		}
 		else
@@ -1894,9 +1907,9 @@ PDEBUG(10) printf( "DEBUG: scanning crate %d\n", i);
 				   back in. */
 #if 1
 #if CAENHVWrapperVERSION / 100 == 2
-				retval = CAENHVInitSystem( Crate[i].name, LINKTYPE_TCPIP, (void *)(Crate[i].IPaddr), "admin", "admin");
+				retval = CAENHVInitSystem( Crate[i].name, LINKTYPE_TCPIP, (void *)(Crate[i].IPaddr), Crate[i].username, Crate[i].password);
 #else
-				retval = CAENHV_InitSystem( Crate[i].type, LINKTYPE_TCPIP, (void *)(Crate[i].IPaddr), "admin", "admin", &(Crate[i].handle));
+				retval = CAENHV_InitSystem( Crate[i].type, LINKTYPE_TCPIP, (void *)(Crate[i].IPaddr), Crate[i].username, Crate[i].password, &(Crate[i].handle));
 #endif	/* CAENHVWrapperVERSION */
 				if( retval == CAENHV_OK)
 				{

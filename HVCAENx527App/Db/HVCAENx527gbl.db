@@ -176,3 +176,11 @@ record(calc, "$(P):EVNTO_T1:COUNT")
     field(EVNT, "11")
     field(CALC, "A:=A+1;A")
 }
+
+## is EVNTO_T1 increasing
+record(calc, "$(P):EVNTO_T1:UPDATING")
+{
+    field(INPA, "$(P):EVNTO_T1:COUNT NPP")
+    field(CALC, "(B!=A?1:0);B:=A")
+    field(SCAN, "5 second")
+}
