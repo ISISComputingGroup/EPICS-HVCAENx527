@@ -1067,6 +1067,8 @@ CAENx527GetAllChParVal( HVCRATE *cr, char *pname)
 
 	rval = 0;
 	/* We have to do this one slot at a time since modules may vary */
+    /* we drop out of loop on disconnect error, all PVs check for
+        connected and so will go into alarm */
 	for( i = 0; i < cr->nsl && cr->connected; i++)
 	{
 		busyLock(cr->crate);
