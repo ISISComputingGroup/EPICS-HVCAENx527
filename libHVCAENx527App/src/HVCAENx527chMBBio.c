@@ -11,6 +11,8 @@
 #include <mbbiRecord.h>
 #include <mbboRecord.h>
 #include <epicsStdio.h>
+#include <recGbl.h>
+#include <alarm.h>
 
 #include <epicsExport.h>
 #include "HVCAENx527.h"
@@ -65,7 +67,10 @@ read_mbbi( mbbiRecord *pior)
 
 	pp = (PARPROP *)pior->dpvt;
 	if( pp == NULL || pp->hvchan->epicsenabled == 0 || pp->hvchan->hvcrate->connected == 0)
+    {
+        recGblSetSevr(pior, READ_ALARM, INVALID_ALARM);
 		return( 3);
+    }
 
 #if SCAN_SERVER == 0
 	pval = CAENx527GetChParVal( pp);
@@ -144,12 +149,18 @@ write_mbbo( mbboRecord *pior)
 	PARPROP *pp;
 
 	pp = (PARPROP *)(pior->dpvt);
-	if( pp == NULL || pp->hvchan->epicsenabled == 0)
-		return(3);
+	if( pp == NULL || pp->hvchan->epicsenabled == 0 || pp->hvchan->hvcrate->connected == 0)
+    {
+        recGblSetSevr(pior, WRITE_ALARM, INVALID_ALARM);
+		return( 3);
+    }
 	pp->pvalset.l = (int)(pior->val);
 PDEBUG(4) printf( "DEBUG: put %s = %d\n", pp->pname, (int)(pior->val));
 	if( CAENx527SetChParVal( pp) != 0)
+    {
+        recGblSetSevr(pior, WRITE_ALARM, INVALID_ALARM);
 		return( 3);
+    }
 
 	pior->udf = FALSE;
 

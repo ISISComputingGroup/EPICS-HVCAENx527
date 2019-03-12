@@ -12,6 +12,8 @@
 #include <stringinRecord.h>
 #include <stringoutRecord.h>
 #include <epicsStdio.h>
+#include <recGbl.h>
+#include <alarm.h>
 
 #include <epicsExport.h>
 #include "HVCAENx527.h"
@@ -67,7 +69,10 @@ read_stringin( stringinRecord *pior)
 
 	hvch = (HVCHAN *)pior->dpvt;
 	if( hvch == NULL || hvch->epicsenabled == 0 || hvch->hvcrate->connected == 0)
+    {
+        recGblSetSevr(pior, READ_ALARM, INVALID_ALARM);
 		return( 3);
+    }
 
 #if SCAN_SERVER == 0
 	pval = CAENx527GetChName( hvch);
@@ -147,12 +152,18 @@ write_stringout( stringoutRecord *pior)
 	HVCHAN *hvch;
 
 	hvch = (HVCHAN *)(pior->dpvt);
-	if( hvch == NULL || hvch->epicsenabled == 0)
-		return(3);
+	if( hvch == NULL || hvch->epicsenabled == 0 || hvch->hvcrate->connected == 0)
+    {
+        recGblSetSevr(pior, WRITE_ALARM, INVALID_ALARM);
+		return( 3);
+    }
 	epicsSnprintf( hvch->chname, 12, "%s", pior->val);
 PDEBUG(4) printf( "DEBUG: put name = %s\n", pior->val);
 	if( CAENx527SetChName( hvch, pior->val) != 0)
+    {
+        recGblSetSevr(pior, WRITE_ALARM, INVALID_ALARM);
 		return( 3);
+    }
 
 	pior->udf = FALSE;
 
