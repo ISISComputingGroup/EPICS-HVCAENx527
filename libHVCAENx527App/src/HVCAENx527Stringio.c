@@ -31,6 +31,10 @@
  */
 
 
+#ifdef _WIN32
+#include <windows.h> /* we need to make sure EPICS callback.h is loaded after windows.h */
+#endif
+
 /*#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>

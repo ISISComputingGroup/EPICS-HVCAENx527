@@ -6,7 +6,9 @@
  * HVCAENx527chAio.c:
  * Analog input record and analog output record device support routines.
  */
-
+#ifdef _WIN32
+#include <windows.h> /* we need to make sure EPICS callback.h is loaded after windows.h */
+#endif
 #include <dbScan.h>
 #include <aiRecord.h>
 #include <aoRecord.h>

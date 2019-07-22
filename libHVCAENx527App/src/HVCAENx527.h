@@ -14,7 +14,7 @@
 #endif
 
 #include <epicsVersion.h>
-#if (EPICS_VERSION == 3) && (EPICS_REVISION == 14) && (EPICS_MODIFICATION > 6)
+#if (EPICS_VERSION > 3) || (EPICS_REVISION > 14) || ((EPICS_VERSION == 3) && (EPICS_REVISION == 14) && (EPICS_MODIFICATION > 6))
 #include <errlog.h>
 #endif
 #include <CAENHVWrapper.h>
