@@ -25,12 +25,14 @@ record( mbbo, "$(PSNAME):$(CHANNUM):ilock:cond")
 	field( THST, "!=")
 	field( PINI, "1")
     info(autosaveFields, "VAL")
+	field(ASG, "$(ASG=DEFAULT)")
 }
 record( ao, "$(PSNAME):$(CHANNUM):ilock:thresh")
 {
 	field( VAL, "$(THRESH)")
 	field( PINI, "1")
     info(autosaveFields, "VAL")
+	field(ASG, "$(ASG=DEFAULT)")
 }
 # The calc record only determines if conditions have been met.
 # The fanout actually determines if a signal should be sent.
@@ -41,6 +43,7 @@ record( calc, "$(PSNAME):$(CHANNUM):ilock:test")
 	field( INPJ, "$(PSNAME):$(CHANNUM):ilock:cond")
 	field( CALC, "J=1&&A=B||J=2&&A<B||J=0&&A>B||J=3&&A#B")
 	field( FLNK, "$(PSNAME):$(CHANNUM):ilock:act.PROC")
+	field(ASG, "$(ASG=DEFAULT)")
 }
 record( seq, "$(PSNAME):$(CHANNUM):ilock:act")
 {
@@ -48,4 +51,5 @@ record( seq, "$(PSNAME):$(CHANNUM):ilock:act")
 	field( SELM, "Specified")
 	field( DOL1, "$(OUTVAL)")
 	field( LNK1, "$(PSNAME):$(CHANNUM):pwonoff PP")
+	field(ASG, "$(ASG=DEFAULT)")
 }
