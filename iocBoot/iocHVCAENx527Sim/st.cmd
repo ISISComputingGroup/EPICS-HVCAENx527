@@ -17,7 +17,7 @@ HVCAENx527_registerRecordDeviceDriver pdbbase
 ##ISIS## Run IOC initialisation 
 < $(IOCSTARTUP)/init.cmd
 
-$(IFREADONLY=#) epicsEnvSet "CAN_WRITE" "#"
+$(IFREADONLY= ) epicsEnvSet CAN_WRITE "#"
 
 # use -D argument to turn on debugging
 
@@ -37,8 +37,8 @@ CAENx527ConfigureCreate "hv0", "127.0.0.1"
 ##ISIS## Load common DB records 
 < $(IOCSTARTUP)/dbload.cmd
 
-$(CAN_WRITE= ) CAENx527DbLoadRecords("P=$(MYPVPREFIX)CAEN, ASG=DEFAULT")
-$(IFREADONLY=#) CAENx527DbLoadRecords("P=$(MYPVPREFIX)CAEN, ASG=READONLY")
+$(CAN_WRITE= ) CAENx527DbLoadRecords("P=$(MYPVPREFIX)CAEN, ASG=READONLY")
+$(IFREADONLY= ) CAENx527DbLoadRecords("P=$(MYPVPREFIX)CAEN, ASG=DEFAULT")
 
 
 ## Set this to see messages from mySub
