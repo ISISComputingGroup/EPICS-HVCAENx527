@@ -8,6 +8,9 @@
  * Long input record and long output record device support routines.
  */
 
+#ifdef _WIN32
+#include <windows.h> /* we need to make sure EPICS callback.h is loaded after windows.h */
+#endif
 #include <longinRecord.h>
 #include <longoutRecord.h>
 #include <epicsStdio.h>

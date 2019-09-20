@@ -8,6 +8,9 @@
  * MultiBit Binary input record and output record device support routines.
  */
 
+#ifdef _WIN32
+#include <windows.h> /* we need to make sure EPICS callback.h is loaded after windows.h */
+#endif
 #include <mbbiRecord.h>
 #include <mbboRecord.h>
 #include <epicsStdio.h>
