@@ -14,6 +14,11 @@ cd ${TOP}
 dbLoadDatabase "dbd/HVCAENx527.dbd"
 HVCAENx527_registerRecordDeviceDriver pdbbase
 
+##ISIS## Run IOC initialisation 
+< $(IOCSTARTUP)/init.cmd
+
+$(IFREADONLY=#) epicsEnvSet "CAN_WRITE" "#"
+
 # use -D argument to turn on debugging
 
 ## arguments to CAENx527ConfigureCreate are: name, ip_address, username, password

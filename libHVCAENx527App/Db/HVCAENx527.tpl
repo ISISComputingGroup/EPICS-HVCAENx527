@@ -20,6 +20,7 @@ record( ao, "$(PSNAME):scanPeriod")
 #	field( OUT, "@$(CHADDR) scanPeriod")
 	field( VAL, "0.2")
 	field( PINI, "1")
+	field(ASG, "$(ASG=DEFAULT)")
 }
 record( ai, "$(PSNAME):connected")
 {
@@ -35,6 +36,7 @@ record(bo, "$(PSNAME):SIM")
     field(DTYP, "Soft Channel")
     field(ZNAM, "NO")
     field(ONAM, "YES")
+	field(ASG, "$(ASG=DEFAULT)")
 }
 
 record( bo, "$(PSNAME):DISABLE") 
@@ -45,6 +47,7 @@ record( bo, "$(PSNAME):DISABLE")
   field(OMSL, "supervisory")
   field(ZNAM, "Comms Enabled")
   field(ONAM, "Comms Disabled")
+	field(ASG, "$(ASG=DEFAULT)")
 }
 
 #record( ao, "$(PSNAME):v0set")
@@ -69,5 +72,6 @@ record( bo, "$(PSNAME):DISABLE")
 #}
 record( bo, "$(PSNAME):pwonoff")
 {
-        field( DESC, "Power on/off, all Ch.")
+	field( DESC, "Power on/off, all Ch.")
+	field(ASG, "$(ASG=DEFAULT)")
 }

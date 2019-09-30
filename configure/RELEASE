@@ -20,6 +20,26 @@ CAENHVWrapperVERSION=211
 #endif
 
 CAENHVWRAPPER=$(TOP)/HVCAENx527App/src/CAENHVWrapper
+ACCESSSECURITY=$(SUPPORT)/AccessSecurity/master
+CALC=$(SUPPORT)/calc/master
+ASYN=$(SUPPORT)/asyn/master
+STREAMDEVICE=$(SUPPORT)/StreamDevice/master
+UTILITIES=$(SUPPORT)/utilities/master
+PVDUMP=$(SUPPORT)/pvdump/master
+AUTOSAVE=$(SUPPORT)/autosave/master
+DEVIOCSTATS=$(SUPPORT)/devIocStats/master
+ICPCONFIG=$(SUPPORT)/icpconfig/master
+SNCSEQ=$(SUPPORT)/seq/master
+CAPUTLOG=$(SUPPORT)/caPutLog/master
+SQLITE=$(SUPPORT)/sqlite/master
+PUGIXML=$(SUPPORT)/pugixml/master
+PCRE=$(SUPPORT)/pcre/master
+LIBJSON=$(SUPPORT)/libjson/master
+ZLIB=$(SUPPORT)/zlib/master
+STD=$(SUPPORT)/std/master
+SSCAN=$(SUPPORT)/sscan/master
+MYSQL=$(SUPPORT)/MySQL/master
+ONCRPC=$(SUPPORT)/oncrpc/master
 
 VERSION=1.3
 REVISION=0

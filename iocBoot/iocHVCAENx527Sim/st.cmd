@@ -14,6 +14,11 @@ cd ${TOP}
 dbLoadDatabase "dbd/HVCAENx527.dbd"
 HVCAENx527_registerRecordDeviceDriver pdbbase
 
+##ISIS## Run IOC initialisation 
+< $(IOCSTARTUP)/init.cmd
+
+$(IFREADONLY= ) epicsEnvSet CAN_WRITE "#"
+
 # use -D argument to turn on debugging
 
 ## arguments to CAENx527ConfigureCreate are: name, ip_address, username, password
@@ -29,17 +34,28 @@ CAENx527ConfigureCreate "hv0", "127.0.0.1"
 #dbLoadTemplate "db/userHost.substitutions"
 #dbLoadRecords "db/dbSubExample.db", "user=nersesHost"
 
-CAENx527DbLoadRecords("P=$(MYPVPREFIX)CAEN")
+##ISIS## Load common DB records 
+< $(IOCSTARTUP)/dbload.cmd
+
+$(CAN_WRITE= ) CAENx527DbLoadRecords("P=$(MYPVPREFIX)CAEN, ASG=READONLY")
+$(IFREADONLY= ) CAENx527DbLoadRecords("P=$(MYPVPREFIX)CAEN, ASG=DEFAULT")
 
 
 ## Set this to see messages from mySub
 #var mySubDebug 1
+
+
+##ISIS## Stuff that needs to be done after all records are loaded but before iocInit is called 
+< $(IOCSTARTUP)/preiocinit.cmd
 
 ## Run this to trace the stages of iocInit
 #traceIocInit
 
 cd ${TOP}/iocBoot/${IOC}
 iocInit
+
+##ISIS## Stuff that needs to be done after iocInit is called e.g. sequence programs 
+< $(IOCSTARTUP)/postiocinit.cmd
 
 ## Start any sequence programs
 #seq sncExample, "user=nersesHost"

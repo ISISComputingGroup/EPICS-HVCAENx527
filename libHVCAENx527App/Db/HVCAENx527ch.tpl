@@ -162,6 +162,7 @@ record( stringout, "$(PSNAME):$(CHANNUM):name")
 	field(SIML, "$(PSNAME):SIM")
 	field(SIOL, "$(PSNAME):SIM:$(CHANNUM):name")
 	field(SDIS, "$(PSNAME):DISABLE")
+	field( ASG, "$(ASG)")
 }
 record( ao, "$(PSNAME):$(CHANNUM):v0set")
 {
@@ -175,6 +176,7 @@ record( ao, "$(PSNAME):$(CHANNUM):v0set")
 	field(EGU, "V")
     info(INTEREST, "HIGH")
     info(archive, "VAL")
+	field( ASG, "$(ASG)")
 }
 record( ao, "$(PSNAME):$(CHANNUM):v1set")
 {
@@ -188,6 +190,7 @@ record( ao, "$(PSNAME):$(CHANNUM):v1set")
 	field(EGU, "V")
     info(archive, "VAL")
     info(INTEREST, "HIGH")
+	field( ASG, "$(ASG)")
 }
 record( ao, "$(PSNAME):$(CHANNUM):i0set")
 {
@@ -200,6 +203,7 @@ record( ao, "$(PSNAME):$(CHANNUM):i0set")
 	field(EGU, "A")
     info(archive, "VAL")
     info(INTEREST, "HIGH")
+	field( ASG, "$(ASG)")
 }
 record( ao, "$(PSNAME):$(CHANNUM):i1set")
 {
@@ -212,6 +216,7 @@ record( ao, "$(PSNAME):$(CHANNUM):i1set")
 	field(EGU, "A")
     info(archive, "VAL")
     info(INTEREST, "HIGH")
+	field( ASG, "$(ASG)")
 }
 record( ao, "$(PSNAME):$(CHANNUM):rampup")
 {
@@ -222,6 +227,7 @@ record( ao, "$(PSNAME):$(CHANNUM):rampup")
 	field(SIOL, "$(PSNAME):SIM:$(CHANNUM):rampup")
 	field(SDIS, "$(PSNAME):DISABLE")
 	field(EGU, "V/s")
+	field( ASG, "$(ASG)")
 }
 record( ao, "$(PSNAME):$(CHANNUM):rampdn")
 {
@@ -232,6 +238,7 @@ record( ao, "$(PSNAME):$(CHANNUM):rampdn")
 	field(SIOL, "$(PSNAME):SIM:$(CHANNUM):rampdn")
 	field(SDIS, "$(PSNAME):DISABLE")
 	field(EGU, "V/s")
+	field( ASG, "$(ASG)")
 }
 record( ao, "$(PSNAME):$(CHANNUM):trip")
 {
@@ -242,6 +249,7 @@ record( ao, "$(PSNAME):$(CHANNUM):trip")
 	field(SIOL, "$(PSNAME):SIM:$(CHANNUM):trip")
 	field(SDIS, "$(PSNAME):DISABLE")
 	field(EGU, "s")
+	field( ASG, "$(ASG)")
 }
 record( ao, "$(PSNAME):$(CHANNUM):svmax")
 {
@@ -252,6 +260,7 @@ record( ao, "$(PSNAME):$(CHANNUM):svmax")
 	field(SIOL, "$(PSNAME):SIM:$(CHANNUM):svmax")
 	field(SDIS, "$(PSNAME):DISABLE")
 	field(EGU, "V")
+	field( ASG, "$(ASG)")
 }
 record( bo, "$(PSNAME):$(CHANNUM):pwonoff")
 {
@@ -263,6 +272,7 @@ record( bo, "$(PSNAME):$(CHANNUM):pwonoff")
 	field(SIML, "$(PSNAME):SIM")
 	field(SIOL, "$(PSNAME):SIM:$(CHANNUM):pwonoff")
 	field(SDIS, "$(PSNAME):DISABLE")
+	field( ASG, "$(ASG)")
 }
 record( bo, "$(PSNAME):$(CHANNUM):pwupmode")
 {
@@ -274,6 +284,7 @@ record( bo, "$(PSNAME):$(CHANNUM):pwupmode")
 	field(SIML, "$(PSNAME):SIM")
 	field(SIOL, "$(PSNAME):SIM:$(CHANNUM):pwupmode")
 	field(SDIS, "$(PSNAME):DISABLE")
+	field( ASG, "$(ASG)")
 }
 record( bo, "$(PSNAME):$(CHANNUM):pwdnmode")
 {
@@ -285,6 +296,7 @@ record( bo, "$(PSNAME):$(CHANNUM):pwdnmode")
 	field(SIML, "$(PSNAME):SIM")
 	field(SIOL, "$(PSNAME):SIM:$(CHANNUM):pwdnmode")
 	field(SDIS, "$(PSNAME):DISABLE")
+	field( ASG, "$(ASG)")
 }
 record( longout, "$(PSNAME):$(CHANNUM):tripint")
 {
@@ -294,6 +306,7 @@ record( longout, "$(PSNAME):$(CHANNUM):tripint")
 	field(SIML, "$(PSNAME):SIM")
 	field(SIOL, "$(PSNAME):SIM:$(CHANNUM):tripint")
 	field(SDIS, "$(PSNAME):DISABLE")
+	field( ASG, "$(ASG)")
 }
 record( longout, "$(PSNAME):$(CHANNUM):tripext")
 {
@@ -303,6 +316,7 @@ record( longout, "$(PSNAME):$(CHANNUM):tripext")
 	field(SIML, "$(PSNAME):SIM")
 	field(SIOL, "$(PSNAME):SIM:$(CHANNUM):tripext")
 	field(SDIS, "$(PSNAME):DISABLE")
+	field( ASG, "$(ASG)")
 }
 record( ao, "$(PSNAME):$(CHANNUM):imon:warn")
 {
@@ -431,12 +445,14 @@ record( bo, "$(PSNAME):$(CHANNUM):v0set:up")
 	field( OUT, "$(PSNAME):$(CHANNUM):v0set:calc PP")
 #	field( PINI, "1")
 	field( VAL, "0")
+	field( ASG, "$(ASG)")
 }
 record( bo, "$(PSNAME):$(CHANNUM):v0set:dn")
 {
 	field( OUT, "$(PSNAME):$(CHANNUM):v0set:calc PP")
 #	field( PINI, "1")
 	field( VAL, "0")
+	field( ASG, "$(ASG)")
 }
 record( ao, "$(PSNAME):$(CHANNUM):v0set:deltav")
 {
@@ -444,6 +460,7 @@ record( ao, "$(PSNAME):$(CHANNUM):v0set:deltav")
 	field( VAL, "5")
 	field( PREC, "2")
 	field( EGU, "V")
+	field( ASG, "$(ASG)")
 }
 #record( calc, "$(PSNAME):$(CHANNUM):v0set:calc")
 #{
@@ -453,12 +470,14 @@ record( ao, "$(PSNAME):$(CHANNUM):v0set:deltav")
 #	field( INPD, "$(PSNAME):$(CHANNUM):v0set:deltav")
 #	field( CALC, "A+D*(B-C)")
 #	field( FLNK, "$(PSNAME):$(CHANNUM):v0set:fwd")
+#	field( ASG, "$(ASG)")
 #}
 #record( ao, "$(PSNAME):$(CHANNUM):v0set:fwd")
 #{
 #	field( OMSL, "closed_loop")
 #	field( DOL, "$(PSNAME):$(CHANNUM):v0set:calc")
 #	field( OUT, "$(PSNAME):$(CHANNUM):v0set PP")
+#	field( ASG, "$(ASG)")
 #}
 record( calcout, "$(PSNAME):$(CHANNUM):v0set:calc")
 {
@@ -470,6 +489,7 @@ record( calcout, "$(PSNAME):$(CHANNUM):v0set:calc")
 	field( CALC, "A+D*(B-C)")
 	field( OUT, "$(PSNAME):$(CHANNUM):v0set PP")
 	field( PREC, "2")
+	field( ASG, "$(ASG)")
 }
 
 record( stringout, "$(PSNAME):SIM:$(CHANNUM):name")
@@ -477,72 +497,86 @@ record( stringout, "$(PSNAME):SIM:$(CHANNUM):name")
 	field( DESC, "Simulated Channel Name Output")
 	field( PINI, "1")
 	field( VAL, "$(PSNAME):$(SLOT):$(CHANNUM)")
+	field( ASG, "$(ASG)")
 }
 record( ao, "$(PSNAME):SIM:$(CHANNUM):v0set")
 {
 	field( DESC, "Simulated Primary voltage setting")
 	field(EGU, "V")
+	field( ASG, "$(ASG)")
 }
 record( ao, "$(PSNAME):SIM:$(CHANNUM):v1set")
 {
 	field( DESC, "Simulated Secondary voltage setting")
 	field(EGU, "V")
+	field( ASG, "$(ASG)")
 }
 record( ao, "$(PSNAME):SIM:$(CHANNUM):i0set")
 {
 	field( DESC, "Simulated Primary current limit")
 	field(EGU, "A")
+	field( ASG, "$(ASG)")
 }
 record( ao, "$(PSNAME):SIM:$(CHANNUM):i1set")
 {
 	field( DESC, "Simulated Secondary current limit")
 	field(EGU, "A")
+	field( ASG, "$(ASG)")
 }
 record( ao, "$(PSNAME):SIM:$(CHANNUM):rampup")
 {
 	field( DESC, "Simulated Voltage ramp-up rate")
 	field(EGU, "V/s")
+	field( ASG, "$(ASG)")
 }
 record( ao, "$(PSNAME):SIM:$(CHANNUM):rampdn")
 {
 	field( DESC, "Simulated Voltage ramp-down rate")
 	field(EGU, "V/s")
+	field( ASG, "$(ASG)")
 }
 record( ao, "$(PSNAME):SIM:$(CHANNUM):trip")
 {
 	field( DESC, "Simulated Trip timeout")
 	field(EGU, "s")
+	field( ASG, "$(ASG)")
 }
 record( ao, "$(PSNAME):SIM:$(CHANNUM):svmax")
 {
 	field( DESC, "Simulated Software voltage limit")
 	field(EGU, "V")
+	field( ASG, "$(ASG)")
 }
 record( bo, "$(PSNAME):SIM:$(CHANNUM):pwonoff")
 {
 	field( DESC, "Simulated Power on/off")
 	field( ZNAM, "Off")
 	field( ONAM, "On")
+	field( ASG, "$(ASG)")
 }
 record( bo, "$(PSNAME):SIM:$(CHANNUM):pwupmode")
 {
 	field( DESC, "Simulated Power-up mode")
 	field( ZNAM, "Disable")
 	field( ONAM, "Enable")
+	field( ASG, "$(ASG)")
 }
 record( bo, "$(PSNAME):SIM:$(CHANNUM):pwdnmode")
 {
 	field( DESC, "Simulated Power-down mode")
 	field( ZNAM, "KILL")
 	field( ONAM, "Ramp")
+	field( ASG, "$(ASG)")
 }
 record( longout, "$(PSNAME):SIM:$(CHANNUM):tripint")
 {
 	field( DESC, "Simulated Internal trip connections")
+	field( ASG, "$(ASG)")
 }
 record( longout, "$(PSNAME):SIM:$(CHANNUM):tripext")
 {
 	field( DESC, "Simulated External trip connections")
+	field( ASG, "$(ASG)")
 }
 record( mbbi, "$(PSNAME):SIM:$(CHANNUM):status")
 {
@@ -569,6 +603,7 @@ record(bo, "$(PSNAME):SIM")
     field(DTYP, "Soft Channel")
     field(ZNAM, "NO")
     field(ONAM, "YES")
+	field( ASG, "$(ASG)")
 }
 
 record(bo, "$(PSNAME):DISABLE") 
@@ -579,6 +614,7 @@ record(bo, "$(PSNAME):DISABLE")
   field(OMSL, "supervisory")
   field(ZNAM, "Comms Enabled")
   field(ONAM, "Comms Disabled")
+	field( ASG, "$(ASG)")
 }
 
 alias("$(PSNAME):SIM:$(CHANNUM):name","$(PSNAME):SIM:$(CHANNUM):name:fbk")
