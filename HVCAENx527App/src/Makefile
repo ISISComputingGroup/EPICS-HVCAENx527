@@ -71,8 +71,8 @@ HVCAENx527_OBJS_vxWorks += $(EPICS_BASE_BIN)/vxComLibrary
 #HVCAENx527_LIBS += seq pv
 
 # Finally link to the EPICS Base libraries
-HVCAENx527_LIBS += asubFunctions seq pv devIocStats pvdump $(MYSQLLIB) easySQLite sqlite caPutLog icpconfig pugixml autosave utilities pcre libjson zlib std
-HVCAENx527Sim_LIBS += asubFunctions seq pv devIocStats pvdump $(MYSQLLIB) easySQLite sqlite caPutLog icpconfig pugixml autosave utilities pcre libjson zlib std
+HVCAENx527_LIBS += asubFunctions seq pv devIocStats pvdump $(MYSQLLIB) easySQLite sqlite caPutLog icpconfig pugixml autosave utilities pcrecpp pcre libjson zlib std
+HVCAENx527Sim_LIBS += asubFunctions seq pv devIocStats pvdump $(MYSQLLIB) easySQLite sqlite caPutLog icpconfig pugixml autosave utilities pcrecpp pcre libjson zlib std
 
 CAENHVWrapperSim_LIBS += $(EPICS_BASE_IOC_LIBS)
 CAENHVWrapperSim_SYS_LIBS_WIN32 += ws2_32
