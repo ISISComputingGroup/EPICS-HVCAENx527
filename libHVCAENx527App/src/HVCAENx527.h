@@ -155,7 +155,7 @@ epicsShareFunc int ConnectCrate( char *name, char *linkaddr);
 #else
 epicsShareFunc int ConnectCrate( char *name, char *linkaddr, CAENHV_SYSTEM_TYPE_t type);
 #endif /* CAENHVWrapperVERSION */
-epicsShareFunc void ParseCrateAddr( char (*straddr)[], short naddr);
+epicsShareFunc void ParseCrateAddr( char (*straddr)[255], short naddr);
 #if (CAENHVWrapperVERSION / 100 > 2)
 epicsShareFunc int ParseSystemType( char *strtype);
 #endif /* CAENHVWrapperVERSION */

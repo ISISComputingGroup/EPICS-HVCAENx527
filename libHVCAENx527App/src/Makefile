@@ -38,9 +38,6 @@ BIN_INSTALLS_WIN32 += $(wildcard $(CAENHVWRAPPER)/dll/$(CAEN_ARCH)/*.dll)
 LIB_INSTALLS_WIN32 += $(wildcard $(CAENHVWRAPPER)/lib/$(CAEN_ARCH)/*.lib)
 
 caenhvwrapper_DIR = $(CAENHVWRAPPER)/lib/$(CAEN_ARCH)
-hscaenetlib_DIR = $(CAENHVWRAPPER)/lib/$(CAEN_ARCH)
-
-
 
 #USR_CFLAGS_Linux += -std=gnu99		# for RH7 compatibility only
 #USR_LDFLAGS_Linux += -ldl		# for RH7 compatibility only
@@ -57,8 +54,8 @@ DBD += HVCAENx527Support.dbd
 
 # Link with base and other libraries
 HVCAENx527_LIBS += $(EPICS_BASE_IOC_LIBS)
-HVCAENx527_LIBS_WIN32 += caenhvwrapper # hscaenetlib
-HVCAENx527_SYS_LIBS_Linux += caenhvwrapper # hscaenetlib
+HVCAENx527_LIBS_WIN32 += caenhvwrapper
+HVCAENx527_SYS_LIBS_Linux += caenhvwrapper
 HVCAENx527_SYS_LIBS_WIN32 += ws2_32
 
 LIBRARY_DEFAULT += CAENHVWrapperSim

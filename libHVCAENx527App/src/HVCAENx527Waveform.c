@@ -74,7 +74,7 @@ init_record_waveform( waveformRecord *pior)
 
 	pior->dpvt = (void*) &Crate[i];
 	pior->bptr = (void*) malloc(MAX_STRING_SIZE * MAX_SLOTS);
-	printf("crate = %x dpvt = %x\n", &Crate[i], pior->dpvt);
+	/*printf("crate = %x dpvt = %x\n", &Crate[i], pior->dpvt);*/
 
 	return(0);
 }
@@ -103,7 +103,7 @@ read_waveform( waveformRecord *pior)
 	pior->nord = pior->nelm;
 
 	pior->udf = FALSE;
-	PDEBUG(2) printf( "DEBUG: get name = %s ...\n", pior->val);
+	PDEBUG(2) printf( "DEBUG: get name = %s ...\n", (char*)pior->val);
 
 	return(0);
 }

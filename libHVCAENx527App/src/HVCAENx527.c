@@ -16,6 +16,7 @@
 #include <string.h>
 #include <epicsThread.h>
 #include <epicsMutex.h>
+#include <epicsString.h>
 #include <dbDefs.h>
 #include <dbAccess.h>
 #include <dbLoadTemplate.h>
@@ -32,6 +33,7 @@
 #include <ws2tcpip.h>
 #include <time.h>
 #define snprintf _snprintf
+#define strncasecmp _strnicmp
 #else
 #include <sys/time.h>
 /*#include<stdio.h> //printf*/
@@ -421,9 +423,17 @@ InitCrate( HVCRATE *cr)
 			desc_str = desc;
 			for( i = 0; i < nsl; i++)
 			{
+#if CAENHVWrapperVERSION / 100 == 2
 				retval = CAENHVGetCrateMap( cr->name, &nsl, &nch, &model, &desc, &sn, &fmwrmin, &fmwrmax );
+#else
+				retval = CAENHV_GetCrateMap( cr->handle, &nsl, &nch, &model, &desc, &sn, &fmwrmin, &fmwrmax );
+#endif	/* CAENHVWrapperVERSION */
 				slot = i;
+#if CAENHVWrapperVERSION / 100 == 2
 				retval = CAENHVGetBdParam(cr->name, 1, &slot, "HVMax", &hvmax);
+#else
+				retval = CAENHV_GetBdParam(cr->handle, 1, &slot, "HVMax", &hvmax);
+#endif	/* CAENHVWrapperVERSION */
 				cr->hvchmap[i].hvmax =  hvmax;
 				if( str[0] != '\0')
 				{
@@ -735,7 +745,8 @@ int hostname_to_ip(char *hostname , char *ip) {
 
 void CAENx527ConfigureCreate(char *name, char *addr, char *username, char* password){
   char ip[32];
-  int i;
+  int i, type = -1;
+  char* typestr;
 
   PDEBUG(1) errlogPrintf("%s::%s::%d will connect to the crate %s(%s) with user=%s password=%s",
 		  __FILE__,__FUNCTION__,__LINE__, name,addr,username,password);
@@ -749,6 +760,15 @@ void CAENx527ConfigureCreate(char *name, char *addr, char *username, char* passw
     fprintf(stderr,"ERROR in %s:%d: addr = NULL\n",__FUNCTION__,__LINE__);
     return;
   }
+#if (CAENHVWrapperVERSION / 100 > 2)
+  if ( (typestr = strchr(name, '!')) != NULL ) {
+      type = ParseSystemType(typestr + 1);
+  } else if ( (type = ParseSystemType(name)) >= 0 ) {
+      ;
+  } else {
+      type = SY1527;
+  }
+#endif  
   /* Check if address is belonging to the IPv4 address space */
   hostname_to_ip(addr, ip);
   printf("For address = %s\nThe IP is = %s\n",addr, ip);
@@ -762,6 +782,10 @@ void CAENx527ConfigureCreate(char *name, char *addr, char *username, char* passw
   while( i < MAX_CRATES && Crate[i].hvchan != NULL) i++;
   if (i < MAX_CRATES) {
 	  Crate[i].crate = i;
+#if (CAENHVWrapperVERSION / 100 > 2)
+	  Crate[i].handle = -1;
+	  Crate[i].type = type;
+#endif
 	  strncpy(Crate[i].name,     name,     sizeof(Crate[i].name)-1);
 	  strncpy(Crate[i].IPaddr,   ip,       sizeof(Crate[i].IPaddr)-1);
 	  strncpy(Crate[i].username, username, sizeof(Crate[i].username)-1);
@@ -776,7 +800,11 @@ void CAENx527ConfigureCreate(char *name, char *addr, char *username, char* passw
   /* Connect to the crate */
   PDEBUG(1) errlogPrintf("%s::%s::%d will connect to the crate %s(%s) with user=%s password=%s",
 		  __FILE__,__FUNCTION__,__LINE__, name,ip,username,password);
+#if CAENHVWrapperVERSION / 100 == 2
   if( ConnectCrate(name, ip) == 0){
+#else
+  if( ConnectCrate(name, ip, type) == 0){
+#endif	/* CAENHVWrapperVERSION / 100 */
     printf( "Successfully connected to %s @ %s\n", name, ip);
   }
   return;
@@ -945,7 +973,7 @@ CAENx527GetChParVal( PARPROP *pp)
             busyUnlock(*(hvch->crate));
 			return NULL;
         }
-		pp->pval.c = strndup( value.c, MAX_VAL_STRING);
+		pp->pval.c = epicsStrnDup( value.c, MAX_VAL_STRING);
 	}
 #endif	/* CAENHVWrapperVERSION */
 	else
@@ -1178,7 +1206,7 @@ CAENx527GetAllChParVal( HVCRATE *cr, char *pname)
 								hvch->pplist[pnum].pval.s = pval2[chlist[j]].s;
 */
 							else if( type == PARAM_TYPE_STRING)
-								hvch->pplist[pnum].pval.c = strndup( pvala[chlist[j]].c, MAX_VAL_STRING);
+								hvch->pplist[pnum].pval.c = epicsStrnDup( pvala[chlist[j]].c, MAX_VAL_STRING);
 #endif	/* CAENHVWrapperVERSION */
 							else
 								hvch->pplist[pnum].pval.l = pval[chlist[j]].l;
@@ -1219,7 +1247,7 @@ CAENx527GetAllChParVal( HVCRATE *cr, char *pname)
 					printf("Lost connection to %s@%s: %s (%d)\n", Crate[i].name, Crate[i].IPaddr, CAENHVGetError(Crate[i].name), retval);
 					CAENHVDeinitSystem( cr->name);
 #else
-					printf("Lost connection to %s@%s: %s (%d)\n", Crate[i].name, Crate[i].IPaddr, CAENHVGetError(Crate[i].handle), retval);
+					printf("Lost connection to %s@%s: %s (%d)\n", Crate[i].name, Crate[i].IPaddr, CAENHV_GetError(Crate[i].handle), retval);
 					CAENHV_DeinitSystem( cr->handle);
 #endif	/* CAENHVWrapperVERSION */
 					rval = 4;
@@ -1371,7 +1399,7 @@ CAENx527SetAllChParVal( HVCRATE *cr, char *pname, void *val)
 						pval2[nset].s = hvch->pplist[pnum].pval.s;
 */
 					else if( type == PARAM_TYPE_STRING)
-						pvala[nset].c = strndup( hvch->pplist[pnum].pval.c, MAX_VAL_STRING);
+						pvala[nset].c = epicsStrnDup( hvch->pplist[pnum].pval.c, MAX_VAL_STRING);
 #endif	/* CAENHVWrapperVERSION */
 					else
 						pval[nset].l = hvch->pplist[pnum].pval.l;
@@ -1409,7 +1437,7 @@ CAENx527SetAllChParVal( HVCRATE *cr, char *pname, void *val)
 			printf("Lost connection to %s@%s: %s (%d)\n", cr->name, cr->IPaddr, CAENHVGetError(cr->name), retval);
 			CAENHVDeinitSystem( cr->name);
 #else
-			printf("Lost connection to %s@%s: %s (%d)\n", cr->name, cr->IPaddr, CAENHVGetError(cr->handle), retval);
+			printf("Lost connection to %s@%s: %s (%d)\n", cr->name, cr->IPaddr, CAENHV_GetError(cr->handle), retval);
 			CAENHV_DeinitSystem( cr->handle);
 #endif	/* CAENHVWrapperVERSION */
 		    busyUnlock(cr->crate);
@@ -1894,7 +1922,7 @@ PDEBUG(10) printf( "DEBUG: scanning crate %d\n", i);
 					printf("Lost connection to %s@%s: %s (%d)\n", Crate[i].name, Crate[i].IPaddr, CAENHVGetError(Crate[i].name), retval);
 					CAENHVDeinitSystem( Crate[i].name);
 #else
-					printf("Lost connection to %s@%s: %s (%d)\n", Crate[i].name, Crate[i].IPaddr, CAENHVGetError(Crate[i].handle), retval);
+					printf("Lost connection to %s@%s: %s (%d)\n", Crate[i].name, Crate[i].IPaddr, CAENHV_GetError(Crate[i].handle), retval);
 					CAENHV_DeinitSystem( Crate[i].handle);
 #endif	/* CAENHVWrapperVERSION */
 				}
