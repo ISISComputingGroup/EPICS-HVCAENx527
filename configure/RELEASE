@@ -4,9 +4,10 @@ HVCAEN=$(SUPPORT)/HVCAENx527/master
 
 -include $(TOP)/configure/RELEASE.private
 
+CAENHVWRAPPER=$(ICPBINARYDIR)/CAENHVWrapper
 # Set CAENHVWrapperVersion to the version you are using,
 # format is Mmm (1 or 2 digit major, 2 digits minor):
-CAENHVWrapperVERSION=211
+CAENHVWrapperVERSION=$(file < $(CAENHVWRAPPER)/version_num.txt)
 #CAENHVWrapperVERSION=552
 
 # Assumes the wrapper libs are in $(TOP)/../CAENHVWrapper/CAENHVWrapper_<version>/lib/linux*.
@@ -19,7 +20,6 @@ CAENHVWrapperVERSION=211
 #HSCAENET=$(TOP)/../CAENHVWrapper/5.52
 #endif
 
-CAENHVWRAPPER=$(TOP)/HVCAENx527App/src/CAENHVWrapper
 ACCESSSECURITY=$(SUPPORT)/AccessSecurity/master
 CALC=$(SUPPORT)/calc/master
 ASYN=$(SUPPORT)/asyn/master

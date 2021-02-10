@@ -30,14 +30,31 @@ CAENHVLIB_API char *CAENHVGetError(const char *SystemName)
     return const_cast<char*>("CAENHVWrapper_sim error");
 }
 
+CAENHVLIB_API char *CAENHV_GetError(int handle)
+{
+    return CAENHVGetError("");
+}
+
 CAENHVLIB_API CAENHVRESULT  CAENHVInitSystem(const char *SystemName, int LinkType, void *Arg, const char *UserName, const char *Passwd)
 {
      return CAENHV_OK;
 }
 
+CAENHVLIB_API CAENHVRESULT CAENHV_InitSystem(CAENHV_SYSTEM_TYPE_t system, int LinkType, void *Arg, const char *UserName, const char *Passwd,  int *handle)
+{
+     *handle = 0;
+     return CAENHVInitSystem("", LinkType, Arg, UserName, Passwd);
+}
+
+
 CAENHVLIB_API CAENHVRESULT  CAENHVDeinitSystem(const char *SystemName)
 {
     return CAENHV_OK;
+}
+
+CAENHVLIB_API CAENHVRESULT  CAENHV_DeinitSystem(int handle)
+{
+    return CAENHVDeinitSystem("");
 }
 
 CAENHVLIB_API CAENHVRESULT  CAENHVGetChName(const char *SystemName, ushort slot, 
@@ -63,6 +80,13 @@ CAENHVLIB_API CAENHVRESULT  CAENHVGetChName(const char *SystemName, ushort slot,
     return CAENHV_OK;
 }
 
+CAENHVLIB_API CAENHVRESULT  CAENHV_GetChName(int handle, ushort slot, 
+ ushort ChNum, const ushort *ChList, char (*ChNameList)[MAX_CH_NAME])
+ {
+     return CAENHVGetChName("", slot, ChNum, ChList, ChNameList);
+ }
+
+
 CAENHVLIB_API CAENHVRESULT  CAENHVSetChName(const char *SystemName, ushort slot, 
  ushort ChNum, const ushort *ChList, const char *ChName)
 {
@@ -77,6 +101,12 @@ CAENHVLIB_API CAENHVRESULT  CAENHVSetChName(const char *SystemName, ushort slot,
     return CAENHV_OK;
 }
 
+CAENHVLIB_API CAENHVRESULT  CAENHV_SetChName(int handle, ushort slot, 
+ ushort ChNum, const ushort *ChList, const char *ChName)
+ {
+     return CAENHVSetChName("", slot, ChNum, ChList, ChName);     
+ }
+ 
 #define MAX_PARAM 100
 CAENHVLIB_API CAENHVRESULT  CAENHVGetChParamInfo(const char *SystemName, 
  ushort slot, ushort Ch, char **ParNameList)
@@ -108,6 +138,13 @@ CAENHVLIB_API CAENHVRESULT  CAENHVGetChParamInfo(const char *SystemName,
     return CAENHV_OK;
 }
 
+CAENHVLIB_API CAENHVRESULT  CAENHV_GetChParamInfo(int handle, 
+ ushort slot, ushort Ch, char **ParNameList, int *ParNumber)
+ {
+     *ParNumber = 17; // see above
+     return CAENHVGetChParamInfo("", slot, Ch, ParNameList);
+ }
+
 CAENHVLIB_API CAENHVRESULT  CAENHVGetChParamProp(const char *SystemName, 
  ushort slot, ushort Ch, const char *ParName, const char *PropName, void *retval)
 {
@@ -130,6 +167,12 @@ CAENHVLIB_API CAENHVRESULT  CAENHVGetChParamProp(const char *SystemName,
     return CAENHV_OK;
 }
 
+CAENHVLIB_API CAENHVRESULT  CAENHV_GetChParamProp(int handle, 
+ ushort slot, ushort Ch, const char *ParName, const char *PropName, void *retval)
+ {
+     return CAENHVGetChParamProp("", slot, Ch, ParName, PropName, retval);
+ }
+
 CAENHVLIB_API CAENHVRESULT  CAENHVGetChParam(const char *SystemName, ushort slot, 
  const char *ParName, ushort ChNum, const ushort *ChList, void *ParValList)
 {
@@ -140,6 +183,11 @@ CAENHVLIB_API CAENHVRESULT  CAENHVGetChParam(const char *SystemName, ushort slot
      return CAENHV_OK;
 }
 
+CAENHVLIB_API CAENHVRESULT  CAENHV_GetChParam(int handle, ushort slot, 
+ const char *ParName, ushort ChNum, const ushort *ChList, void *ParValList)
+ {
+     return CAENHVGetChParam("", slot, ParName, ChNum, ChList, ParValList);
+ }
 
 CAENHVLIB_API CAENHVRESULT  CAENHVSetChParam(const char *SystemName, ushort slot, 
  const char *ParName, ushort ChNum, const ushort *ChList, void *ParValue)
@@ -150,6 +198,11 @@ CAENHVLIB_API CAENHVRESULT  CAENHVSetChParam(const char *SystemName, ushort slot
     return CAENHV_OK;
 }
 
+CAENHVLIB_API CAENHVRESULT  CAENHV_SetChParam(int handle, ushort slot, 
+ const char *ParName, ushort ChNum, const ushort *ChList, void *ParValue)
+ {
+     return CAENHVSetChParam("", slot, ParName, ChNum, ChList, ParValue);
+ }
 
 CAENHVLIB_API CAENHVRESULT  CAENHVGetSysProp(const char *SystemName, 
  const char *PropName, void *Result)
@@ -168,6 +221,26 @@ CAENHVLIB_API CAENHVRESULT  CAENHVGetSysProp(const char *SystemName,
     return CAENHV_OK;
 }
  
+CAENHVLIB_API CAENHVRESULT  CAENHV_GetSysProp(int handle, 
+ const char *PropName, void *Result)
+ {
+     return CAENHVGetSysProp("", PropName, Result);
+ }
+
+CAENHVLIB_API CAENHVRESULT  CAENHVSetSysProp(const char *SystemName, 
+ const char	*PropName, void *Set)
+ {
+     // need to check map 
+    return CAENHV_OK;
+ }     
+
+CAENHVLIB_API CAENHVRESULT  CAENHV_SetSysProp(int handle, 
+ const char	*PropName, void *Set)
+ {
+     return CAENHVSetSysProp("", PropName, Set);
+ }
+
+
 CAENHVLIB_API CAENHVRESULT  CAENHVGetCrateMap(const char *SystemName,	
  ushort *NrOfSlot, ushort **NrofChList, char **ModelList, char **DescriptionList,
  ushort **SerNumList, uchar **FmwRelMinList, uchar **FmwRelMaxList)
@@ -194,6 +267,13 @@ CAENHVLIB_API CAENHVRESULT  CAENHVGetCrateMap(const char *SystemName,
     return CAENHV_OK;
 }
 
+CAENHVLIB_API CAENHVRESULT CAENHV_GetCrateMap(int handle,	
+ ushort *NrOfSlot, ushort **NrofChList, char **ModelList, char **DescriptionList,
+ ushort **SerNumList, uchar **FmwRelMinList, uchar **FmwRelMaxList)
+ {
+     return CAENHVGetCrateMap("", NrOfSlot, NrofChList, ModelList, DescriptionList, SerNumList, FmwRelMinList, FmwRelMaxList);
+ }
+
 CAENHVLIB_API CAENHVRESULT  CAENHVGetBdParam(const char *SystemName, 
  ushort slotNum, const ushort *slotList, const char *ParName, void *ParValList)
 {
@@ -205,4 +285,71 @@ CAENHVLIB_API CAENHVRESULT  CAENHVGetBdParam(const char *SystemName,
         *(float*)ParValList = 10.0f * slotNum;
     }
     return CAENHV_OK;
+}
+
+CAENHVLIB_API CAENHVRESULT  CAENHV_GetBdParam(int handle, 
+ ushort slotNum, const ushort *slotList, const char *ParName, void *ParValList)
+{
+    return CAENHVGetBdParam("", slotNum, slotList, ParName, ParValList);
+}
+
+CAENHVLIB_API CAENHVRESULT  CAENHVGetSysPropList(const char *SystemName, 
+ ushort *NumProp, char **PropNameList)
+{
+    return CAENHV_OK;
+}
+
+CAENHVLIB_API CAENHVRESULT  CAENHV_GetSysPropList(int handle, 
+ ushort *NumProp, char **PropNameList)
+{
+    return CAENHVGetSysPropList("", NumProp, PropNameList);
+}
+ 
+CAENHVLIB_API CAENHVRESULT  CAENHVGetSysPropInfo(const char *SystemName, 
+ const char *PropName, unsigned *PropMode, unsigned *PropType)
+{
+    return CAENHV_OK;
+}
+ 
+CAENHVLIB_API CAENHVRESULT  CAENHV_GetSysPropInfo(int handle, 
+ const char *PropName, unsigned *PropMode, unsigned *PropType)
+{
+    return CAENHVGetSysPropInfo("", PropName, PropMode, PropType);
+}
+
+ 
+CAENHVLIB_API CAENHVRESULT  CAENHVSetBdParam(const char *SystemName, 
+ ushort slotNum, const ushort *slotList, const char *ParName, void *ParValue)
+{
+    return CAENHV_OK;
+}
+ 
+CAENHVLIB_API CAENHVRESULT  CAENHV_SetBdParam(int handle, 
+ ushort slotNum, const ushort *slotList, const char *ParName, void *ParValue)
+{
+    return CAENHVSetBdParam("", slotNum, slotList, ParName, ParValue);
+}
+ 
+CAENHVLIB_API CAENHVRESULT  CAENHVGetBdParamProp(const char *SystemName, 
+ ushort slot, const char *ParName, const char *PropName, void *retval)
+{
+    return CAENHV_OK;
+}
+ 
+CAENHVLIB_API CAENHVRESULT  CAENHV_GetBdParamProp(int handle, 
+ ushort slot, const char *ParName, const char *PropName, void *retval)
+{
+    return CAENHVGetBdParamProp("", slot, ParName, PropName, retval);
+}
+
+CAENHVLIB_API CAENHVRESULT  CAENHVGetBdParamInfo(const char *SystemName, 
+ ushort slot, char **ParNameList)
+{
+    return CAENHV_OK;
+}
+ 
+CAENHVLIB_API CAENHVRESULT  CAENHV_GetBdParamInfo(int handle, 
+ ushort slot, char **ParNameList)
+{
+    return CAENHVGetBdParamInfo("", slot, ParNameList);
 }

@@ -32,7 +32,6 @@ BIN_INSTALLS_WIN32 += $(wildcard $(CAENHVWRAPPER)/dll/$(CAEN_ARCH)/*.dll)
 LIB_INSTALLS_WIN32 += $(wildcard $(CAENHVWRAPPER)/lib/$(CAEN_ARCH)/*.lib)
 
 caenhvwrapper_DIR = $(CAENHVWRAPPER)/lib/$(CAEN_ARCH)
-hscaenetlib_DIR = $(CAENHVWRAPPER)/lib/$(CAEN_ARCH)
 
 #USR_CFLAGS_Linux += -std=gnu99		# for RH7 compatibility only
 #USR_LDFLAGS_Linux += -ldl		# for RH7 compatibility only
@@ -47,7 +46,7 @@ DBD += HVCAENx527.dbd
 #HVCAENx527_LIBS += xxx
 HVCAENx527_LIBS += HVCAENx527
 HVCAENx527_LIBS_WIN32 += caenhvwrapper
-HVCAENx527_SYS_LIBS_Linux += caenhvwrapper hscaenetlib
+HVCAENx527_SYS_LIBS_Linux += caenhvwrapper
 
 # <name>_registerRecordDeviceDriver.cpp will be created from <name>.dbd
 HVCAENx527_SRCS += HVCAENx527_registerRecordDeviceDriver.cpp
