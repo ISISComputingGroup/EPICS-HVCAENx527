@@ -1249,6 +1249,7 @@ CAENx527GetAllChParVal( HVCRATE *cr, char *pname)
 #else
 					printf("Lost connection to %s@%s: %s (%d)\n", Crate[i].name, Crate[i].IPaddr, CAENHV_GetError(Crate[i].handle), retval);
 					CAENHV_DeinitSystem( cr->handle);
+                    cr->handle = -1;
 #endif	/* CAENHVWrapperVERSION */
 					rval = 4;
 				}
@@ -1439,6 +1440,7 @@ CAENx527SetAllChParVal( HVCRATE *cr, char *pname, void *val)
 #else
 			printf("Lost connection to %s@%s: %s (%d)\n", cr->name, cr->IPaddr, CAENHV_GetError(cr->handle), retval);
 			CAENHV_DeinitSystem( cr->handle);
+            cr->handle = -1;
 #endif	/* CAENHVWrapperVERSION */
 		    busyUnlock(cr->crate);
 			return( 3);
@@ -1694,10 +1696,12 @@ Shutdown()
 	while( i < MAX_CRATES && Crate[i].hvchan != NULL)
 	{
 		printf( "DEBUG: shutting down crate %d\n", i);
+        Crate[i].connected = 0;
 #if CAENHVWrapperVERSION / 100 == 2
 		retval = CAENHVDeinitSystem( Crate[i].name);
 #else
 		retval = CAENHV_DeinitSystem( Crate[i].handle);
+        Crate[i].handle = -1;
 #endif
 		if( retval != CAENHV_OK)
 		{
@@ -1924,6 +1928,7 @@ PDEBUG(10) printf( "DEBUG: scanning crate %d\n", i);
 #else
 					printf("Lost connection to %s@%s: %s (%d)\n", Crate[i].name, Crate[i].IPaddr, CAENHV_GetError(Crate[i].handle), retval);
 					CAENHV_DeinitSystem( Crate[i].handle);
+                    Crate[i].handle = -1;
 #endif	/* CAENHVWrapperVERSION */
 				}
 				busyUnlock(Crate[i].crate);
