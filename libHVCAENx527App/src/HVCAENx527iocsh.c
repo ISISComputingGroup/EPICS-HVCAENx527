@@ -22,11 +22,11 @@ static const iocshFuncDef HVCAENx527ConnectFuncDef = { "HVCAENx527Connect", 2, H
 void
 HVCAENx527ConnectCallFunc( const iocshArgBuf *args)
 {
-	char straddr[1][256];
+	char straddr[1][255];
 
 	if( args[1].sval)
 	{
-		epicsSnprintf( straddr[0], 256, "%s@%s", args[0].sval, args[1].sval);
+		epicsSnprintf( straddr[0], 255, "%s@%s", args[0].sval, args[1].sval);
 	}
 	else
 	{
