@@ -1468,7 +1468,7 @@ CAENx527GetAllChName( HVCRATE *cr)
 		return( 3);
 
 	/* We have to do this one slot at a time since modules may vary */
-	for( i = 0; i < cr->nsl; i++)
+	for( i = 0; i < cr->nsl && i < MAX_SLOTS; i++)
 	{
 		busyLock(cr->crate);
 
@@ -1524,8 +1524,9 @@ CAENx527GetAllChName( HVCRATE *cr)
 		busyUnlock(cr->crate);
 		free( chlist);
 		free( chname);
-		if( retval != CAENHV_OK)
-			return( 3);
+		/* temporarily removed - now seems to return -3 when slot has no channel names */
+/*		if( retval != CAENHV_OK)
+			return( 3);*/
 	}
 	return( 0);
 }
