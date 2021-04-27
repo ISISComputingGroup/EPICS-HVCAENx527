@@ -28,9 +28,8 @@
 #include <errlog.h>
 #include <iocsh.h>
 #include <sys/timeb.h>
+#include <osiSock.h>
 #ifdef _WIN32
-#include <winsock2.h>
-#include <ws2tcpip.h>
 #include <time.h>
 #define snprintf _snprintf
 #define strncasecmp _strnicmp
@@ -824,6 +823,7 @@ static const iocshFuncDef CAENx527ConfigureCreateFuncDef = {"CAENx527ConfigureCr
 
 /* Wrapper called by iocsh, selects the argument types that function needs */
 static void CAENx527ConfigureCreateCallFunc(const iocshArgBuf *args) {
+  osiSockAttach();
   CAENx527ConfigureCreate(args[0].sval, args[1].sval, args[2].sval, args[3].sval);
 }
 
