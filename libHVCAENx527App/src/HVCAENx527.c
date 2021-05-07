@@ -1237,25 +1237,7 @@ CAENx527GetAllChParVal( HVCRATE *cr, char *pname)
 #endif
 						}
 					}
-				}
-				/* this is only called from main scan loop - should we disconnect on all errors, or just use fact
-				   that CAENHV_GetSysProp() will fail and disconnect for us? */
-				/* ^ Yes we should 
-				else if(retval != CAENHV_OK) // retval == CAENHV_TIMEERR )
-				{
-					cr->connected = 0;
-#if CAENHVWrapperVERSION / 100 == 2
-					printf("Lost connection to %s@%s: %s (%d)\n", Crate[i].name, Crate[i].IPaddr, CAENHVGetError(Crate[i].name), retval);
-					CAENHVDeinitSystem( cr->name);
-#else
-					printf("Lost connection to %s@%s: %s (%d)\n", Crate[i].name, Crate[i].IPaddr, CAENHV_GetError(Crate[i].handle), retval);
-					CAENHV_DeinitSystem( cr->handle);
-                    cr->handle = -1;
-#endif	// CAENHVWrapperVERSION
-					rval = 4;
-				}*/
-				else
-				{
+				} else {
 					rval = 3;
 				}
 #if CAENHVWrapperVERSION / 100 == 2
@@ -1432,21 +1414,6 @@ CAENx527SetAllChParVal( HVCRATE *cr, char *pname, void *val)
 		}
 #endif	/* CAENHVWrapperVERSION */
 		free( chlist);
-		/* We should not deinit the whole system if we get a strange channel parameter return value
-		if( retval != CAENHV_OK)
-		{
-			cr->connected = 0;
-#if CAENHVWrapperVERSION / 100 == 2
-			printf("Lost connection to %s@%s: %s (%d)\n", cr->name, cr->IPaddr, CAENHVGetError(cr->name), retval);
-			CAENHVDeinitSystem( cr->name);
-#else
-			printf("Lost connection to %s@%s: %s (%d)\n", cr->name, cr->IPaddr, CAENHV_GetError(cr->handle), retval);
-			CAENHV_DeinitSystem( cr->handle);
-            cr->handle = -1;
-#endif	// CAENHVWrapperVERSION
-		    busyUnlock(cr->crate);
-			return( 3);
-		} */
 		busyUnlock(cr->crate);
 	}
 	return( 0);
