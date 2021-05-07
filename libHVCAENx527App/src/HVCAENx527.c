@@ -1432,6 +1432,7 @@ CAENx527SetAllChParVal( HVCRATE *cr, char *pname, void *val)
 		}
 #endif	/* CAENHVWrapperVERSION */
 		free( chlist);
+		/* We should not deinit the whole system if we get a strange channel parameter return value
 		if( retval != CAENHV_OK)
 		{
 			cr->connected = 0;
@@ -1442,10 +1443,10 @@ CAENx527SetAllChParVal( HVCRATE *cr, char *pname, void *val)
 			printf("Lost connection to %s@%s: %s (%d)\n", cr->name, cr->IPaddr, CAENHV_GetError(cr->handle), retval);
 			CAENHV_DeinitSystem( cr->handle);
             cr->handle = -1;
-#endif	/* CAENHVWrapperVERSION */
+#endif	// CAENHVWrapperVERSION
 		    busyUnlock(cr->crate);
 			return( 3);
-		}
+		} */
 		busyUnlock(cr->crate);
 	}
 	return( 0);
