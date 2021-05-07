@@ -1240,7 +1240,8 @@ CAENx527GetAllChParVal( HVCRATE *cr, char *pname)
 				}
 				/* this is only called from main scan loop - should we disconnect on all errors, or just use fact
 				   that CAENHV_GetSysProp() will fail and disconnect for us? */
-				else if(retval != CAENHV_OK /*retval == CAENHV_TIMEERR*/ )
+				/* ^ Yes we should 
+				else if(retval != CAENHV_OK) // retval == CAENHV_TIMEERR )
 				{
 					cr->connected = 0;
 #if CAENHVWrapperVERSION / 100 == 2
@@ -1250,9 +1251,9 @@ CAENx527GetAllChParVal( HVCRATE *cr, char *pname)
 					printf("Lost connection to %s@%s: %s (%d)\n", Crate[i].name, Crate[i].IPaddr, CAENHV_GetError(Crate[i].handle), retval);
 					CAENHV_DeinitSystem( cr->handle);
                     cr->handle = -1;
-#endif	/* CAENHVWrapperVERSION */
+#endif	// CAENHVWrapperVERSION
 					rval = 4;
-				}
+				}*/
 				else
 				{
 					rval = 3;
