@@ -493,7 +493,7 @@ PDEBUG(1) printf( "DEBUG: InitCrate(): found %d slots, with total of %d channels
 #endif	/* CAENHVWrapperVERSION */
 				if( retval != CAENHV_OK)
 				{
-					return;
+					continue;
 				}
 				parnamelist = (char (*)[MAX_PARAM_NAME])par;
 
@@ -515,7 +515,7 @@ PDEBUG(3) printf( "DEBUG: number of parameters for each channel: %d\n", npar);
 					if( hvch->pplist == NULL)
 					{
 						printf( "InitCrate: Failed to calloc parameter property list.\n");
-						return;
+						continue;
 					}
 					cr->hvchmap[i].hvchan[j] = hvch;
 					hvch->hvcrate = cr;
