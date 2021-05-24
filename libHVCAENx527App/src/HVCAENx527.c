@@ -515,7 +515,7 @@ PDEBUG(3) printf( "DEBUG: number of parameters for each channel: %d\n", npar);
 					if( hvch->pplist == NULL)
 					{
 						printf( "InitCrate: Failed to calloc parameter property list.\n");
-						continue;
+						return;
 					}
 					cr->hvchmap[i].hvchan[j] = hvch;
 					hvch->hvcrate = cr;
@@ -1237,6 +1237,13 @@ CAENx527GetAllChParVal( HVCRATE *cr, char *pname)
 #endif
 						}
 					}
+				} else if(retval != CAENHV_OK /*retval == CAENHV_TIMEERR*/ ) {
+#if CAENHVWrapperVERSION / 100 == 2
+					printf("Failed to get channel parameter %s for %s@%s: %s (%d)\n", pname, Crate[i].name, Crate[i].IPaddr, CAENHVGetError(Crate[i].name), retval);
+#else
+					printf("Failed to get channel parameter %s for %s@%s: %s (%d)\n", pname, Crate[i].name, Crate[i].IPaddr, CAENHV_GetError(Crate[i].handle), retval);
+#endif	/* CAENHVWrapperVERSION */
+					rval = 4;
 				} else {
 					rval = 3;
 				}
@@ -1266,6 +1273,8 @@ int
 CAENx527SetAllChParVal( HVCRATE *cr, char *pname, void *val)
 {
 	int i, j;
+	int rval;
+	rval = 0;
 	int nset;
 	int pnum;
 	unsigned long type;
@@ -1414,9 +1423,18 @@ CAENx527SetAllChParVal( HVCRATE *cr, char *pname, void *val)
 		}
 #endif	/* CAENHVWrapperVERSION */
 		free( chlist);
+		if( retval != CAENHV_OK)
+		{
+#if CAENHVWrapperVERSION / 100 == 2
+			printf("Failed to set channel parameter %s for %s@%s: %s (%d)\n", pname, cr->name, cr->IPaddr, CAENHVGetError(cr->name), retval);
+#else
+			printf("Failed to set channel parameter %s for %s@%s: %s (%d)\n", pname, cr->name, cr->IPaddr, CAENHV_GetError(cr->handle), retval);
+#endif	/* CAENHVWrapperVERSION */
+			rval = 3;
+		}
 		busyUnlock(cr->crate);
 	}
-	return( 0);
+	return( rval);
 }
 
 /* in the given crate, for all channels which have a PV, get their 
@@ -1893,10 +1911,10 @@ PDEBUG(10) printf( "DEBUG: scanning crate %d\n", i);
 				{
 					Crate[i].connected = 0;
 #if CAENHVWrapperVERSION / 100 == 2
-					printf("Lost connection to %s@%s: %s (%d)\n", Crate[i].name, Crate[i].IPaddr, CAENHVGetError(Crate[i].name), retval);
+					printf("Lost connection to %s@%s: %s (%d). Deinitialising crate.\n", Crate[i].name, Crate[i].IPaddr, CAENHVGetError(Crate[i].name), retval);
 					CAENHVDeinitSystem( Crate[i].name);
 #else
-					printf("Lost connection to %s@%s: %s (%d)\n", Crate[i].name, Crate[i].IPaddr, CAENHV_GetError(Crate[i].handle), retval);
+					printf("Lost connection to %s@%s: %s (%d). Deinitialising crate.\n", Crate[i].name, Crate[i].IPaddr, CAENHV_GetError(Crate[i].handle), retval);
 					CAENHV_DeinitSystem( Crate[i].handle);
                     Crate[i].handle = -1;
 #endif	/* CAENHVWrapperVERSION */
