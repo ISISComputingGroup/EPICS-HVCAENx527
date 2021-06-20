@@ -1273,8 +1273,7 @@ int
 CAENx527SetAllChParVal( HVCRATE *cr, char *pname, void *val)
 {
 	int i, j;
-	int rval;
-	rval = 0;
+	int rval = 0;
 	int nset;
 	int pnum;
 	unsigned long type;
