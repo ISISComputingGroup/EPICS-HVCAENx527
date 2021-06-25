@@ -17,6 +17,7 @@
 #include "epicsString.h"
 #include "epicsStdio.h"
 #include "iocsh.h"
+#include "shareLib.h"
 
 extern "C" {
     epicsShareFunc int ConnectCrate( char *name, char *linkaddr);
