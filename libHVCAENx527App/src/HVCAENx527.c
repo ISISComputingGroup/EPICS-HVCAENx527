@@ -759,9 +759,11 @@ void CAENx527ConfigureCreate(char *name, char *addr, char *username, char* passw
     fprintf(stderr,"ERROR in %s:%d: addr = NULL\n",__FUNCTION__,__LINE__);
     return;
   }
+  name = strdup(name);
 #if (CAENHVWrapperVERSION / 100 > 2)
   if ( (typestr = strchr(name, '!')) != NULL ) {
       type = ParseSystemType(typestr + 1);
+      *typestr = '\0';
   } else if ( (type = ParseSystemType(name)) >= 0 ) {
       ;
   } else {
@@ -804,7 +806,7 @@ void CAENx527ConfigureCreate(char *name, char *addr, char *username, char* passw
 #else
   if( ConnectCrate(name, ip, type) == 0){
 #endif	/* CAENHVWrapperVERSION / 100 */
-    printf( "Successfully connected to %s @ %s\n", name, ip);
+    printf( "Successfully connected to %s @ %s type %d\n", name, ip, type);
   }
   return;
 }
