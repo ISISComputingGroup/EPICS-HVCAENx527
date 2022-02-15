@@ -866,6 +866,7 @@ void CAENx527DbLoadRecords(const char *macros){
 						case 1535:
 						case 1550:
 						case 1733:
+						case 7030:
 							for (k = 0; k < Crate[i].hvchmap[j].nchan; k++) {
 								snprintf(args,256,"%s,PSNAME=%s,SLOT=%d,CHANNUM=%d,CHADDR=%01d.%02d.%03d",macros,Crate[i].name,j,k,i,j,k);
 								PDEBUG(1) errlogPrintf("%s:%d: Load the db 'db/HVCAENx527ch.db' with args = %s\n",__FUNCTION__,__LINE__,args);
