@@ -7,8 +7,8 @@
 #define CAENHVLIB /* so we get dllexport rather than dllimport on windows in CAENHVWrapper.h */
 #include "CAENHVWrapper.h"
 
-#define NUM_SLOTS 2
-#define NUM_CH 2
+#define NUM_SLOTS 5
+#define NUM_CH 13
 #define BOARDNAME "s1535s"
 
 static unsigned g_call_out = 0;
