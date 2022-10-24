@@ -184,3 +184,12 @@ record(calc, "$(P):EVNTO_T1:UPDATING")
     field(CALC, "(B!=A?1:0);B:=A")
     field(SCAN, "5 second")
 }
+
+# Global Voltage tolerance in % for determining whether a channel is
+# 'close' to it's voltage setpoint.
+record(ao, "$(P):voltage_tolerance") {
+    field(PREC, "2")
+	field(EGU, "%")
+	field(VAL, "$(VTOL=0)")
+	info(archive, VAL)
+}
