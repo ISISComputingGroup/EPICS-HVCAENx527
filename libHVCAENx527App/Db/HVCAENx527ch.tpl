@@ -634,3 +634,13 @@ alias("$(PSNAME):SIM:$(CHANNUM):pwdnmode","$(PSNAME):SIM:$(CHANNUM):pwdnmode:fbk
 alias("$(PSNAME):SIM:$(CHANNUM):tripint","$(PSNAME):SIM:$(CHANNUM):tripint:fbk")
 alias("$(PSNAME):SIM:$(CHANNUM):tripext","$(PSNAME):SIM:$(CHANNUM):tripext:fbk")
 
+record(calc, "$(PSNAME):$(CHANNUM):intol") {
+    field(INPA, "$(PSNAME):$(CHANNUM):v0set:fbk CP MSS")
+    field(INPB, "$(PSNAME):$(CHANNUM):vmon CP MSS")
+	field(INPC, "$(P):voltage_tolerance CP MSS")
+	# Check that the actual voltage (vmon, B) lies in the range (100%-tolerance)*vset to (100%+tolerance)*vset
+	# (i.e. the actual voltage is within tolerance % of the setpoint)
+	field(CALC, "(B>=(1-(C/100))*A) && (B<=(1+(C/100))*A)")
+	info(archive, VAL)
+}
+
