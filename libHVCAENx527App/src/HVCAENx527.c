@@ -56,6 +56,68 @@
 
 #include "HVCAENx527.h"
 
+
+// superceded by CAENHV_GetError ?
+
+typedef struct CaenError
+{
+    int code;
+    const char* message;
+} CaenError;
+
+static CaenError CaenErrors[] = {
+    { 0x0, " No error" },
+    { 0x1, " Operating system error" },
+    { 0x2, " Writing error" },
+    { 0x3, " Reading error" },
+    { 0x4, " Time out error" },
+    { 0x5, " Command Front End application is down" },
+    { 0x6, " Communication with system not yet connected by a Login command" },
+    { 0x7, " Execute Command not yet implemented " },
+    { 0x8, " Get Property not yet implemented " },
+    { 0x9, " Set Property not yet implemented " },
+    { 0xa, " Communication with RS232 not yet implemented " },
+    { 0xb, " User memory not sufficient " },
+    { 0xc, " Value out of range" },
+    { 0xd, " Property not yet implemented" },
+    { 0xe, " Property not found" },
+    { 0xf, " Command not found" },
+    { 0x10, " Not a Property" },
+    { 0x11, " Not a reading Property" },
+    { 0x12, " Not a writing Property" },
+    { 0x13, " Not a Command" },
+    { 0x14, " Configuration change" },
+    { 0x15, " Parameter’s Property not found" },
+    { 0x16, " Parameter not found" },
+    { 0x17, " No data present" },
+    { 0x18, " Device already open" },
+    { 0x19, " Too Many devices opened" },
+    { 0x1A, " Function Parameter not valid" },
+    { 0x1B, " Function not available for the connected device" },
+    { 0x1C, " SOCKET ERROR" },
+    { 0x1D, " COMMUNICATION ERROR" },
+    { 0x1E, " NOT YET IMPLEMENTED" },
+    { 0x1000+1, " CONNECTED" },
+    { 0x1000+2, " NOTCONNECTED" },
+    { 0x1000+3, " OS" },
+    { 0x1000+4, " LOG IN FAILED" },
+    { 0x1000+5, " LOG OUT FAILED" },
+    { 0x1000+6, " LINK NOT SUPPORTE" }
+};
+
+static const char* lookupCAENError(int code)
+{
+    int i;
+    for(i=0; i<sizeof(CaenErrors) / sizeof(CaenError); ++i)
+    {
+        if (code == CaenErrors[i].code)
+        {
+            return CaenErrors[i].message;
+        }
+    }
+    return "UNKNOWN CODE";
+}
+
 epicsShareDef short DEBUG = 0;
 
 short Busy[MAX_CRATES];
