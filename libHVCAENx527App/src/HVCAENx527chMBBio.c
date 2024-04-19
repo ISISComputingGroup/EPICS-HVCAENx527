@@ -134,6 +134,8 @@ init_record_mbbo( mbboRecord *pior)
 	pior->dpvt = pp;
 	strcpy( pp->PVname, pior->name);
 
+	pp->hvchan->epicsenabled = 1;
+
 	/* Initialize the value from value in the crate */
 	pval = CAENx527GetChParVal( pp);
 	if( pval == NULL)
@@ -141,7 +143,6 @@ init_record_mbbo( mbboRecord *pior)
 	pior->val = CAENx527mbbi2state( pp);
 	pior->rval = CAENx527mbbi2state( pp);
 
-	pp->hvchan->epicsenabled = 1;
 
 	return( 0);
 }

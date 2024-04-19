@@ -142,7 +142,7 @@ init_record_stringout( stringoutRecord *pior)
 	if( pval == NULL)
 		return( 3);
 	strcpy( pior->val, hvch->chname);
-PDEBUG(4) printf( "DEBUG: init stringin %s -> %s\n", pinstio->string, hvch->chname);
+PDEBUG(4) printf( "DEBUG: init stringout %s -> %s\n", pinstio->string, hvch->chname);
 
 	hvch->epicsenabled = 1;
 
