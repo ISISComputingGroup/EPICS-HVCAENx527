@@ -58,7 +58,8 @@
 
 float ScanChannelsPeriod = 0.0f;
 
-// superceded by CAENHV_GetError ?
+// superceded by CAENHV_GetError ? Got a code 4100 from InitSystem, but it didn't say  "LOG IN FAILED"
+// but who is right i don't know
 
 typedef struct CaenError
 {
