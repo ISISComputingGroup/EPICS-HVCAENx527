@@ -164,6 +164,13 @@ record (bi, "$(P):CHANLIST:ERRORSTAT")
 	field( ONAM, "Error")
 }
 
+record (bi, "$(P):CHANLIST:INTOL")
+{
+	field( DESC, "Summary of Tolerance")
+	field( ZNAM, "Error")
+	field( ONAM, "OK")
+}
+
 record (stringin, "$(P):CHANLIST:DELIM")
 {
 	field(VAL, " ")
