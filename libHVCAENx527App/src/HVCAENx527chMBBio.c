@@ -142,7 +142,7 @@ init_record_mbbo( mbboRecord *pior)
 		return( 3);
 	pior->val = CAENx527mbbi2state( pp);
 	pior->rval = CAENx527mbbi2state( pp);
-
+    pior->udf = FALSE;
 
 	return( 0);
 }

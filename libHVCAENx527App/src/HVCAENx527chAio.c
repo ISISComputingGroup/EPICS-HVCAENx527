@@ -156,7 +156,7 @@ init_record_ao( aoRecord *pior)
 	{
 		(void)CAENx527GetParUnit( pp, pior->egu);
 	}
-
+    pior->udf = FALSE;
 
 	return( 0);
 }

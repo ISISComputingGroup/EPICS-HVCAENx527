@@ -145,6 +145,7 @@ init_record_bo( boRecord *pior)
 		return( 3);
 	pior->val = (short)(pp->pval.l);
 	pior->rval = (short)(pp->pval.l);
+    pior->udf = FALSE;
 
 	return( 0);
 }

@@ -137,14 +137,17 @@ init_record_stringout( stringoutRecord *pior)
 
 	pior->dpvt = hvch;
 
+	hvch->epicsenabled = 1;
+
 	/* Initialize the value from value in the crate */
 	pval = CAENx527GetChName( hvch);
 	if( pval == NULL)
 		return( 3);
 	strcpy( pior->val, hvch->chname);
+    pior->udf = FALSE;
+
 PDEBUG(4) printf( "DEBUG: init stringout %s -> %s\n", pinstio->string, hvch->chname);
 
-	hvch->epicsenabled = 1;
 
 	return( 0);
 }

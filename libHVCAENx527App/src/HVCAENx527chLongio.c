@@ -141,6 +141,7 @@ init_record_longout( longoutRecord *pior)
 	if( pval == NULL)
 		return( 3);
 	pior->val = (long)(pp->pval.l);
+    pior->udf = FALSE;
 
 	return( 0);
 }
