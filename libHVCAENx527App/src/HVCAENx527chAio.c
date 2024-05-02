@@ -144,6 +144,8 @@ init_record_ao( aoRecord *pior)
 	pior->dpvt = pp;
 	strcpy( pp->PVname, pior->name);
 
+	pp->hvchan->epicsenabled = 1;
+
 	/* Initialize the value from value in the crate */
 	pval = CAENx527GetChParVal( pp);
 	if( pval == NULL)
@@ -154,8 +156,7 @@ init_record_ao( aoRecord *pior)
 	{
 		(void)CAENx527GetParUnit( pp, pior->egu);
 	}
-
-	pp->hvchan->epicsenabled = 1;
+    pior->udf = FALSE;
 
 	return( 0);
 }

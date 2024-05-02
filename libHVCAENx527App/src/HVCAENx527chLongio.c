@@ -134,13 +134,14 @@ init_record_longout( longoutRecord *pior)
 	pior->dpvt = pp;
 	strcpy( pp->PVname, pior->name);
 
+	pp->hvchan->epicsenabled = 1;
+
 	/* Initialize the value from value in the crate */
 	pval = CAENx527GetChParVal( pp);
 	if( pval == NULL)
 		return( 3);
 	pior->val = (long)(pp->pval.l);
-
-	pp->hvchan->epicsenabled = 1;
+    pior->udf = FALSE;
 
 	return( 0);
 }
