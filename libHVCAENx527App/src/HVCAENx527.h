@@ -148,7 +148,7 @@ epicsShareExtern short DEBUG;
 	10 - all messages
 */
 
-float ScanChannelsPeriod;
+extern float ScanChannelsPeriod;
 
 #if (CAENHVWrapperVERSION / 100 == 2)
 epicsShareFunc int ConnectCrate( char *name, char *linkaddr);

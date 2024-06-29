@@ -56,6 +56,7 @@
 
 #include "HVCAENx527.h"
 
+float ScanChannelsPeriod = 0.0f;
 
 // superceded by CAENHV_GetError ?
 
@@ -1797,11 +1798,11 @@ Shutdown()
 #include <signal.h>
 
 void
-SigShutdownHandler( int signal)
+SigShutdownHandler( int sig)
 {
 #ifndef _WIN32
-	if( signal < sizeof( sys_siglist))
-		printf( "DEBUG: Caught a termination signal (%s).\n", sys_siglist[signal]);
+	if( strsignal(sig) != NULL )
+		printf( "DEBUG: Caught a termination signal (%s).\n", strsignal(sig));
 	else
 		return;
 #endif
