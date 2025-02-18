@@ -111,7 +111,8 @@ record( waveform, "$(P):CHANLIST")
 {
 	field(DESC, "List of channels to use in summary")
 	field(FTVL, "STRING")
-	field(NELM, "100")
+	field(NELM, "192")
+	info(alarm, "HVCAEN") # add IOC to alarm system
 }
 
 record( waveform, "$(P):CHANLIST:UPDATE")
@@ -129,7 +130,7 @@ record( subArray, "$(P):CHANLIST:ELEMENT")
 	field(DESC, "Internal for sequence")
 	field(INP, "$(P):CHANLIST")
 	field(FTVL, "STRING")
-	field(MALM, "100")
+	field(MALM, "192")
 	field(NELM, "1")
 }
 
@@ -147,7 +148,7 @@ record(aSub, "$(P):CHANLIST:WFCTOS")
   field(NOC, "1")
   field(OUTA, "$(P):CHANLIST PP")
   field(FTVA, "STRING")
-  field(NOVA, "100")
+  field(NOVA, "192")
 } 
 
 record (bi, "$(P):CHANLIST:PWONOFF")
