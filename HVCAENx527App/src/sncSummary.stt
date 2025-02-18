@@ -1,6 +1,6 @@
 program sncSummary
 
-char pwchan[192];
+char pwchan[100];
 char *prefix;
 int i;
 short sumoff;
