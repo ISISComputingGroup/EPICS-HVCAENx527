@@ -111,7 +111,7 @@ record( waveform, "$(P):CHANLIST")
 {
 	field(DESC, "List of channels to use in summary")
 	field(FTVL, "STRING")
-	field(NELM, "192")
+	field(NELM, "$(NCHANSUMM=200)")
 	info(alarm, "HVCAEN") # add IOC to alarm system
 }
 
@@ -119,7 +119,8 @@ record( waveform, "$(P):CHANLIST:UPDATE")
 {
 	field(DESC, "Update location summary list")
 	field(FTVL, "CHAR")
-	field(NELM, "4000")
+	# NCHANSUMMCHAR = NCHANSUMM * 40
+	field(NELM, "$(NCHANSUMMCHAR=8000)")
 	field(FLNK, "$(P):CHANLIST:WFCTOS")
     field(PINI, "1")
     info(autosaveFields, "VAL NORD")
@@ -130,7 +131,7 @@ record( subArray, "$(P):CHANLIST:ELEMENT")
 	field(DESC, "Internal for sequence")
 	field(INP, "$(P):CHANLIST")
 	field(FTVL, "STRING")
-	field(MALM, "192")
+	field(MALM, "$(NCHANSUMM=200)")
 	field(NELM, "1")
 }
 
@@ -139,7 +140,8 @@ record(aSub, "$(P):CHANLIST:WFCTOS")
   field(SNAM, "splitToStringWaveform")
   field(INPA, "$(P):CHANLIST:UPDATE")
   field(FTA, "CHAR")
-  field(NOA, "4000")
+  # NCHANSUMMCHAR = NCHANSUMM * 40
+  field(NOA, "$(NCHANSUMMCHAR=8000)")
   field(INPB, "$(P):CHANLIST:UPDATE.NORD")
   field(FTB, "ULONG")
   field(NOB, "1")
@@ -148,7 +150,7 @@ record(aSub, "$(P):CHANLIST:WFCTOS")
   field(NOC, "1")
   field(OUTA, "$(P):CHANLIST PP")
   field(FTVA, "STRING")
-  field(NOVA, "192")
+  field(NOVA, "$(NCHANSUMM=200)")
 } 
 
 record (bi, "$(P):CHANLIST:PWONOFF")
