@@ -127,6 +127,7 @@ ss summarise_caen {
 		sumpw = sumoff;
 		sumpwfbk = sumofffbk;
 		pvPut(sumpw);
+        pvPut(sumpwfbk);
 		pvPut(sumtol);
 		sumstat = sumerr;
 		pvPut(sumstat);
