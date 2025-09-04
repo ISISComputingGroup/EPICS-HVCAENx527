@@ -155,9 +155,32 @@ record(aSub, "$(P):CHANLIST:WFCTOS")
 
 record (bi, "$(P):CHANLIST:PWONOFF")
 {
-	field( DESC, "Summary of Power Status")
+	field( DESC, "Summary of Power Status SP")
 	field( ZNAM, "Not All On")
 	field( ONAM, "All On")
+}
+
+record (bi, "$(P):CHANLIST:PWONOFF:FBK")
+{
+	field( DESC, "Summary of Power Status RBV")
+	field( ZNAM, "Not All On")
+	field( ONAM, "All On")
+}
+
+# write 1 to action, automatically reset back to zero by snl
+record (bo, "$(P):CHANLIST:PWONOFF:ON:SP")
+{
+	field( DESC, "Turn all on")
+	field( ZNAM, "")
+	field( ONAM, "Turning On...")
+}
+
+# write 1 to action, automatically reset back to zero by snl
+record (bo, "$(P):CHANLIST:PWONOFF:OFF:SP")
+{
+	field( DESC, "Turn all off")
+	field( ZNAM, "")
+	field( ONAM, "Turning Off...")
 }
 
 record (bi, "$(P):CHANLIST:ERRORSTAT")
