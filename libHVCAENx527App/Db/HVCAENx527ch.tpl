@@ -273,6 +273,7 @@ record( bo, "$(PSNAME):$(CHANNUM):pwonoff")
 	field(SIOL, "$(PSNAME):SIM:$(CHANNUM):pwonoff")
 	field(SDIS, "$(PSNAME):DISABLE")
 	field( ASG, "$(ASG)")
+    field( UDFS, "NO_ALARM" )
 }
 record( bo, "$(PSNAME):$(CHANNUM):pwupmode")
 {
@@ -553,6 +554,7 @@ record( bo, "$(PSNAME):SIM:$(CHANNUM):pwonoff")
 	field( ZNAM, "Off")
 	field( ONAM, "On")
 	field( ASG, "$(ASG)")
+    field( UDFS, "NO_ALARM" )
 }
 record( bo, "$(PSNAME):SIM:$(CHANNUM):pwupmode")
 {

@@ -4,6 +4,7 @@ char pwchan[100];
 char *prefix;
 int i;
 short sumoff;
+short sumofffbk;
 short sumerr;
 string channel;
 
@@ -13,24 +14,79 @@ int chanindex;
 assign chanindex to "{P}:CHANLIST:ELEMENT.INDX";
 short pwonoff;
 assign pwonoff to "";
+short pwonofffbk;
+assign pwonofffbk to "";
 short status;
 assign status to "";
+short intol;
+assign intol to "";
 int nord;
 assign nord to "{P}:CHANLIST.NORD";
 short sumpw;
 assign sumpw to "{P}:CHANLIST:PWONOFF";
+short sumpwfbk;
+assign sumpwfbk to "{P}:CHANLIST:PWONOFF:FBK";
 short sumstat;
 assign sumstat to "{P}:CHANLIST:ERRORSTAT";
+short sumtol;
+assign sumtol to "{P}:CHANLIST:INTOL";
+short setpwon;
+assign setpwon to "{P}:CHANLIST:PWONOFF:ON:SP";
+monitor setpwon;
+short setpwoff;
+assign setpwoff to "{P}:CHANLIST:PWONOFF:OFF:SP";
+monitor setpwoff;
 
 ss summarise_caen {
 	state summarise {
+
+	when (setpwon > 0) {
+		prefix = macValueGet("P");
+		pvGet(nord);
+		for(i=0;i<nord;i++) {
+			chanindex = i;
+			pvPut(chanindex);
+			pvGet(singlechan);
+			/*sscanf to strip whitespace*/
+			sscanf(singlechan,"%s",channel);
+			sprintf(pwchan, "%s:%s:pwonoff", prefix, channel);
+			pvAssign(pwonoff, pwchan);
+            pwonoff = 1;
+            pvPut(pwonoff);
+		}
+        setpwon = 0;
+        pvPut(setpwon);
+    } state summarise
+    
+	when (setpwoff > 0) {
+		prefix = macValueGet("P");
+		pvGet(nord);
+		for(i=0;i<nord;i++) {
+			chanindex = i;
+			pvPut(chanindex);
+			pvGet(singlechan);
+			/*sscanf to strip whitespace*/
+			sscanf(singlechan,"%s",channel);
+			sprintf(pwchan, "%s:%s:pwonoff", prefix, channel);
+			pvAssign(pwonoff, pwchan);
+            pwonoff = 0;
+            pvPut(pwonoff);
+		}
+        setpwoff = 0;
+        pvPut(setpwoff);
+    } state summarise
+
 	when (delay(1)) {
 		prefix = macValueGet("P");
 		sumoff = 1;
+		sumofffbk = 1;
+		sumtol = 1;
 		sumerr = 0;
 		pvGet(nord);
 		if (nord == 0){
 			sumoff = 0;
+			sumofffbk = 0;
+			sumtol = 0;
 			sumerr = 1;
 		}
 		else
@@ -43,21 +99,36 @@ ss summarise_caen {
 			/*sscanf to strip whitespace*/
 			sscanf(singlechan,"%s",channel);
 			if (sumoff == 1) {
-			sprintf(pwchan, "%s:%s:pwonoff", prefix, channel);
-			pvAssign(pwonoff, pwchan);
-			pvGet(pwonoff);
-			if (pwonoff == 0) sumoff = 0;
+				sprintf(pwchan, "%s:%s:pwonoff", prefix, channel);
+				pvAssign(pwonoff, pwchan);
+				pvGet(pwonoff);
+				if (pwonoff == 0) sumoff = 0;
+			}
+			if (sumofffbk == 1) {
+				sprintf(pwchan, "%s:%s:pwonoff:fbk", prefix, channel);
+				pvAssign(pwonofffbk, pwchan);
+				pvGet(pwonofffbk);
+				if (pwonofffbk == 0) sumofffbk = 0;
+			}
+			if (sumtol == 1) {
+				sprintf(pwchan, "%s:%s:intol", prefix, channel);
+				pvAssign(intol, pwchan);
+				pvGet(intol);
+				if (intol == 0) sumtol = 0;
 			}
 			if (sumerr == 0) {
-			sprintf(pwchan, "%s:%s:status", prefix, singlechan);
-			pvAssign(status, pwchan);
-			pvGet(status);
-			if (status >= 4) sumerr = 1;
+				sprintf(pwchan, "%s:%s:status", prefix, singlechan);
+				pvAssign(status, pwchan);
+				pvGet(status);
+				if (status >= 4) sumerr = 1;
 			}
 		}
 		}
 		sumpw = sumoff;
+		sumpwfbk = sumofffbk;
 		pvPut(sumpw);
+        pvPut(sumpwfbk);
+		pvPut(sumtol);
 		sumstat = sumerr;
 		pvPut(sumstat);
 	} state summarise

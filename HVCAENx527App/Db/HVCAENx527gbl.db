@@ -155,9 +155,33 @@ record(aSub, "$(P):CHANLIST:WFCTOS")
 
 record (bi, "$(P):CHANLIST:PWONOFF")
 {
-	field( DESC, "Summary of Power Status")
+	field( DESC, "Summary of Power Status SP")
 	field( ZNAM, "Not All On")
 	field( ONAM, "All On")
+}
+
+record (bi, "$(P):CHANLIST:PWONOFF:FBK")
+{
+	field( DESC, "Summary of Power Status RBV")
+	field( ZNAM, "Not All On")
+	field( ONAM, "All On")
+}
+alias("$(P):CHANLIST:PWONOFF:FBK","$(P):STATUS:ON")
+
+# write 1 to action, automatically reset back to zero by snl
+record (bo, "$(P):CHANLIST:PWONOFF:ON:SP")
+{
+	field( DESC, "Turn all on")
+	field( ZNAM, "")
+	field( ONAM, "Turning On...")
+}
+
+# write 1 to action, automatically reset back to zero by snl
+record (bo, "$(P):CHANLIST:PWONOFF:OFF:SP")
+{
+	field( DESC, "Turn all off")
+	field( ZNAM, "")
+	field( ONAM, "Turning Off...")
 }
 
 record (bi, "$(P):CHANLIST:ERRORSTAT")
@@ -166,6 +190,14 @@ record (bi, "$(P):CHANLIST:ERRORSTAT")
 	field( ZNAM, "OK")
 	field( ONAM, "Error")
 }
+
+record (bi, "$(P):CHANLIST:INTOL")
+{
+	field( DESC, "Are all in tolerance")
+	field( ZNAM, "No")
+	field( ONAM, "Yes")
+}
+alias("$(P):CHANLIST:INTOL", "$(P):ALL_IN_TOL")
 
 record (stringin, "$(P):CHANLIST:DELIM")
 {
@@ -195,4 +227,23 @@ record(ao, "$(P):voltage_tolerance") {
 	field(EGU, "%")
 	field(VAL, "$(VTOL=0)")
 	info(archive, VAL)
+}
+
+record(bo, "$(P):STATUS:ON:SP") {
+    field(DESC, "Set status of CAEN power supply")
+    field(ZNAM, "Off")
+    field(ONAM, "On")
+    field(FLNK, "$(P):STATUS:DOONOFF:SP")
+	info(archive, VAL)
+}
+
+record(seq, "$(P):STATUS:DOONOFF:SP")
+{
+    field(DO0, "1")
+    field(DO1, "1")
+    field(LNK0, "$(P):CHANLIST:PWONOFF:OFF:SP PP")
+    field(LNK1, "$(P):CHANLIST:PWONOFF:ON:SP PP")
+    field(SELM, "Specified")
+    field(SELL, "$(P):STATUS:ON:SP")
+    field(SHFT, "0")
 }
